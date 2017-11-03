@@ -1,13 +1,7 @@
-## [project-title] Changelog
+## bing-search-dotnet Changelog
 
-<a name="x.y.z"></a>
-# x.y.z (yyyy-mm-dd)
+<a name="1.0.0"></a>
+# 1.0.0 (2017-10-31)
 
 *Features*
-* ...
-
-*Bug Fixes*
-* ...
-
-*Breaking Changes*
-* ...
+* Initial release with EntitySearch samples
