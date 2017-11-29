@@ -13,6 +13,9 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Search">
       <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.SpellCheck">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.SpellCheck.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
