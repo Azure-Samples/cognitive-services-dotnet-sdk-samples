@@ -19,6 +19,9 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Search.VideoSearch">
       <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.VideoSearch.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.ImageSearch">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
