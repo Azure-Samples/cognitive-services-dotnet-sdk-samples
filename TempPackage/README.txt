@@ -1,1 +1,0 @@
-This directory needs to be deleted once we publish the search package, and the reference needs to be updated to the nuget package
