@@ -18,15 +18,19 @@
                  * Decide which sample to showcase
                  */
 
-                Console.WriteLine("Hi! Welcome to Entity Search Samples");
+                Console.WriteLine("Hi! Which Search API would you like to sample? Pick one of the following: (CTRL+C to exit)");
 
                 if (SampleMap == null)
                 {
                     LoadSampleOptions();
                 }
 
+                Console.WriteLine(Separator);
+                Console.WriteLine(string.Join(",", SampleMap.Keys));
+                Console.WriteLine(Separator);
+
                 ExampleAbstraction examples;
-                var input = "EntitySearch";
+                var input = Console.ReadLine();
 
                 if (!SampleMap.TryGetValue(input, out examples) || examples?.Examples?.Count == 0)
                 {

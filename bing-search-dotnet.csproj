@@ -6,12 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.EntitySearch" Version="1.1.0-preview" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
   </ItemGroup>
   
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.CognitiveServices.Search.EntitySearch">
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.SpellCheck">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.SpellCheck.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.VideoSearch">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.VideoSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.ImageSearch">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll</HintPath>
     </Reference>
   </ItemGroup>
 
