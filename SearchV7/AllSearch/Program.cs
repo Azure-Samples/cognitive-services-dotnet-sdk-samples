@@ -38,6 +38,7 @@
                     continue;
                 }
 
+                bool isCustomSearchExample = input == "CustomSearch";
                 /*
                  *  Decide which example from the sample to showcase
                  */
@@ -61,13 +62,25 @@
                 }
 
                 Console.WriteLine("Ok, now please enter your subscription key:");
-                input = Console.ReadLine();
+                var subscriptionKey = Console.ReadLine();
 
-                Console.WriteLine("Ok, running example {0} with subscription key \"{1}\"", exampleIndex, input);
-                Console.WriteLine(Separator);
+                if (isCustomSearchExample)
+                {
+                    Console.WriteLine("Ok, now please enter your custom config number:");
+                    var customConfig = Int32.Parse(Console.ReadLine());
 
-                examples.Examples[exampleIndex].Invoke(input);
+                    Console.WriteLine("Ok, running example {0} with subscription key \"{1}\" and customConfig \"{2}\"", exampleIndex, subscriptionKey, customConfig);
+                    Console.WriteLine(Separator);
 
+                    examples.Examples[exampleIndex].Invoke(subscriptionKey, customConfig);
+                }
+                else
+                {
+                    Console.WriteLine("Ok, running example {0} with subscription key \"{1}\"", exampleIndex, subscriptionKey);
+                    Console.WriteLine(Separator);
+
+                    examples.Examples[exampleIndex].Invoke(subscriptionKey);
+                }
             } while (DecideRetry());
         }
 
