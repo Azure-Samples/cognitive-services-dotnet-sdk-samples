@@ -1,4 +1,4 @@
-# Bing Web Search SDK Samples
+# Bing Entity Search SDK Samples
 
 These samples will show you how to get up and running using the SDKs for various Bing Search services. They'll cover a few rudimentary use cases and hopefully express best practices for interacting with the data from these APIs.
 
@@ -8,7 +8,7 @@ Please note that this samples package references an all-in-one SDK which include
 
 This project framework provides examples for the Web Search service:
 
-* Using the **Bing Web Search SDK** \[[individual package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.1.0-preview)\]\[[complete package](http://linktopackage)\] for the [Web Search API](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
+* Using the **Bing Entity Search SDK** \[[individual package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.EntitySearch/1.1.0-preview)for the [Web Search API](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ This project framework provides examples for the Web Search service:
 To get these samples running locally, simply get the pre-requisites above, then:
 
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
-2. cd cognitive-services-dotnet-sdk-samples\WebSearch
+2. cd cognitive-services-dotnet-sdk-samples\EntitySearch
 3. open bing-search-dotnet.sln
-4. npm install [WebSearch](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.1.0-preview)
+4. npm install [EntitySearch](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.EntitySearch/1.1.0-preview)
 5. navigate through the console app to play with examples
