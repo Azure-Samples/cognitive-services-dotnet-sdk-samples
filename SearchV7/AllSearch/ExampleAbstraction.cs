@@ -62,9 +62,9 @@
                 this.method = method;
             }
 
-            public void Invoke(string subscriptionKey)
+            public void Invoke(params object[] parameters)
             {
-                this.method.Invoke(null, new object[] { subscriptionKey });
+                this.method.Invoke(null, parameters);
             }
         }
     }
