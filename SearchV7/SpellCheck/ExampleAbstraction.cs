@@ -35,14 +35,9 @@
                 }
 
                 var methodParams = methodInfo.GetParameters();
-                if ((methodInfo.DeclaringType != typeof(Samples.CustomSearchSamples)) && (methodParams == null || methodParams.Length != 1 || methodParams[0].ParameterType != typeof(string)))
+                if ((methodParams == null || methodParams.Length != 1 || methodParams[0].ParameterType != typeof(string)))
                 {
                     throw new TypeAccessException(string.Format("Method with description \"{0}\" needs to have one string parameter for the subscription key", exampleMethod.ExampleDescription));
-                }
-
-                if ((methodInfo.DeclaringType == typeof(Samples.CustomSearchSamples)) && (methodParams == null || methodParams.Length != 2 || methodParams[0].ParameterType != typeof(string) || methodParams[1].ParameterType != typeof(Int32)))
-                {
-                    throw new TypeAccessException(string.Format("CustomSearch Method with description \"{0}\" needs to have one string parameter for the subscription key and one int parameter for the customConfig", exampleMethod.ExampleDescription));
                 }
             }
         }
