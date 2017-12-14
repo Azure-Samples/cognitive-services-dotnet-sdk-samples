@@ -18,7 +18,7 @@
                  * Decide which sample to showcase
                  */
 
-                Console.WriteLine("Hi! Welcome to Entity Search Samples");
+                Console.WriteLine("Hi! Welcome to Image Search Samples");
 
                 if (SampleMap == null)
                 {

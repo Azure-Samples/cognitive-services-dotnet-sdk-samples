@@ -18,19 +18,15 @@
                  * Decide which sample to showcase
                  */
 
-                Console.WriteLine("Hi! Which Search API would you like to sample? Pick one of the following: (CTRL+C to exit)");
+                Console.WriteLine("Hi! Welcome to Custom Search Samples");
 
                 if (SampleMap == null)
                 {
                     LoadSampleOptions();
                 }
 
-                Console.WriteLine(Separator);
-                Console.WriteLine(string.Join(",", SampleMap.Keys));
-                Console.WriteLine(Separator);
-
                 ExampleAbstraction examples;
-                var input = Console.ReadLine();
+                 var input = "CustomSearch";
 
                 if (!SampleMap.TryGetValue(input, out examples) || examples?.Examples?.Count == 0)
                 {
@@ -38,7 +34,6 @@
                     continue;
                 }
 
-                bool isCustomSearchExample = input == "CustomSearch";
                 /*
                  *  Decide which example from the sample to showcase
                  */
@@ -64,23 +59,14 @@
                 Console.WriteLine("Ok, now please enter your subscription key:");
                 var subscriptionKey = Console.ReadLine();
 
-                if (isCustomSearchExample)
-                {
-                    Console.WriteLine("Ok, now please enter your custom config number:");
-                    var customConfig = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Ok, now please enter your custom config number:");
+                var customConfig = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Ok, running example {0} with subscription key \"{1}\" and customConfig \"{2}\"", exampleIndex, subscriptionKey, customConfig);
-                    Console.WriteLine(Separator);
+                Console.WriteLine("Ok, running example {0} with subscription key \"{1}\" and customConfig \"{2}\"", exampleIndex, subscriptionKey, customConfig);
+                Console.WriteLine(Separator);
 
-                    examples.Examples[exampleIndex].Invoke(subscriptionKey, customConfig);
-                }
-                else
-                {
-                    Console.WriteLine("Ok, running example {0} with subscription key \"{1}\"", exampleIndex, subscriptionKey);
-                    Console.WriteLine(Separator);
+                examples.Examples[exampleIndex].Invoke(subscriptionKey, customConfig);
 
-                    examples.Examples[exampleIndex].Invoke(subscriptionKey);
-                }
             } while (DecideRetry());
         }
 
