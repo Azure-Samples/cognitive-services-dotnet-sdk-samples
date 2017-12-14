@@ -2,11 +2,8 @@
 {
     using System;
     using System.Linq;
-    using System.Text;
-    using Microsoft.Azure.CognitiveServices.Search;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
 
     [SampleCollection("WebSearch")]
@@ -16,10 +13,10 @@
         public static void WebSearchResultTypesLookup(string subscriptionKey)
         {
             var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
-
+           
             try
             {
-                var webData = client.Web.SearchAsync(query: "Xbox").Result;
+                var webData = client.Web.Search(query: "Xbox");
                 Console.WriteLine("Searched for Query# \" Xbox \"");
 
                 //WebPages
