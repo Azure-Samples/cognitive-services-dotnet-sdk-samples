@@ -25,6 +25,9 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Search.ImageSearch">
       <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.NewsSearch.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
