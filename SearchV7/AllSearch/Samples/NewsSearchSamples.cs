@@ -154,7 +154,7 @@
 
                         Console.WriteLine($"Trending topics count: {trendingTopics.Value.Count}");
                         Console.WriteLine($"First topic name: {firstTopic.Name}");
-                        Console.WriteLine($"First topic query: {firstTopic.Query.Text}")
+                        Console.WriteLine($"First topic query: {firstTopic.Query.Text}");
                         Console.WriteLine($"First topic image url: {firstTopic.Image.Url}");
                         Console.WriteLine($"First topic webSearchUrl: {firstTopic.WebSearchUrl}");
                         Console.WriteLine($"First topic newsSearchUrl: {firstTopic.NewsSearchUrl}");
