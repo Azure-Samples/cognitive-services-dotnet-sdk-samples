@@ -125,7 +125,7 @@
                 }
             }
 
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -175,7 +175,7 @@
                 }
             }
 
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -290,7 +290,7 @@
                 }
             }
 
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }

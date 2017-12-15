@@ -50,7 +50,7 @@
                 }
             }
 
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -69,7 +69,7 @@
             }
             catch (Exception ex)
             {
-                if (ex.GetBaseException().GetType() == typeof(ErrorResponseException) )
+                if (ex.GetBaseException().GetType() == typeof(Exception) )
                 {
                     Console.WriteLine("Encountered exception. " + ex.Message);
                 }

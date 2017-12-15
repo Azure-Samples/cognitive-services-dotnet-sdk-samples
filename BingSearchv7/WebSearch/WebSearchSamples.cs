@@ -108,7 +108,7 @@
                 }
             }
           
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -146,7 +146,7 @@
                     Console.WriteLine("Didn't see any Web data..");
                 }             
             }
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -186,7 +186,7 @@
                 }
 
             }
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
@@ -223,7 +223,7 @@
                     Console.WriteLine("Didn't see any data..");
                 }
             }
-            catch (ErrorResponseException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Encountered exception. " + ex.Message);
             }
