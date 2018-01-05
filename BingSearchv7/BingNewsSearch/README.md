@@ -26,7 +26,7 @@ To get the Bing News Search sample running locally, follow these steps:
 
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingNewsSearch\bing-search-dotnet.sln from Visual Studio 2017
-3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.NewsSearch/1.1.0-preview from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.ImageSearch" in the "Browse" tab, and click on "Install". 
+3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.NewsSearch/1.1.0-preview from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.NewsSearch" in the "Browse" tab, and click on "Install". 
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingNewsSearch\NewsSearchSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
 ## Resources
