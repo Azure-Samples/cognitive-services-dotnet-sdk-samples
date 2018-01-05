@@ -2,7 +2,7 @@
 
 This sample will show you how to get up and running using the Bing Web Search SDK. This example will cover a few usecases and hopefully express best practices for interacting with the data from this API. For more information on the Bing Web Search API v7, you can go [here](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/). Exhaustive reference documentation including description of parameters and their values is [here](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v7-reference).
 
-If you are looking for amending samples to suit your needs, the single, most important file is WebSearchSamples.cs. See how you can access it in the "Quickstart" section."
+If you are looking for amending samples to suit your needs, the single, most important file is WebSearchSamples.cs. See how you can access it in the "Quickstart" section.
 
 ## Features
 
