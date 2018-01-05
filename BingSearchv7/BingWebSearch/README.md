@@ -1,4 +1,4 @@
-# The Bing Web Search SDK Sample
+ # The Bing Web Search SDK Sample
 
 This sample will show you how to get up and running using the Bing Web Search SDK. This example will cover a few usecases and hopefully express best practices for interacting with the data from this API. For more information on the Bing Web Search API v7, you can navigate to: https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/. Exhaustive reference documentation including description of parameters, their values, and supported markets is [here](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v7-reference).
 
@@ -27,7 +27,7 @@ To get the Bing Web Search sample running locally, follow these steps:
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingWebSearch\bing-search-dotnet.sln from Visual Studio 2017
 3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.1.0-preview from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.WebSearch" in the "Browse" tab, and click on "Install". 
-4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingWebSearch\WebSearchSamples.cs** file.
+4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingWebSearch\WebSearchSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
 ## Resources
 - [Bing Web Search API Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
