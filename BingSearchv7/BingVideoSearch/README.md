@@ -22,7 +22,7 @@ This example provides sample usecases of the the [Bing Video Search v7](https://
 
 ### Quickstart
 
-To get the Bing News Search sample running locally, follow these steps:
+To get the Bing Video Search sample running locally, follow these steps:
 
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingVideoSearch\bing-search-dotnet.sln from Visual Studio 2017
