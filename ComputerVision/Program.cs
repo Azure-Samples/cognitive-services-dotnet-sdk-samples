@@ -14,7 +14,6 @@ namespace ComputerVisionSample
         {
             // Create a client.
             string apiKey = "ENTER YOUR KEY HERE";
-            apiKey = "6a9b8189d49a468299ab86939829cf2b";
             IComputerVisionAPI client = new ComputerVisionAPI(new ApiKeyServiceClientCredentials(apiKey));
             client.AzureRegion = AzureRegions.Westcentralus;
 
