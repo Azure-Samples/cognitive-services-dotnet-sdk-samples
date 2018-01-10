@@ -1,3 +1,0 @@
-C:\Work\Docs\December\QuickstartCode\Clean\ContentModeratorQuickstartSolution\ImageReviewJobs\bin\Debug\ImageReviewJobs.exe.config
-C:\Work\Docs\December\QuickstartCode\Clean\ContentModeratorSamples\ImageReviewJobs\bin\Debug\ImageReviewJobs.exe.config
-C:\Work\Docs\December\QuickstartCode\Clean\ContentModerator-Samples-DotNet\ImageReviewJobs\bin\Debug\ImageReviewJobs.exe.config
