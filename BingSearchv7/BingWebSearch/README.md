@@ -1,4 +1,4 @@
- # The Bing Web Search SDK Sample
+# The Bing Web Search SDK Sample
 
 This sample will show you how to get up and running using the Bing Web Search SDK. This example will cover a few usecases and hopefully express best practices for interacting with the data from this API. For more information on the Bing Web Search API v7, you can navigate to: https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/. Exhaustive reference documentation including description of parameters, their values, and supported markets is [here](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v7-reference).
 
@@ -29,6 +29,23 @@ To get the Bing Web Search sample running locally, follow these steps:
 3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.1.0-preview from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.WebSearch" in the "Browse" tab, and click on "Install". 
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingWebSearch\WebSearchSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
+### Note: 
+In previously installed VS 2017 on a Windows 10 machine the .NET Framework may default to 2.1.2 instead of 2.1.4. In this case a version conflict may occur. To resolve this problem, open the file *bing-search-dotnet.csproj*, and change the TargetFramework configuration to 2.0 as follows:
+
+**Old**
+````  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+````
+**New**
+````
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+````
 ## Resources
 - [Bing Web Search API Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
 - [Bing Web Search Reference Document](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v7-reference)
