@@ -1,4 +1,6 @@
- # The Bing All Search SDK Samples
+
+
+# The Bing All Search SDK Samples
 
 This sample will show you how to get up and running using the Bing Search SDKs. This example will cover some usecases and hopefully express best practices for interacting with the data from the Bing Search APIs. Examples are included for these offerings: Bing Web Search, Bing Image Search, Bing Video Search, Bing News Search, Bing Custom Search, Bing Entity Search, and Bing Spell Check. For more information on the Bing Search APIs, you can navigate to: https://azure.microsoft.com/en-us/services/cognitive-services/directory/search/. 
 
@@ -37,6 +39,24 @@ To get the Bing Search sample running locally, follow these steps:
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingAllSearch\bing-search-dotnet.sln from Visual Studio 2017
 3. You need not install individual packages as they are contained in the tempPackage folder. If these don't work you can get the latest by: npm install <packages as mentioned above in Features section> from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for individual packages in the "Browse" tab, and click on "Install". 
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. **Alternately** you can build and run solution in separate steps.
+
+### Note: 
+In previously installed VS 2017 on a Windows 10 machine the .NET Framework may default to 2.1.2 instead of 2.1.4. In this case a version conflict may occur. To resolve this problem, open the file *bing-search-dotnet.csproj*, and change the TargetFramework configuration to 2.0 as follows:
+
+**Old**
+````  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+````
+**New**
+````
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+````
 
 ## Resources
 - [Bing Search APIs Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/directory/search/)
