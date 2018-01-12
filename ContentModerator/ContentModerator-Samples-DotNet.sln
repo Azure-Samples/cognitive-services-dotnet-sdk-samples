@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageReviewJobs", "ImageRev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateReviews", "CreateReviews\CreateReviews.csproj", "{90923C1F-65EB-4483-BF4F-8955CFE9C0B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoModeration", "VideoModeration\VideoModeration.csproj", "{B0AE296F-BFC2-41DF-AA63-C4838CE0BCA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,12 +53,16 @@ Global
 		{90923C1F-65EB-4483-BF4F-8955CFE9C0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90923C1F-65EB-4483-BF4F-8955CFE9C0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90923C1F-65EB-4483-BF4F-8955CFE9C0B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AE296F-BFC2-41DF-AA63-C4838CE0BCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AE296F-BFC2-41DF-AA63-C4838CE0BCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AE296F-BFC2-41DF-AA63-C4838CE0BCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AE296F-BFC2-41DF-AA63-C4838CE0BCA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\TransientFaultHandling.Core.5.1.1209.1\lib\NET4
 		SolutionGuid = {61378D77-1987-4B19-96F9-CD6D6B25B378}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\TransientFaultHandling.Core.5.1.1209.1\lib\NET4
 	EndGlobalSection
 EndGlobal
