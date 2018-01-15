@@ -1,1 +1,0 @@
-C:\Users\sajagtap\Source\Repos\cognitive-services-dotnet-sdk-samples\ContentModerator\ImageReviewJobs\bin\Debug\ImageReviewJobs.exe.config
