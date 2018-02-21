@@ -34,12 +34,12 @@ namespace TextModeration
                 // Create a Content Moderator client and evaluate the text.
                 using (var client = Clients.NewClient())
                 {
-                    // Screen the input text: check for profanity, 
+                    // Screen the input text: check for profanity, classify the text into three categories
                     // do autocorrect text, and check for personally identifying 
                     // information (PII)
-                    outputWriter.WriteLine("Normalize text and autocorrect typos.");
+                    outputWriter.WriteLine("Autocorrect typos, check for matching terms, PII, and classify.");
                     var screenResult =
-                        client.TextModeration.ScreenText("eng", "text/plain", text, true, true);
+                        client.TextModeration.ScreenText("eng", "text/plain", text, true, true, null, true);
                     outputWriter.WriteLine(
                         JsonConvert.SerializeObject(screenResult, Formatting.Indented));
                 }
