@@ -17,7 +17,7 @@ namespace ModeratorHelper
         /// The region/location for your Content Moderator account, 
         /// for example, westus.
         /// </summary>
-        private static readonly string AzureRegion = "YOUR REGION";
+        private static readonly string AzureRegion = "YOUR API REGION";
 
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
@@ -28,7 +28,7 @@ namespace ModeratorHelper
         /// <summary>
         /// Your Content Moderator subscription key.
         /// </summary>
-        private static readonly string CMSubscriptionKey = "YOUR CONTENT MODERATOR KEY";
+        private static readonly string CMSubscriptionKey = "YOUR API KEY";
 
         /// <summary>
         /// Returns a new Content Moderator client for your subscription.

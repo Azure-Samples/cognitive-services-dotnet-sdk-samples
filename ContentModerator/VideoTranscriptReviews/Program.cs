@@ -16,13 +16,13 @@ namespace VideoTranscriptReviews
         /// The region/location for your Content Moderator account, 
         /// for example, westus.
         /// </summary>
-        private static readonly string AzureRegion = "YOUR CONTENT MODERATOR REGION";
+        private static readonly string AzureRegion = "westus";
 
         // NOTE: Replace this example key with a valid subscription key.
         /// <summary>
         /// Your Content Moderator subscription key.
         /// </summary>
-        private static readonly string CMSubscriptionKey = "YOUR CONTENT MODERATOR KEY";
+        private static readonly string CMSubscriptionKey = "54fee39ae7ba418ea0c7193e0952d0a1";
 
         // NOTE: Replace this example team name with your Content Moderator team name.
         /// <summary>
@@ -32,7 +32,7 @@ namespace VideoTranscriptReviews
         /// Content Moderator account. You can retrieve your team name from
         /// the Conent Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
-        public static readonly string TeamName = "YOUR CONTENT MODERATOR TEAM ID";
+        public static readonly string TeamName = "testreview6";
 
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
