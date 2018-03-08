@@ -11,14 +11,14 @@
     [SampleCollection("EntitySearch")]
     public class EntitySearchSamples
     {
-        [Example("This will look up a single entity (tom cruise) and print out a short description about them")]
+        [Example("This will look up a single entity (Satya Nadella) and print out a short description about them")]
         public static void DominantEntityLookup(string subscriptionKey)
         {
             var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
-                var entityData = client.Entities.Search(query:"tom cruise");
+                var entityData = client.Entities.Search(query:"Satya Nadella");
                 
                 if (entityData?.Entities?.Value?.Count > 0)
                 {
@@ -27,12 +27,12 @@
 
                     if (mainEntity != null)
                     {
-                        Console.WriteLine("Searched for \"Tom Cruise\" and found a dominant entity with this description:");
+                        Console.WriteLine("Searched for \"Satya Nadella\" and found a dominant entity with this description:");
                         Console.WriteLine(mainEntity.Description);
                     }
                     else
                     {
-                        Console.WriteLine("Couldn't find main entity tom cruise!");
+                        Console.WriteLine("Couldn't find main entity Satya Nadella!");
                     }
                 }
                 else
@@ -46,14 +46,14 @@
             }
         }
 
-        [Example("This will handle disambiguation results for an ambiguous query (harry potter)")]
+        [Example("This will handle disambiguation results for an ambiguous query (William Gates)")]
         public static void HandlingDisambiguation(string subscriptionKey)
         {
             var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
-                var entityData = client.Entities.Search(query: "harry potter");
+                var entityData = client.Entities.Search(query: "William Gates");
 
                 if (entityData?.Entities?.Value?.Count > 0)
                 {
@@ -63,12 +63,12 @@
 
                     if (mainEntity != null)
                     {
-                        Console.WriteLine("Searched for \"harry potter\" and found a dominant entity with type hint \"{0}\" with this description:", mainEntity.EntityPresentationInfo.EntityTypeDisplayHint);
+                        Console.WriteLine("Searched for \"William Gates\" and found a dominant entity with type hint \"{0}\" with this description:", mainEntity.EntityPresentationInfo.EntityTypeDisplayHint);
                         Console.WriteLine(mainEntity.Description);
                     }
                     else
                     {
-                        Console.WriteLine("Couldn't find a reliable dominant entity for harry potter!");
+                        Console.WriteLine("Couldn't find a reliable dominant entity for William Gates!");
                     }
 
                     if (disambigEntities?.Count > 0)
@@ -87,7 +87,7 @@
                     }
                     else
                     {
-                        Console.WriteLine("We didn't find any disambiguation items for harry potter, so we must be certain what you're talking about!");
+                        Console.WriteLine("We didn't find any disambiguation items for William Gates, so we must be certain what you're talking about!");
                     }
                 }
                 else
@@ -194,7 +194,7 @@
 
             try
             {
-                var entityData = client.Entities.Search(query: "tom cruise", market: "no-ty");
+                var entityData = client.Entities.Search(query: "Satya Nadella", market: "no-ty");
             }
             catch (ErrorResponseException ex)
             {
