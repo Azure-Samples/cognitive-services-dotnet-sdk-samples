@@ -18,7 +18,7 @@ namespace bing_search_dotnet.Samples
 
             try
             {
-                var entityData = client.Entities.Search(query:"satya nadella");
+                var entityData = client.Entities.Search(query:"Satya Nadella");
                 
                 if (entityData?.Entities?.Value?.Count > 0)
                 {
@@ -194,7 +194,7 @@ namespace bing_search_dotnet.Samples
 
             try
             {
-                var entityData = client.Entities.Search(query: "satya nadella", market: "no-ty");
+                var entityData = client.Entities.Search(query: "Satya Nadella", market: "no-ty");
             }
             catch (ErrorResponseException ex)
             {
