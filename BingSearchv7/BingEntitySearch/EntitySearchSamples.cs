@@ -1,4 +1,4 @@
-﻿namespace bing_search_dotnet.Samples
+namespace bing_search_dotnet.Samples
 {
     using System;
     using System.Linq;
