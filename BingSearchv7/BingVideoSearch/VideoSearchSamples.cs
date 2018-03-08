@@ -9,15 +9,15 @@
     [SampleCollection("VideoSearch")]
     public class VideoSearchSamples
     {
-        [Example("This will search videos for (Nasa CubeSat) then verify number of results and print out id, name and url of first video result")]
+        [Example("This will search videos for (SwiftKey) then verify number of results and print out id, name and url of first video result")]
         public static void VideoSearch(string subscriptionKey)
         {
             var client = new VideoSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
-                var videoResults = client.Videos.SearchAsync(query: "Nasa CubeSat").Result;
-                Console.WriteLine("Search videos for query \"Nasa CubeSat\"");
+                var videoResults = client.Videos.SearchAsync(query: "SwiftKey").Result;
+                Console.WriteLine("Search videos for query \"SwiftKey\"");
 
                 if (videoResults == null)
                 {
@@ -48,15 +48,15 @@
             
         }
 
-        [Example("This will search videos for (Interstellar Trailer) that is free, short and 1080p resolution then verify number of results and print out id, name and url of first video result")]
+        [Example("This will search videos for (Bellevue Trailer) that is free, short and 1080p resolution then verify number of results and print out id, name and url of first video result")]
         public static void VideoSearchWithFilters(string subscriptionKey)
         {
             var client = new VideoSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
-                var videoResults = client.Videos.SearchAsync(query: "Interstellar Trailer", pricing: VideoPricing.Free, length: VideoLength.Short, resolution: VideoResolution.HD1080p).Result;
-                Console.WriteLine("Search videos for query \"Interstellar Trailer\" that is free, short and 1080p resolution");
+                var videoResults = client.Videos.SearchAsync(query: "Bellevue Trailer", pricing: VideoPricing.Free, length: VideoLength.Short, resolution: VideoResolution.HD1080p).Result;
+                Console.WriteLine("Search videos for query \"Bellevue Trailer\" that is free, short and 1080p resolution");
 
                 if (videoResults == null)
                 {
@@ -160,21 +160,21 @@
 
         }
 
-        [Example("This will search videos for (Interstellar Trailer) and then search for detail information of the first video")]
+        [Example("This will search videos for (Bellevue Trailer) and then search for detail information of the first video")]
         public static void VideoDetail(string subscriptionKey)
         {
             var client = new VideoSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
-                var videoResults = client.Videos.SearchAsync(query: "Interstellar Trailer").Result;
+                var videoResults = client.Videos.SearchAsync(query: "Bellevue Trailer").Result;
 
                 var firstVideo = videoResults?.Value?.FirstOrDefault();
 
                 if (firstVideo != null)
                 {
                     var modules = new List<VideoInsightModule?>() { VideoInsightModule.All };
-                    var videoDetail = client.Videos.DetailsAsync(query: "Interstellar Trailer", id: firstVideo.VideoId, modules: modules).Result;
+                    var videoDetail = client.Videos.DetailsAsync(query: "Bellevue Trailer", id: firstVideo.VideoId, modules: modules).Result;
                     Console.WriteLine($"Search detail for video id={firstVideo.VideoId}, name={firstVideo.Name}");
 
                     if (videoDetail != null)
