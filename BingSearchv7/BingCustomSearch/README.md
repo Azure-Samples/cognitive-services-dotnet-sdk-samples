@@ -10,7 +10,7 @@ This sample references the Bing Custom Search SDK, which is a stand-alone packag
 
 This example provides sample usecases of the the [Bing Custom Search v7](https://azure.microsoft.com/en-us/services/cognitive-services/bing-custom-search/)
 
-* Using the **Bing Custom Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.1.0-preview
+* Using the **Bing Custom Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.2.0
 
 ## Getting Started
 
@@ -27,12 +27,12 @@ To get the Bing Custom Search sample running locally, follow these steps:
 
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingCustomSearch\bing-search-dotnet.sln from Visual Studio 2017
-3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.1.0-preview from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.CustomSearch" in the "Browse" tab, and click on "Install". 
+3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.2.0 from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.Search.CustomSearch" in the "Browse" tab, and click on "Install". 
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingCustomSearch\CustomSearchSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
 ## Resources
 - [Bing Custom Search API Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/bing-custom-search/)
 - [Bing Custom Search Reference Document](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-custom-search-api-v7-reference)
-- [Bing Custom Search Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.1.0-preview)
+- [Bing Custom Search Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.2.0)
 - [Bing Custom Search Dotnet SDK (source code)](https://github.com/Azure/azure-sdk-for-net/tree/psSdkJson6/src/SDKs/CognitiveServices/dataPlane/Search/BingCustomSearch) 
 - Support channels: [Stack Overflow](https://stackoverflow.com/questions/tagged/bing-search) or [Azure Support](https://azure.microsoft.com/en-us/support/options/)

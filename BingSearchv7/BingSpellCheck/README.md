@@ -10,7 +10,7 @@ This sample references the Bing Spell Check SDK, which is a stand-alone package 
 
 This example provides sample usecases of the the [Bing Spell Check v7](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/)
 
-* Using the **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/0.18.0-preview
+* Using the **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0
 
 ## Getting Started
 
@@ -32,6 +32,6 @@ To get the Bing Spell Check sample running locally, follow these steps:
 ## Resources
 - [Bing Spell Check API Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/)
 - [Bing Spell Check Reference Document](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-spell-check-api-v7-reference
-- [Bing Spell Check Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/0.18.0-preview)
+- [Bing Spell Check Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0)
 - [Bing Spell Check Dotnet SDK (source code)](https://github.com/Azure/azure-sdk-for-net/tree/psSdkJson6/src/SDKs/CognitiveServices/dataPlane/Language/SpellCheck) 
 - Support channels: [Stack Overflow](https://stackoverflow.com/questions/tagged/bing-search) or [Azure Support](https://azure.microsoft.com/en-us/support/options/)
