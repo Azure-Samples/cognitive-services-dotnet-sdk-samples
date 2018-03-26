@@ -30,20 +30,20 @@ To get the Bing Spell Check sample running locally, follow these steps:
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingSpellCheck\SpellCheckSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
 ### Note: 
-In previously installed VS 2017 on a Windows 10 machine the .NET Framework may default to 2.1.2 instead of 2.1.4. In this case a version conflict may occur. To resolve this problem, open the file *bing-search-dotnet.csproj*, and change the TargetFramework configuration to 2.0 as follows:
+Change TargetFramework in bing-search-dotnet.csproj to “netcoreapp1.1” if you have .NET Framework version as 2.1.2. [ Older ] as follows:
 
-**Old**
+**Current**
 ````  
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 ````
-**New**
+**Revision**
 ````
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 ````
 ## Resources
