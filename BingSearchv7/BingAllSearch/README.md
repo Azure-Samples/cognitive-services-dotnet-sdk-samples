@@ -12,13 +12,13 @@ This sample references the all Bing Search SDKs, which is the complete list of p
 
 This example provides sample usecases of the the [Bing Search APIs v7](https://azure.microsoft.com/en-us/services/cognitive-services/directory/search/) using the below packages:
 
-* **Bing Web Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.1.0-preview
-* **Bing Image Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.ImageSearch/1.1.0-preview
-* **Bing News Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.NewsSearch/1.1.0-preview
-* **Bing Video Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.VideoSearch/1.1.0-preview
-* **Bing Custom Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.1.0-preview
-* **Bing Entity Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.EntitySearch/1.1.0-preview
-* **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/0.18.0-preview
+* **Bing Web Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.WebSearch/1.2.0
+* **Bing Image Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.ImageSearch/1.2.0
+* **Bing News Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.NewsSearch/1.2.0
+* **Bing Video Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.VideoSearch/1.2.0
+* **Bing Custom Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.2.0
+* **Bing Entity Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.EntitySearch/1.2.0
+* **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0
 
 For ease, these packages are comntained in the TempPackage folder. 
 
