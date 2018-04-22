@@ -1,9 +1,9 @@
-﻿namespace bing_search_dotnet.Samples
+namespace bing_search_dotnet.Samples
 {
     using System;
     using System.Linq;
-    using Microsoft.Azure.CognitiveServices.SpellCheck;
-    using Microsoft.Azure.CognitiveServices.SpellCheck.Models;
+    using Microsoft.Azure.CognitiveServices.Language.SpellCheck;
+    using Microsoft.Azure.CognitiveServices.Language.SpellCheck.Models;
 
     [SampleCollection("SpellCheck")]
     public class SpellCheckSamples
