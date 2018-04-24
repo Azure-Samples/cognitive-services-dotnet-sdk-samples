@@ -1,0 +1,265 @@
+﻿namespace bing_search_dotnet.Samples
+{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.Azure.CognitiveServices.Search.VisualSearch;
+    using Microsoft.Azure.CognitiveServices.Search.VisualSearch.Models;
+    using Newtonsoft.Json;
+
+    [SampleCollection("VisualSearch")]
+    public class VisualSearchSamples
+    {
+        [Example("This will send an image binary in the body of the post request and print out the imageInsightsToken, the number of tags, the number of actions, and the first actionType")]
+        public static void VisualSearchImageBinary(string subscriptionKey)
+        {
+            var client = new VisualSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            try
+            {
+                using (FileStream stream = new FileStream(Path.Combine("TestImages", "image.jpg"), FileMode.Open))
+                {
+                    VisualSearchRequest VisualSearchRequest = new VisualSearchRequest();
+                    var visualSearchResults = client.Images.VisualSearchMethodAsync(image: stream, knowledgeRequest: VisualSearchRequest).Result;
+                    Console.WriteLine("Search visual search request with binary of dog image");
+
+                    if (visualSearchResults == null)
+                    {
+                        Console.WriteLine("No visual search result data.");
+                    }
+                    else
+                    {
+                        // Visual Search results
+                        if (visualSearchResults.Image?.ImageInsightsToken != null)
+                        {
+                            Console.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find image insights token!");
+                        }
+
+                        // List of tags
+                        if (visualSearchResults.Tags.Count > 0)
+                        {
+                            var firstTagResult = visualSearchResults.Tags.First();
+                            Console.WriteLine($"Visual search tag count: {visualSearchResults.Tags.Count}");
+
+                            // List of actions in first tag
+                            if (firstTagResult.Actions.Count > 0)
+                            {
+                                var firstActionResult = firstTagResult.Actions.First();
+                                Console.WriteLine($"First tag action count: {firstTagResult.Actions.Count}");
+                                Console.WriteLine($"First tag action type: {firstActionResult.ActionType}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Couldn't find tag actions!");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find image tags!");
+                        }
+                    }
+                }
+            }
+          
+            catch (Exception ex)
+            {
+                Console.WriteLine("Encountered exception. " + ex.Message);
+            }
+        }
+
+        [Example("This will send an image binary in the body of the post request, along with a cropArea object, and print out the imageInsightsToken, the number of tags, the number of actions, and the first actionType")]
+        public static void VisualSearchImageBinaryWithCropArea(string subscriptionKey)
+        {
+            var client = new VisualSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            try
+            {
+                using (FileStream stream = new FileStream(Path.Combine("TestImages", "image.jpg"), FileMode.Open))
+                {
+                    CropArea CropArea = new CropArea(top: (float)0.1, bottom: (float)0.5, left: (float)0.1, right: (float)0.9);
+                    ImageInfo ImageInfo = new ImageInfo(cropArea: CropArea);
+                    VisualSearchRequest VisualSearchRequest = new VisualSearchRequest(imageInfo: ImageInfo);
+                    var visualSearchResults = client.Images.VisualSearchMethodAsync(image: stream, knowledgeRequest: VisualSearchRequest).Result;
+                    Console.WriteLine("Search visual search request with binary of dog image");
+
+                    if (visualSearchResults == null)
+                    {
+                        Console.WriteLine("No visual search result data.");
+                    }
+                    else
+                    {
+                        // Visual Search results
+                        if (visualSearchResults.Image?.ImageInsightsToken != null)
+                        {
+                            Console.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find image insights token!");
+                        }
+
+                        // List of tags
+                        if (visualSearchResults.Tags.Count > 0)
+                        {
+                            var firstTagResult = visualSearchResults.Tags.First();
+                            Console.WriteLine($"Visual search tag count: {visualSearchResults.Tags.Count}");
+
+                            // List of actions in first tag
+                            if (firstTagResult.Actions.Count > 0)
+                            {
+                                var firstActionResult = firstTagResult.Actions.First();
+                                Console.WriteLine($"First tag action count: {firstTagResult.Actions.Count}");
+                                Console.WriteLine($"First tag action type: {firstActionResult.ActionType}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Couldn't find tag actions!");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find image tags!");
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Encountered exception. " + ex.Message);
+            }
+        }
+
+        [Example("This will send an image url in the knowledgeRequest parameter, along with a \"site:www.bing.com\" filter, and print out the imageInsightsToken, the number of tags, the number of actions, and the first actionType")]
+        public static void VisualSearchUrlWithFilters(string subscriptionKey)
+        {
+            var client = new VisualSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            try
+            {
+                var ImageUrl = "https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80";
+                ImageInfo ImageInfo = new ImageInfo(url: ImageUrl);
+                Filters Filters = new Filters(site: "www.bing.com");
+                KnowledgeRequest KnowledgeRequest = new KnowledgeRequest(filters: Filters);
+                VisualSearchRequest VisualSearchRequest = new VisualSearchRequest(imageInfo: ImageInfo, knowledgeRequest: KnowledgeRequest);
+                var visualSearchResults = client.Images.VisualSearchMethodAsync(knowledgeRequest: VisualSearchRequest).Result;
+                Console.WriteLine("Search visual search request with url of dog image");
+
+                if (visualSearchResults == null)
+                {
+                    Console.WriteLine("No visual search result data.");
+                }
+                else
+                {
+                    // Visual Search results
+                    if (visualSearchResults.Image?.ImageInsightsToken != null)
+                    {
+                        Console.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't find image insights token!");
+                    }
+
+                    // List of tags
+                    if (visualSearchResults.Tags.Count > 0)
+                    {
+                        var firstTagResult = visualSearchResults.Tags.First();
+                        Console.WriteLine($"Visual search tag count: {visualSearchResults.Tags.Count}");
+
+                        // List of actions in first tag
+                        if (firstTagResult.Actions.Count > 0)
+                        {
+                            var firstActionResult = firstTagResult.Actions.First();
+                            Console.WriteLine($"First tag action count: {firstTagResult.Actions.Count}");
+                            Console.WriteLine($"First tag action type: {firstActionResult.ActionType}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find tag actions!");
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't find image tags!");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Encountered exception. " + ex.Message);
+            }
+        }
+
+        [Example("This will send an image insights token in the knowledgeRequest parameter, along with a cropArea object, and print out the imageInsightsToken, the number of tags, the number of actions, and the first actionType")]
+        public static void VisualSearchInsightsTokenWithCropArea(string subscriptionKey)
+        {
+            var client = new VisualSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            try
+            {
+                var ImageInsightsToken = "bcid_113F29C079F18F385732D8046EC80145*ccid_oV/QcH95*mid_687689FAFA449B35BC11A1AE6CEAB6F9A9B53708*thid_R.113F29C079F18F385732D8046EC80145";
+                CropArea CropArea = new CropArea(top: (float)0.1, bottom: (float)0.5, left: (float)0.1, right: (float)0.9);
+                ImageInfo ImageInfo = new ImageInfo(imageInsightsToken: ImageInsightsToken, cropArea: CropArea);
+                VisualSearchRequest VisualSearchRequest = new VisualSearchRequest(imageInfo: ImageInfo);
+                var visualSearchResults = client.Images.VisualSearchMethodAsync(knowledgeRequest: VisualSearchRequest).Result;
+                Console.WriteLine("Search visual search request with url of dog image");
+
+                if (visualSearchResults == null)
+                {
+                    Console.WriteLine("No visual search result data.");
+                }
+                else
+                {
+                    // Visual Search results
+                    if (visualSearchResults.Image?.ImageInsightsToken != null)
+                    {
+                        Console.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't find image insights token!");
+                    }
+
+                    // List of tags
+                    if (visualSearchResults.Tags.Count > 0)
+                    {
+                        var firstTagResult = visualSearchResults.Tags.First();
+                        Console.WriteLine($"Visual search tag count: {visualSearchResults.Tags.Count}");
+
+                        // List of actions in first tag
+                        if (firstTagResult.Actions.Count > 0)
+                        {
+                            var firstActionResult = firstTagResult.Actions.First();
+                            Console.WriteLine($"First tag action count: {firstTagResult.Actions.Count}");
+                            Console.WriteLine($"First tag action type: {firstActionResult.ActionType}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't find tag actions!");
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't find image tags!");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Encountered exception. " + ex.Message);
+            }
+        }
+    }
+}
