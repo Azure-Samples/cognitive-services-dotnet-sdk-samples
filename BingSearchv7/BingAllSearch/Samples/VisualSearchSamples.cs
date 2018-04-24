@@ -144,7 +144,7 @@
 
             try
             {
-                var ImageUrl = "http://3.bp.blogspot.com/-dbDvMyLyZUU/T2fvDTnPFzI/AAAAAAAAAxs/i53ZHxUtZRo/s400/915534489_de793b90b5_b.jpg";
+                var ImageUrl = "https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80";
                 ImageInfo ImageInfo = new ImageInfo(url: ImageUrl);
                 Filters Filters = new Filters(site: "www.bing.com");
                 KnowledgeRequest KnowledgeRequest = new KnowledgeRequest(filters: Filters);
@@ -207,7 +207,7 @@
 
             try
             {
-                var ImageInsightsToken = "bcid_2B63103C3B473829DCC4F03074E157E6*ccid_sGbXtPJL*mid_3B429ACA76F93D5417A3F0D646E96520CE704B3F*simid_608000193735756642";
+                var ImageInsightsToken = "bcid_113F29C079F18F385732D8046EC80145*ccid_oV/QcH95*mid_687689FAFA449B35BC11A1AE6CEAB6F9A9B53708*thid_R.113F29C079F18F385732D8046EC80145";
                 CropArea CropArea = new CropArea(top: (float)0.1, bottom: (float)0.5, left: (float)0.1, right: (float)0.9);
                 ImageInfo ImageInfo = new ImageInfo(imageInsightsToken: ImageInsightsToken, cropArea: CropArea);
                 VisualSearchRequest VisualSearchRequest = new VisualSearchRequest(imageInfo: ImageInfo);
