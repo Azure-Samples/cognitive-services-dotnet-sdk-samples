@@ -28,6 +28,15 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch">
       <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.NewsSearch.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.VisualSearch">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.VisualSearch.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Samples\TestImages\**" />
+    <EmbeddedResource Remove="Samples\TestImages\**" />
+    <None Remove="Samples\TestImages\**" />
   </ItemGroup>
 
 </Project>
