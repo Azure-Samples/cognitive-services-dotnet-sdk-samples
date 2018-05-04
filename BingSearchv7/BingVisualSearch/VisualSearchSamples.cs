@@ -20,7 +20,7 @@
             {
                 using (FileStream stream = new FileStream(Path.Combine("TestImages", "image.jpg"), FileMode.Open))
                 {
-                    // The knowledgeRequest parameter is note required if an image binary is passed in the request body
+                    // The knowledgeRequest parameter is not required if an image binary is passed in the request body
                     var visualSearchResults = client.Images.VisualSearchMethodAsync(image: stream, knowledgeRequest: (string)null).Result;
                     Console.WriteLine("Search visual search request with binary of dog image");
 
@@ -284,7 +284,7 @@
             {
                 /*
                  * The visual search request can be passed in as a JSON string
-                 * The image is specified via URL in the ImageInfo object, along with a crop area as show below:
+                 * The image is specified via URL in the ImageInfo object, along with a crop area as shown below:
                  * {
                  *   "imageInfo": {
                  *     "url": "https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80",
