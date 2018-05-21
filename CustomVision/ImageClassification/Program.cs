@@ -17,6 +17,7 @@ namespace ImageClassification
 
         static void Main(string[] args)
         {
+            // Add your training & prediction key from the settings page of the portal
             string trainingKey = "<your training key here>";
             string predictionKey = "<your prediction key here>";
 
@@ -25,11 +26,11 @@ namespace ImageClassification
 
             // Create a new project
             Console.WriteLine("Creating new project:");
-            var project = trainingApi.CreateProjectAsync("My New Project").Result;
+            var project = trainingApi.CreateProject("My New Project");
 
             // Make two tags in the new project
-            var hemlockTag = trainingApi.CreateTagAsync(project.Id, "Hemlock").Result;
-            var japaneseCherryTag = trainingApi.CreateTagAsync(project.Id, "Japanese Cherry").Result;
+            var hemlockTag = trainingApi.CreateTag(project.Id, "Hemlock");
+            var japaneseCherryTag = trainingApi.CreateTag(project.Id, "Japanese Cherry");
 
             // Add some images to the tags
             Console.WriteLine("\tUploading images");
@@ -40,17 +41,17 @@ namespace ImageClassification
             {
                 using (var stream = new MemoryStream(File.ReadAllBytes(image)))
                 {
-                    trainingApi.CreateImagesFromDataAsync(project.Id, stream, new List<string>() { hemlockTag.Id.ToString() }).Wait();
+                    trainingApi.CreateImagesFromData(project.Id, stream, new List<string>() { hemlockTag.Id.ToString() });
                 }
             }
 
             // Or uploaded in a single batch 
             var imageFiles = japaneseCherryImages.Select(img => new ImageFileCreateEntry(Path.GetFileName(img), File.ReadAllBytes(img))).ToList();
-            trainingApi.CreateImagesFromFilesAsync(project.Id, new ImageFileCreateBatch(imageFiles, new List<Guid>() { japaneseCherryTag.Id })).Wait();
+            trainingApi.CreateImagesFromFiles(project.Id, new ImageFileCreateBatch(imageFiles, new List<Guid>() { japaneseCherryTag.Id }));
 
             // Now there are images with tags start training the project
             Console.WriteLine("\tTraining");
-            var iteration = trainingApi.TrainProjectAsync(project.Id).Result;
+            var iteration = trainingApi.TrainProject(project.Id);
 
             // The returned iteration will be in progress, and can be queried periodically to see when it has completed
             while (iteration.Status == "Training")
@@ -58,12 +59,12 @@ namespace ImageClassification
                 Thread.Sleep(1000);
 
                 // Re-query the iteration to get it's updated status
-                iteration = trainingApi.GetIterationAsync(project.Id, iteration.Id).Result;
+                iteration = trainingApi.GetIteration(project.Id, iteration.Id);
             }
 
             // The iteration is now trained. Make it the default project endpoint
             iteration.IsDefault = true;
-            trainingApi.UpdateIterationAsync(project.Id, iteration.Id, iteration).Wait();
+            trainingApi.UpdateIteration(project.Id, iteration.Id, iteration);
             Console.WriteLine("Done!\n");
 
             // Now there is a trained endpoint, it can be used to make a prediction
@@ -73,7 +74,7 @@ namespace ImageClassification
 
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
-            var result = endpoint.PredictImageAsync(project.Id, testImage).Result;
+            var result = endpoint.PredictImage(project.Id, testImage);
 
             // Loop over each prediction and write out the results
             foreach (var c in result.Predictions)

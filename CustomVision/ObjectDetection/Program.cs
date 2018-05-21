@@ -13,8 +13,9 @@ namespace ObjectDetection
     {
         static void Main(string[] args)
         {
-            // Add your training key from the settings page of the portal
-            string trainingKey = "<YOUR TRAINING KEY HERE>";
+            // Add your training & prediction key from the settings page of the portal
+            string trainingKey = "<your training key here>";
+            string predictionKey = "<your prediction key here>";
 
             // Create the Api, passing in the training key
             TrainingApi trainingApi = new TrainingApi() { ApiKey = trainingKey };
@@ -96,7 +97,6 @@ namespace ObjectDetection
             }
             trainingApi.CreateImagesFromFiles(project.Id, new ImageFileCreateBatch(imageFileEntries));
 
-
             // Now there are images with tags start training the project
             Console.WriteLine("\tTraining");
             var iteration = trainingApi.TrainProject(project.Id);
@@ -117,10 +117,6 @@ namespace ObjectDetection
 
             // Now there is a trained endpoint, it can be used to make a prediction
 
-            // Add your prediction key from the settings page of the portal
-            // The prediction key is used in place of the training key when making predictions
-            string predictionKey = "<YOUR PREDICTION KEY HERE>";
-
             // Create a prediction endpoint, passing in the obtained prediction key
             PredictionEndpoint endpoint = new PredictionEndpoint() { ApiKey = predictionKey };
 
@@ -137,6 +133,7 @@ namespace ObjectDetection
                     Console.WriteLine($"\t{c.TagName}: {c.Probability:P1} [ {c.BoundingBox.Left}, {c.BoundingBox.Top}, {c.BoundingBox.Width}, {c.BoundingBox.Height} ]");
                 }
             }
+            Console.ReadKey();
         }
     }
 }
