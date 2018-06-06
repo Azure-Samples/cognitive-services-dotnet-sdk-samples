@@ -10,7 +10,7 @@ This sample references the Bing Spell Check SDK, which is a stand-alone package 
 
 This example provides sample usecases of the the [Bing Spell Check v7](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/)
 
-* Using the **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0
+* Using the **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Language.SpellCheck/2.0.0
 
 ## Getting Started
 
@@ -26,7 +26,7 @@ To get the Bing Spell Check sample running locally, follow these steps:
 
 1. git clone https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples.git
 2. Open cognitive-services-dotnet-sdk-samples\BingSearchv7\BingSpellCheck\bing-search-dotnet.sln from Visual Studio 2017
-3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0 from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.SpellCheck" in the "Browse" tab, and click on "Install". 
+3. npm install https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Language.SpellCheck/2.0.0 from Tools > Nuget Package Manager > Package Manager Console. **Alternately**, you can go to Project > Manage Nuget Packages and search for "Microsoft.Azure.CognitiveServices.SpellCheck" in the "Browse" tab, and click on "Install". 
 4. Click on "bing-search-dotnet" for debug/release version from the top of Visual Studio. This will run examples from the **BingSpellCheck\SpellCheckSamples.cs** file. **Alternately** you can build and run solution in separate steps.
 
 ### Note: 
@@ -49,6 +49,6 @@ Change TargetFramework in bing-search-dotnet.csproj to “netcoreapp1.1” if yo
 ## Resources
 - [Bing Spell Check API Demo & capabilities](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/)
 - [Bing Spell Check Reference Document](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-spell-check-api-v7-reference
-- [Bing Spell Check Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/1.2.0)
+- [Bing Spell Check Nuget Package](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Language.SpellCheck/2.0.0)
 - [Bing Spell Check Dotnet SDK (source code)](https://github.com/Azure/azure-sdk-for-net/tree/psSdkJson6/src/SDKs/CognitiveServices/dataPlane/Language/SpellCheck) 
 - Support channels: [Stack Overflow](https://stackoverflow.com/questions/tagged/bing-search) or [Azure Support](https://azure.microsoft.com/en-us/support/options/)
