@@ -8,5 +8,6 @@ This folder contains Nuget packages for all the Bing Search APIs for ease in run
 * **Bing Custom Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.CustomSearch/1.1.0-preview
 * **Bing Entity Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.EntitySearch/1.1.0-preview
 * **Bing Spell Check Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.SpellCheck/0.18.0-preview
+* **Bing AutoSuggest Search Nuget Package** at https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Search.AutoSuggest/1.0.0
 
 For individual examples, pls check corresponding folder(s) and Nuget package(s).

@@ -31,6 +31,9 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Search.VisualSearch">
       <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.VisualSearch.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Search.AutoSuggest">
+      <HintPath>TempPackage\Microsoft.Azure.CognitiveServices.Search.AutoSuggest.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
