@@ -14,8 +14,8 @@ namespace ComputerVisionSample
         {
             // Create a client.
             string apiKey = "ENTER YOUR KEY HERE";
-            IComputerVisionAPI client = new ComputerVisionAPI(new ApiKeyServiceClientCredentials(apiKey));
-            client.AzureRegion = AzureRegions.Westcentralus;
+            IComputerVisionClient client = new ComputerVisionClient(new ApimKeyServiceClientCredentials(apiKey));
+            client.Endpoint = Endpoints.WestCentralUS;
 
             // Read image file.
             using (FileStream stream = new FileStream(Path.Combine("Images", "house.jpg"), FileMode.Open))
