@@ -11,13 +11,14 @@
         public static IConfigurationRoot Configuration { get; set; }
 
         private static string ProgrammaticKey;
-        private static string Region;
+        private static string EndPoint;
 
         static void Main(string[] args)
         {
             ReadConfiguration();
 
-            var client = new LUISAuthoringClient(new Uri("https://" + Region + ".api.cognitive.microsoft.com/luis/api/v2.0/"), new ApiKeyServiceClientCredentials(ProgrammaticKey));
+            EndPoint = EndPoint.Insert(EndPoint.Length - 5, "/api");
+            var client = new LUISAuthoringClient(new Uri(EndPoint), new ApiKeyServiceClientCredentials(ProgrammaticKey));
             var program = new BaseProgram(client, ProgrammaticKey);
 
             program.Run();
@@ -32,7 +33,7 @@
             Configuration = builder.Build();
 
             ProgrammaticKey = Configuration["LUIS.ProgrammaticKey"];
-            Region = Configuration["LUIS.EndPoint"];
+            EndPoint = Configuration["LUIS.EndPoint"];
 
             if (string.IsNullOrWhiteSpace(ProgrammaticKey))
             {
