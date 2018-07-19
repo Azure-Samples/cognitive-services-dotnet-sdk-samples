@@ -32,11 +32,11 @@
             Configuration = builder.Build();
 
             ProgrammaticKey = Configuration["LUIS.ProgrammaticKey"];
-            Region = Configuration["LUIS.Region"];
+            Region = Configuration["LUIS.EndPoint"];
 
             if (string.IsNullOrWhiteSpace(ProgrammaticKey))
             {
-                throw new ArgumentException("Missing \"LUIS.AuthoringKey\" in appsettings.json");
+                throw new ArgumentException("Missing \"LUIS.ProgrammaticKey\" in appsettings.json");
             }
         }
     }
