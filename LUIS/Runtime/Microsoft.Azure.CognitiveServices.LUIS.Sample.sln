@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.LUIS.Sample", "Microsoft.Azure.CognitiveServices.LUIS.Sample\Microsoft.Azure.CognitiveServices.LUIS.Sample.csproj", "{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {828EE641-C6A2-49F4-A648-346256ECC3B1}
+	EndGlobalSection
+EndGlobal
