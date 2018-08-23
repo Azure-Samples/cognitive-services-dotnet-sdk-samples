@@ -17,8 +17,8 @@
         {
             ReadConfiguration();
 
-            EndPoint = EndPoint.Insert(EndPoint.Length - 5, "/api");
-            var client = new LUISAuthoringClient(new Uri(EndPoint), new ApiKeyServiceClientCredentials(ProgrammaticKey));
+            var client = new LUISAuthoringClient(new ApiKeyServiceClientCredentials(ProgrammaticKey));
+            client.Endpoint = EndPoint;
             var program = new BaseProgram(client, ProgrammaticKey);
 
             program.Run();
