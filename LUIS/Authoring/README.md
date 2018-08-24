@@ -46,5 +46,5 @@ To get more information about how to get started in Bot Builder for .NET and Con
 * [Language Understanding Intelligent Service](https://azure.microsoft.com/en-us/services/cognitive-services/language-understanding-intelligent-service/)
 * [LUIS.ai](https://www.luis.ai)
 * [LUIS Docs](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/home)
-* [LUIS Programmatic API v2 - Specification](https://github.com/Azure/azure-rest-api-specs/tree/current/specification/cognitiveservices/data-plane/LUIS/Programmatic)
+* [LUIS Programmatic API v2 - Specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/cognitiveservices/data-plane/LUIS/Authoring)
 * [LUIS Programmatic API v2 - Documentation](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f)
