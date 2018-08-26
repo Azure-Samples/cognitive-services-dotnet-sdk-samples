@@ -38,7 +38,7 @@ You'll need these two values to configure the LuisDialog through the LuisModel a
 
 2. Subscription Key and Endpoint URL
 
-    Click on the Publish App link from the top of the LUIS application dashboard. Once your app is published, copy the endpoint URL (https://westus.api.cognitive.microsoft.com/luis/v2.0) and Key String from *Starter_Key* from the Endpoints table on the Publish App page.
+    Click on the Publish App link from the top of the LUIS application dashboard. Once your app is published, copy the endpoint URL (https://westus.api.cognitive.microsoft.com) and Key String from *Starter_Key* from the Endpoints table on the Publish App page.
 
     ![Programmatic API Key](images/prereqs-apikey.png)
 
