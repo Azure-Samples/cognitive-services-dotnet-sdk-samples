@@ -42,8 +42,8 @@
                     if (input.Length > 0)
                     {
                         // Create client with SuscriptionKey and AzureRegion
-                        var client = new LUISRuntimeClient(new Uri(EndPoint),
-                        new ApiKeyServiceClientCredentials(SubscriptionKey));
+                        var client = new LUISRuntimeClient(new ApiKeyServiceClientCredentials(SubscriptionKey));
+                        client.Endpoint = EndPoint;
 
                         // Predict
                         var result = await client.Prediction.ResolveAsync(ApplicationId, input);
