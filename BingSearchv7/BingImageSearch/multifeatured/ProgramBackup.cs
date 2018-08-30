@@ -10,7 +10,7 @@
         static IDictionary<string, ExampleAbstraction> SampleMap = null;
         const string Separator = "--------------------------------------------------";
 
-        static void Main(string[] args)
+        static void Backup()// Main(string[] args)
         {
             do
             {
