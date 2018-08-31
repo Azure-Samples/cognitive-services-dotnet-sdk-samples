@@ -1,51 +1,99 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Azure.CognitiveServices.Search.ImageSearch;
-using Microsoft.Azure.CognitiveServices.Search.ImageSearch.Models;
-
-namespace bing_search_dotnet
+﻿namespace bing_search_dotnet
 {
-    public class BingImageSearchSample
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    class Program
     {
- 
+        static IDictionary<string, ExampleAbstraction> SampleMap = null;
+        const string Separator = "--------------------------------------------------";
+
         static void Main(string[] args)
         {
-            //IMPORTANT: replace this variable with your Cognitive Services subscription key.
-            string subscriptionKey = "bbfb78ad189649248750011e83b7b22d"; //"ENTER YOUR KEY HERE";
-            // the image search term used in the query
-            string searchTerm = "canadian rockies";
-            //initialize the client
-            var client = new ImageSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
-
-            Console.WriteLine("This application will send an HTTP request to the Bing Image Search API for {0} and print the response.", searchTerm);
-
-            //images to be returned by the Bing Image Search API
-            Images imageResults = null;
-
-            //try to send the request, and get the results. 
-            Console.WriteLine("Search results for the image query: {0}", searchTerm);
-            try
+            do
             {
-                imageResults = client.Images.SearchAsync(query: searchTerm).Result; //search query
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Encountered exception. " + ex.Message);
-            }
+                /*
+                 * Decide which sample to showcase
+                 */
 
-            if (imageResults != null)
+                Console.WriteLine("Hi! Welcome to Image Search Samples");
+
+                if (SampleMap == null)
+                {
+                    LoadSampleOptions();
+                }
+
+                ExampleAbstraction examples;
+                var input = "ImageSearch";
+
+                if (!SampleMap.TryGetValue(input, out examples) || examples?.Examples?.Count == 0)
+                {
+                    Console.WriteLine("Sorry, \"{0}\" doesn't seem to be a valid sample.", input);
+                    continue;
+                }
+
+                /*
+                 *  Decide which example from the sample to showcase
+                 */
+
+                Console.WriteLine("Ok. Now, pick the number corresponding to an example you'd like to run: ");
+
+                Console.WriteLine(Separator);
+                for (var i = 0; i < examples.Examples.Count; i++)
+                {
+                    Console.WriteLine(i + ": " + examples.Examples[i].Description);
+                }
+                Console.WriteLine(Separator);
+
+                input = Console.ReadLine();
+                int exampleIndex;
+
+                if (!int.TryParse(input, out exampleIndex) || exampleIndex < 0 || exampleIndex >= examples.Examples.Count)
+                {
+                    Console.WriteLine("Sorry, \"{0}\" is not a valid example number.", input);
+                    continue;
+                }
+
+                Console.WriteLine("Ok, now please enter your subscription key:");
+                input = Console.ReadLine();
+
+                Console.WriteLine("Ok, running example {0} with subscription key \"{1}\"", exampleIndex, input);
+                Console.WriteLine(Separator);
+
+                examples.Examples[exampleIndex].Invoke(input);
+
+            } while (DecideRetry());
+        }
+
+        /// <summary>
+        /// Reflects through the assembly to find which samples can be explored
+        /// </summary>
+        private static void LoadSampleOptions()
+        {
+            SampleMap = new Dictionary<string, ExampleAbstraction>();
+
+            var samples = Assembly.GetEntryAssembly().DefinedTypes.Where(type => type.GetCustomAttribute<SampleCollectionAttribute>() != null);
+
+            foreach (var sample in samples)
             {
-                //display the details for the first image result. After running the application,
-                //you can copy the resulting URLs from the console into your browser to view the image. 
-                var firstImageResult = imageResults.Value.First();
-                Console.WriteLine($"\nTotal number of returned images: {imageResults.Value.Count}\n");
-                Console.WriteLine($"Copy the following URLs to view these images on your browser.\n");
-                Console.WriteLine($"URL to the first image:\n\n {firstImageResult.ContentUrl}\n");
-                Console.WriteLine($"Thumbnail URL for the first image:\n\n {firstImageResult.ThumbnailUrl}");
-                Console.ReadKey();
+                var sampleImpl = new ExampleAbstraction(sample);
+                sampleImpl.Load();
+
+                SampleMap.Add(sample.GetCustomAttribute<SampleCollectionAttribute>().SampleName, sampleImpl);
             }
         }
 
-
+        /// <summary>
+        /// Asks the user whether they should continue and look for another sample, or quit
+        /// </summary>
+        /// <returns></returns>
+        private static bool DecideRetry()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Would you like to look at another example (ENTER) or would you like to quit (q or CTRL+C)?");
+            return Console.ReadKey().KeyChar != 'q';
+        }
     }
 }
