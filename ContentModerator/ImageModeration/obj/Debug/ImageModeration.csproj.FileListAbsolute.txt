@@ -1,1 +1,0 @@
-C:\Users\sajagtap\Source\Repos\cognitive-services-dotnet-sdk-samples\ContentModerator\ImageModeration\bin\Debug\ImageModeration.exe.config
