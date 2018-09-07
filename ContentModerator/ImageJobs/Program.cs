@@ -1,5 +1,6 @@
-﻿using Microsoft.CognitiveServices.ContentModerator.Models;
-using ModeratorHelper;
+﻿using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Microsoft.CognitiveServices.ContentModerator;
+using Microsoft.CognitiveServices.ContentModerator.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -10,8 +11,8 @@ namespace ImageReviewJobs
     class Program
     {
         /// <summary>
-        /// The moderation job will use this workflow that you defined earlier.
-        /// See the quickstart article to learn how to setup custom workflows.
+        /// The moderation job will use this workflow that you should have defined earlier.
+        /// See the quickstart article to learn how to setup this workflows.
         /// </summary>
         private const string WorkflowName = "OCR";
 
@@ -22,7 +23,7 @@ namespace ImageReviewJobs
         /// Content Moderator account. You can retrieve your team name from
         /// the Conent Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
-        private const string TeamName = "testreview6";
+        private const string TeamName = "YOUR REVIEW TEAM ID";
 
         /// <summary>
         /// The URL of the image to create a review job for.
@@ -48,7 +49,7 @@ namespace ImageReviewJobs
         /// <remarks>Revies show up for reviewers on your team. 
         /// As reviewers complete reviews, results are sent to the
         /// callback endpoint using an HTTP POST request.</remarks>
-        private const string CallbackEndpoint = "https://requestb.in/vxke1mvx";
+        private const string CallbackEndpoint = "https://webhook.site/0dce0d0d-41ef-4ae9-abb8-f1bc42b264f4";
 
         static void Main(string[] args)
         {
@@ -102,6 +103,50 @@ namespace ImageReviewJobs
                 writer.Flush();
                 writer.Close();
             }
+        }
+    }
+
+    /// <summary>
+    /// Wraps the creation and configuration of a Content Moderator client.
+    /// </summary>
+    /// <remarks>This class library contains insecure code. If you adapt this 
+    /// code for use in production, use a secure method of storing and using
+    /// your Content Moderator subscription key.</remarks>
+    public static class Clients
+    {
+        // TODO We could make team name a static property on this class, to move all of the subscription information into one project.
+
+        /// <summary>
+        /// The region/location for your Content Moderator account, 
+        /// for example, westus.
+        /// </summary>
+        private static readonly string AzureRegion = "YOUR API REGION";
+
+        /// <summary>
+        /// The base URL fragment for Content Moderator calls.
+        /// </summary>
+        private static readonly string AzureBaseURL =
+            $"https://{AzureRegion}.api.cognitive.microsoft.com";
+
+        /// <summary>
+        /// Your Content Moderator subscription key.
+        /// </summary>
+        private static readonly string CMSubscriptionKey = "YOUR API KEY";
+
+        /// <summary>
+        /// Returns a new Content Moderator client for your subscription.
+        /// </summary>
+        /// <returns>The new client.</returns>
+        /// <remarks>The <see cref="ContentModeratorClient"/> is disposable.
+        /// When you have finished using the client,
+        /// you should dispose of it either directly or indirectly. </remarks>
+        public static ContentModeratorClient NewClient()
+        {
+            // Create and initialize an instance of the Content Moderator API wrapper.
+            ContentModeratorClient client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(CMSubscriptionKey));
+
+            client.Endpoint = AzureBaseURL;
+            return client;
         }
     }
 }
