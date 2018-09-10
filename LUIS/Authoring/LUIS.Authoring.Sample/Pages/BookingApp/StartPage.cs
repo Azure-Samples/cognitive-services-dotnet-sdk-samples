@@ -39,6 +39,8 @@
 
             Console.WriteLine($"{hierarchicalEntity.Name} hierarchical entity created with id {hierarchicalEntityId}");
 
+            BaseProgram.sampleUtterance = "Find flights to London in first class";
+
             NavigateWithInitializer<FlightsEntityPage>((page) =>
             {
                 page.AppId = AppId;

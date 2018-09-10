@@ -41,6 +41,8 @@
 
             Console.WriteLine("Utterances added to the intent");
 
+            BaseProgram.sampleUtterance = "Hello";
+
             NavigateWithInitializer<AddUtterancePage>((page) => {
                 page.AppId = AppId;
                 page.VersionId = VersionId;

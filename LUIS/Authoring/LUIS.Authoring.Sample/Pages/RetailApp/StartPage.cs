@@ -29,6 +29,8 @@
 
             Console.WriteLine($"{bouquetEntity.Name} hierarchical Entity created with the id {entityId}");
 
+            BaseProgram.sampleUtterance = "Send a bouquet of roses to Mary";
+
             NavigateWithInitializer<FlowerpotPage>((page) =>
             {
                 page.AppId = AppId;

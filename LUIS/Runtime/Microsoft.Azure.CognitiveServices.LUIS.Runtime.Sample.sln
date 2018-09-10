@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.LUIS.Sample", "Microsoft.Azure.CognitiveServices.LUIS.Sample\Microsoft.Azure.CognitiveServices.LUIS.Sample.csproj", "{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.LUIS.Runtime.Sample", "LUIS.Runtime.Sample\Microsoft.Azure.CognitiveServices.LUIS.Runtime.Sample.csproj", "{7F08CC88-95C1-444C-A3C5-F6766B44DFDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51CAC3BB-6F1F-4134-BB35-F10EB956E61B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F08CC88-95C1-444C-A3C5-F6766B44DFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F08CC88-95C1-444C-A3C5-F6766B44DFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F08CC88-95C1-444C-A3C5-F6766B44DFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F08CC88-95C1-444C-A3C5-F6766B44DFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

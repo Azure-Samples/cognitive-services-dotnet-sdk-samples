@@ -8,11 +8,11 @@
     class AppPublishPage : BasePage, IAppPage
     {
         public Guid AppId { get; set; }
-        private string ProgrammaticKey { get; set; }
+        private string AuthoringKey { get; set; }
 
         public AppPublishPage(BaseProgram program) : base("Publish", program)
         {
-            ProgrammaticKey = program.ProgrammaticKey;
+            AuthoringKey = program.AuthoringKey;
         }
 
         public override void Display()
@@ -47,7 +47,7 @@
             {
                 var result = AwaitTask(Client.Apps.PublishWithHttpMessagesAsync(AppId, versionToPublish)).Body;
                 Console.WriteLine("Your app has been published.");
-                result.EndpointUrl += "?subscription-key=" + ProgrammaticKey + "&q=";
+                result.EndpointUrl += "?subscription-key=" + AuthoringKey + "&q=";
                 Print(result);
             }
             catch (Exception ex)

@@ -10,5 +10,6 @@
     interface IAppVersionPage : IAppPage
     {
         string VersionId { get; set; }
+
     }
 }
