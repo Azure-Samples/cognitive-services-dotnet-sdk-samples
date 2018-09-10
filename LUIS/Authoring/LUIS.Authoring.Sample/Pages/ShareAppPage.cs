@@ -17,7 +17,7 @@
         {
             base.Display();
 
-            var response = Input.ReadString("Do you want to share your App? (y/n) ");
+            var response = Input.ReadString("Do you want to add collaborators to your App? (y/n) ");
 
             while (response.Trim().ToLowerInvariant().StartsWith("y"))
             {
@@ -28,10 +28,18 @@
                     Email = userEmail
                 };
 
-                AwaitTask(Client.Permissions.AddAsync(AppId, newCollaborator));
+                try
+                {
+                    AwaitTask(Client.Permissions.AddAsync(AppId, newCollaborator));
+                    Console.WriteLine("New collaborator added!");
+                    response = Input.ReadString("Do you want to add another collaborator? (y/n) ");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Something went wrong. Please make sure you provide a valid email address.");
+                    response = Input.ReadString("Do you still want to add collaborators to your App? (y/n) ");
+                }
 
-                Console.WriteLine("New collaborator added!");
-                response = Input.ReadString("Do you want to add another collaborator? (y/n) ");
             }
 
             WaitForNavigateHome();
