@@ -20,7 +20,7 @@ The first step to using this sample app is to get your Authoring Key. Go to the 
 
 ![Import an Existing Application](images/programmatic-key.png)
 
-Once you get the Authoring Key, edit the [appsettings.json](LUIS-Programmatic.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Key and Endpoint URL, for example (https://westus.api.cognitive.microsoft.com)
+Once you get the Authoring Key, edit the [appsettings.json](LUIS-Programmatic.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Key and Endpoint URL, for example https://westus.api.cognitive.microsoft.com.
 
 ### Highlights
 
@@ -35,7 +35,7 @@ Once the app is running, you will see two main options:
 * **Manage Apps:** This option allows you to work with your LUIS applications. In this page, you can:
     * View information about versions, intents and entities from apps in your account
     * Train and publish any app's version
-    * Clone, import and export any app's version
+    * Clone, import and export any app's version (find the clone under the Settings tab of your LUIS app)
     * Delete apps
 
 ![Manage App Menu](images/manage-app-publish.png)
