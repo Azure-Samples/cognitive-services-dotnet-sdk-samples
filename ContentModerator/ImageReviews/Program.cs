@@ -53,7 +53,7 @@ namespace CreateReviews
         /// <summary>
         /// The name of the log file to create.
         /// </summary>
-        /// <remarks>Relative paths are ralative the execution directory.</remarks>
+        /// <remarks>Relative paths are relative to the execution directory.</remarks>
         private const string OutputFile = "OutputLog.txt";
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace CreateReviews
         /// </summary>
         /// <remarks>This must be the team name you used to create your 
         /// Content Moderator account. You can retrieve your team name from
-        /// the Conent Moderator web site. Your team name is the Id associated 
+        /// the Content Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
         private const string TeamName = "YOUR REVIEW TEAM ID";
 
@@ -73,7 +73,7 @@ namespace CreateReviews
         /// <summary>
         /// The callback endpoint for completed reviews.
         /// </summary>
-        /// <remarks>Revies show up for reviewers on your team. 
+        /// <remarks>Reviews show up for reviewers on your team. 
         /// As reviewers complete reviews, results are sent to the
         /// callback endpoint using an HTTP POST request.</remarks>
         private const string CallbackEndpoint = "YOUR API ENDPOINT";

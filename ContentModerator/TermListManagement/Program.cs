@@ -24,7 +24,7 @@ namespace TermLists
 
         /// <summary>
         /// The number of minutes to delay after updating the search index before
-        /// performing image match operations against a the list.
+        /// performing image match operations against the list.
         /// </summary>
         private const double latencyDelay = 0.5;
 
