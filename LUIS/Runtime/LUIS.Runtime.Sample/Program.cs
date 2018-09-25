@@ -46,12 +46,21 @@
                         client.Endpoint = EndPoint;
 
                         // Predict
-                        var result = await client.Prediction.ResolveAsync(ApplicationId, input);
+                        try
+                        {
+                            var result = await client.Prediction.ResolveAsync(ApplicationId, input);
 
-                        // Print result
-                        var json = JsonConvert.SerializeObject(result, Formatting.Indented);
-                        Console.WriteLine(json);
-                        Console.WriteLine();
+                            // Print result
+                            var json = JsonConvert.SerializeObject(result, Formatting.Indented);
+                            Console.WriteLine(json);
+                            Console.WriteLine();
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("\nSomething went wrong. Please Make sure your app is published and try again.\n");
+                        }
+
                     }
                 }
             }

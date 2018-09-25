@@ -23,6 +23,7 @@
         }
 
         protected T AwaitTask<T>(Task<T> task, bool clearAfterRun = false)
+
         {
             var awaiter = new DotSpinner(SpinnerTypes.Ping, task).Center();
             awaiter.Start();

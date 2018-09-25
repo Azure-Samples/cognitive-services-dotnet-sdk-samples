@@ -11,12 +11,14 @@
     public class BaseProgram : Program
     {
         public LUISAuthoringClient Client { get; private set; }
-        public string ProgrammaticKey { get; private set; }
+        public string AuthoringKey { get; private set; }
 
-        public BaseProgram(LUISAuthoringClient client, string programmaticKey) : base("LUIS Programmatic API Demo", true)
+        public static string sampleUtterance { get; set; }
+
+        public BaseProgram(LUISAuthoringClient client, string authoringKey) : base("LUIS Authoring API Demo", true)
         {
             Client = client;
-            ProgrammaticKey = programmaticKey;
+            AuthoringKey = authoringKey;
             AddPage(new MainPage(this));
 
             AddPage(new Management.ListAppsPage(this));
