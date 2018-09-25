@@ -42,13 +42,13 @@ namespace ImageModeration
         /// The name of the file that contains the image URLs to evaluate.
         /// </summary>
         /// <remarks>You will need to create an input file and update this path
-        /// accordingly. Relative paths are ralative the execution directory.</remarks>
+        /// accordingly. Relative paths are relative to the execution directory.</remarks>
         private static string ImageUrlFile = "ImageFiles.txt";
 
         /// <summary>
         /// The name of the file to contain the output from the evaluation.
         /// </summary>
-        /// <remarks>Relative paths are ralative the execution directory.</remarks>
+        /// <remarks>Relative paths are relative to the execution directory.</remarks>
         private static string OutputFile = "ModerationOutput.json";
 
         static void Main(string[] args)
@@ -67,6 +67,7 @@ namespace ImageModeration
                         string line = inputReader.ReadLine().Trim();
                         if (line != String.Empty)
                         {
+                            Console.WriteLine("Evaluating {0}", line);
                             EvaluationData imageData = EvaluateImage(client, line);
                             evaluationData.Add(imageData);
                         }
@@ -83,6 +84,10 @@ namespace ImageModeration
                 outputWriter.Flush();
                 outputWriter.Close();
             }
+
+            Console.WriteLine("Results written to {0}", OutputFile);
+            Console.WriteLine("Press ENTER to exit");
+            Console.ReadLine();
         }
 
         /// <summary>

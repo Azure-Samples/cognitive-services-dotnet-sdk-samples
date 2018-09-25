@@ -21,7 +21,7 @@ namespace ImageReviewJobs
         /// </summary>
         /// <remarks>This must be the team name you used to create your 
         /// Content Moderator account. You can retrieve your team name from
-        /// the Conent Moderator web site. Your team name is the Id associated 
+        /// the Content Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
         private const string TeamName = "YOUR REVIEW TEAM ID";
 
@@ -34,7 +34,7 @@ namespace ImageReviewJobs
         /// <summary>
         /// The name of the log file to create.
         /// </summary>
-        /// <remarks>Relative paths are ralative the execution directory.</remarks>
+        /// <remarks>Relative paths are relative to the execution directory.</remarks>
         private const string OutputFile = "OutputLog.txt";
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace ImageReviewJobs
         /// <summary>
         /// The callback endpoint for completed reviews.
         /// </summary>
-        /// <remarks>Revies show up for reviewers on your team. 
+        /// <remarks>Reviews show up for reviewers on your team. 
         /// As reviewers complete reviews, results are sent to the
         /// callback endpoint using an HTTP POST request.</remarks>
         private const string CallbackEndpoint = "https://webhook.site/0dce0d0d-41ef-4ae9-abb8-f1bc42b264f4";
@@ -60,7 +60,7 @@ namespace ImageReviewJobs
                     writer.WriteLine("Create moderation job for an image.");
                     var content = new Content(ImageUrl);
 
-                    // The WorkflowName contains the nameof the workflow defined in the online review tool.
+                    // The WorkflowName contains the name of the workflow defined in the online review tool.
                     // See the quickstart article to learn more.
                     var jobResult = client.Reviews.CreateJobWithHttpMessagesAsync(
                         TeamName, "image", "contentID", WorkflowName, "application/json", content, CallbackEndpoint);
@@ -103,6 +103,8 @@ namespace ImageReviewJobs
                 writer.Flush();
                 writer.Close();
             }
+            Console.WriteLine("Press ENTER to exit");
+            Console.ReadLine();
         }
     }
 
