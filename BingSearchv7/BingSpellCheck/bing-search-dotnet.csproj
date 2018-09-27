@@ -7,11 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Include="Microsoft.Azure.CognitiveServices.SpellCheck">
-    </Reference>
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.SpellCheck" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

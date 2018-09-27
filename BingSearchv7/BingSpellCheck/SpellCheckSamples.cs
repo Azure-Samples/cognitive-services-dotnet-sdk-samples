@@ -2,8 +2,8 @@ namespace bing_search_dotnet.Samples
 {
     using System;
     using System.Linq;
-    using Microsoft.Azure.CognitiveServices.Language.SpellCheck;
-    using Microsoft.Azure.CognitiveServices.Language.SpellCheck.Models;
+    using Microsoft.Azure.CognitiveServices.SpellCheck;
+    using Microsoft.Azure.CognitiveServices.SpellCheck.Models;
 
     [SampleCollection("SpellCheck")]
     public class SpellCheckSamples
@@ -15,7 +15,7 @@ namespace bing_search_dotnet.Samples
 
             try
             {
-                var result = client.SpellCheckerWithHttpMessagesAsync(text: "Bill Gatas",mode: "proof").Result;
+                var result = client.SpellCheckerWithHttpMessagesAsync(text: "Bill Gatas", mode: "proof").Result;
                 Console.WriteLine("Correction for Query# \"bill gatas\"");
 
                 // SpellCheck Results
@@ -69,7 +69,7 @@ namespace bing_search_dotnet.Samples
             }
             catch (Exception ex)
             {
-                if (ex.GetBaseException().GetType() == typeof(Exception) )
+                if (ex.GetBaseException().GetType() == typeof(Exception))
                 {
                     Console.WriteLine("Encountered exception. " + ex.Message);
                 }
