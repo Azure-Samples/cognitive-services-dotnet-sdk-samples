@@ -107,7 +107,7 @@ namespace TermLists
         {
             Console.WriteLine("Refreshing search index for term list with ID {0}.", list_id);
             client.ListManagementTermLists.RefreshIndexMethod(list_id, lang);
-            Thread.Sleep((int)(latencyDelay * 60 * 1000));
+            Thread.Sleep((int)(latencyDelay * 6 * 1000));
         }
 
         /// <summary>
