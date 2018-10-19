@@ -23,9 +23,17 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
         public async Task TestMethod()
         {
             string samplePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\..\\..\\samples\\"));
-            var sampleDlls = Directory.GetFiles(samplePath, "Microsoft.Azure.CognitiveServices.Samples.*.dll", SearchOption.AllDirectories);
-            Regex regex = new Regex(@".+[\\/]bin[\\/].*netstandard1\.4.*\\Microsoft\.Azure\.CognitiveServices\.Samples\.(.+)\.dll");
+            HashSet<string> apis = new HashSet<string>();
 
+            foreach (var path in Directory.GetDirectories(samplePath))
+            {
+                apis.Add(Path.GetFileName(path));
+            }
+            
+            var sampleDlls = Directory.GetFiles(samplePath, "Microsoft.Azure.CognitiveServices.Samples.*.dll", SearchOption.AllDirectories);
+            Regex regex = new Regex(@".+[\\/]bin[\\/].*netstandard1\.4.*\\publish\\Microsoft\.Azure\.CognitiveServices\.Samples\.(.+)\.dll");
+
+            HashSet<string> tested = new HashSet<string>();
             foreach (var sampleDll in sampleDlls)
             {
                 var match = regex.Match(sampleDll);
@@ -34,16 +42,15 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
                     continue;
                 }
 
-                var service = match.Groups[1];
+                var service = match.Groups[1].Value;
+                tested.Add(service);
                 Console.WriteLine(service);
                 Console.WriteLine(sampleDll);
-
-                var DLL = Assembly.LoadFile(sampleDll);
+                var DLL = Assembly.LoadFrom(sampleDll);
 
                 foreach (Type type in DLL.GetExportedTypes())
                 {
-                    // var c = Activator.CreateInstance(type);
-
+                    Directory.SetCurrentDirectory(Path.GetDirectoryName(sampleDll));
                     foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public))
                     {
                         var paras = new List<string>();
@@ -71,6 +78,15 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
                         Console.WriteLine(method.Name);
                         Console.WriteLine();
                     }
+                }
+            }
+
+
+            foreach (var api in apis)
+            {
+                if (!tested.Contains(api))
+                {
+                    throw new Exception($"Testes for {api} is missing.");
                 }
             }
         }
