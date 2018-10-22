@@ -7,5 +7,7 @@
     <Parameter name="TemplateMultiple.key" value="" />
     <Parameter name="Face.endpoint" value="" />
     <Parameter name="Face.key" value="" />
+    <Parameter name="TextAnalytics.endpoint" value="" />
+    <Parameter name="TextAnalytics.key" value="" />
   </TestRunParameters>
 </RunSettings>
