@@ -1,8 +1,8 @@
 ﻿
 /// <summary>
-/// Namespace should be Microsoft.Azure.CognitiveServices.Samples.{ServiceName}
+/// Namespace should be Microsoft.Azure.CognitiveServices.Samples.{ServiceName}.{SampleName}
 /// </summary>
-namespace Microsoft.Azure.CognitiveServices.Samples.Template
+namespace Microsoft.Azure.CognitiveServices.Samples.TemplateMultiple.SecondSample
 {
     using System;
     using System.Threading.Tasks;
