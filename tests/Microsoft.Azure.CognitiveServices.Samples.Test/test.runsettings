@@ -3,5 +3,7 @@
   <TestRunParameters>
     <Parameter name="Template.endpoint" value="" />
     <Parameter name="Template.key" value="" />
+    <Parameter name="Face.endpoint" value="" />
+    <Parameter name="Face.key" value="" />
   </TestRunParameters>
 </RunSettings>
