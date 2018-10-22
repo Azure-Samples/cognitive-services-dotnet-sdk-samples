@@ -137,7 +137,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
 
                 var project = match.Groups[1].Value;
                 var service = match.Groups[2].Value;
-                projectsTested.Add(service);
+                projectsTested.Add(project);
                 servicesTested.Add(service);
 
                 await RunSampleAsync(service, project, sampleDll);
