@@ -9,4 +9,4 @@ foreach ($project in $projects)
 
 
 Write-Host "Microsoft.Azure.CognitiveServices.Samples.Test.csproj" -ForegroundColor Yellow
-dotnet test '.\\Microsoft.Azure.CognitiveServices.Samples.Test\\Microsoft.Azure.CognitiveServices.Samples.Test.csproj'
+dotnet test -s test.runsettings '.\\Microsoft.Azure.CognitiveServices.Samples.Test\\Microsoft.Azure.CognitiveServices.Samples.Test.csproj'
