@@ -17,7 +17,7 @@
             };
 
             List<string> imageFileNames =
-             new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg", "Family1-Son1.jpg" };
+                new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg", "Family1-Son1.jpg" };
             List<Guid> faceIds = new List<Guid>();
 
             foreach (var imageFileName in imageFileNames)
