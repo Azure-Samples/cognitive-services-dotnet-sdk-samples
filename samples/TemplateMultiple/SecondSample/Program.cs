@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.Azure.CognitiveServices.Samples.Template
+namespace Microsoft.Azure.CognitiveServices.Samples.TemplateMultiple.SecondSample
 {
     /// <summary>
     /// Other class.
