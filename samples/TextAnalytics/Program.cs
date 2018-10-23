@@ -2,24 +2,33 @@ using System;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace TextAnalyticsSample
+namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
 {
-    class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
+            RunSampleAsync("ENTER YOUR ENDPOINT HERE", "ENTER YOUR KEY HERE").Wait();
+            Console.WriteLine("Press ENTER to exit.");
+            Console.ReadLine();
+        }
+
+        public static async Task RunSampleAsync(string endpoint, string key)
+        {
             // Create a client.
-            ITextAnalyticsAPI client = new TextAnalyticsAPI();
-            client.AzureRegion = AzureRegions.Westcentralus;
-            client.SubscriptionKey = "ENTER YOUR KEY HERE";
+            ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials(key))
+            {
+                Endpoint = endpoint
+            };
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             // Extracting language
             Console.WriteLine("===== LANGUAGE EXTRACTION ======");
 
-            LanguageBatchResult result = client.DetectLanguage(
+            LanguageBatchResult result = await client.DetectLanguageAsync(
                     new BatchInput(
                         new List<Input>()
                         {
@@ -37,7 +46,7 @@ namespace TextAnalyticsSample
             // Getting key-phrases
             Console.WriteLine("\n\n===== KEY-PHRASE EXTRACTION ======");
 
-            KeyPhraseBatchResult result2 = client.KeyPhrases(
+            KeyPhraseBatchResult result2 = await client.KeyPhrasesAsync(
                     new MultiLanguageBatchInput(
                         new List<MultiLanguageInput>()
                         {
@@ -64,7 +73,7 @@ namespace TextAnalyticsSample
             // Extracting sentiment
             Console.WriteLine("\n\n===== SENTIMENT ANALYSIS ======");
 
-            SentimentBatchResult result3 = client.Sentiment(
+            SentimentBatchResult result3 = await client.SentimentAsync(
                     new MultiLanguageBatchInput(
                         new List<MultiLanguageInput>()
                         {
@@ -80,9 +89,6 @@ namespace TextAnalyticsSample
             {
                 Console.WriteLine("Document ID: {0} , Sentiment Score: {1:0.00}", document.Id, document.Score);
             }
-
-            Console.WriteLine("Press ENTER to exit.");
-            Console.ReadLine();
         }
     }
 }
