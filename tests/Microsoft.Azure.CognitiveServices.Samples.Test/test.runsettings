@@ -9,5 +9,7 @@
     <Parameter name="Face.key" value="" />
     <Parameter name="TextAnalytics.endpoint" value="" />
     <Parameter name="TextAnalytics.key" value="" />
+    <Parameter name="ComputerVision.endpoint" value="" />
+    <Parameter name="ComputerVision.key" value="" />
   </TestRunParameters>
 </RunSettings>
