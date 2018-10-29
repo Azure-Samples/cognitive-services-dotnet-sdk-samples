@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             // Create a client.
             string apiKey = "ENTER YOUR KEY HERE";
