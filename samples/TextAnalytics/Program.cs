@@ -89,6 +89,39 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             {
                 Console.WriteLine("Document ID: {0} , Sentiment Score: {1:0.00}", document.Id, document.Score);
             }
+
+            // Extracting entities
+            Console.WriteLine("\n\n===== Entity Extraction ======");
+
+            EntitiesBatchResultV2dot1 result4 = await client.EntitiesAsync(
+                    new MultiLanguageBatchInput(
+                        new List<MultiLanguageInput>()
+                        {
+                          new MultiLanguageInput("en", "0", "Microsoft released win10. Microsoft also released Hololens"),
+                          new MultiLanguageInput("en", "1", "Microsoft is an IT company."),
+                          new MultiLanguageInput("es", "2", "Microsoft lanzó win10. Microsoft también lanzó Hololens"),
+                          new MultiLanguageInput("es", "3", "Microsoft es una empresa de TI."),
+                        }));
+
+
+            // Printing entity extraction results
+            foreach (var document in result4.Documents)
+            {
+                Console.WriteLine("Document ID: {0} ", document.Id);
+
+                Console.WriteLine("\t Entities:");
+
+                foreach (EntityRecordV2dot1 entity in document.Entities)
+                {
+                    Console.WriteLine("\t\tEntity Name: {0}", entity.Name);
+                    Console.WriteLine("\t\tWikepedia Language: {0}", entity.WikipediaLanguage);
+                    Console.WriteLine("\t\tWikipedia Url: {0}", entity.WikipediaUrl);
+                    Console.WriteLine("\t\tNumber of times appeared on the text: {0}", entity.Matches.Count);
+                    Console.WriteLine("\t\tEntity Type: {0}", entity.Type);
+                    Console.WriteLine("\t\tEntity SubType: {0}", entity.SubType);
+                    Console.WriteLine("\n");
+                }
+            }
         }
     }
 }
