@@ -25,7 +25,8 @@
             Console.WriteLine($"{detectedFaces.Count} faces detected from image `{imageUrl}`.");
             if (detectedFaces[0].FaceId == null)
             {
-                throw new Exception("Parameter `returnFaceId` of `DetectWithStreamAsync` must be set to `true` (by default) for recognition purpose.");
+                throw new Exception(
+                    "Parameter `returnFaceId` of `DetectWithStreamAsync` must be set to `true` (by default) for recognition purpose.");
             }
 
             return detectedFaces.ToList();

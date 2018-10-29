@@ -13,14 +13,20 @@
         {
             Console.WriteLine("Sample of finding similar faces in face ids.");
 
-            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
-            {
-                Endpoint = endpoint
-            };
+            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
-            List<string> targetImageFileNames =
-                new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
+            List<string> targetImageFileNames = new List<string>
+                                                    {
+                                                        "Family1-Dad1.jpg",
+                                                        "Family1-Daughter1.jpg",
+                                                        "Family1-Mom1.jpg",
+                                                        "Family1-Son1.jpg",
+                                                        "Family2-Lady1.jpg",
+                                                        "Family2-Man1.jpg",
+                                                        "Family3-Lady1.jpg",
+                                                        "Family3-Man1.jpg"
+                                                    };
 
             string sourceImageFileName = "findsimilar.jpg";
 
@@ -35,10 +41,16 @@
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(
+                                                    client,
+                                                    $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to faceIds.
-            IList<SimilarFace> similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, null, targetFaceIds);
+            IList<SimilarFace> similarResults = await client.Face.FindSimilarAsync(
+                                                    detectedFaces[0].FaceId.Value,
+                                                    null,
+                                                    null,
+                                                    targetFaceIds);
             if (similarResults.Count == 0)
             {
                 Console.WriteLine($"No similar faces to {sourceImageFileName}.");
@@ -46,7 +58,8 @@
 
             foreach (var similarResult in similarResults)
             {
-                Console.WriteLine($"Faces from {sourceImageFileName} & {similarResult.FaceId} are similar with confidence: {similarResult.Confidence}.");
+                Console.WriteLine(
+                    $"Faces from {sourceImageFileName} & {similarResult.FaceId} are similar with confidence: {similarResult.Confidence}.");
             }
 
             Console.WriteLine();
@@ -59,26 +72,38 @@
         {
             Console.WriteLine("Sample of finding similar faces in face list.");
 
-            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
-            {
-                Endpoint = endpoint
-            };
+            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
-            List<string> targetImageFileNames =
-                new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
+            List<string> targetImageFileNames = new List<string>
+                                                    {
+                                                        "Family1-Dad1.jpg",
+                                                        "Family1-Daughter1.jpg",
+                                                        "Family1-Mom1.jpg",
+                                                        "Family1-Son1.jpg",
+                                                        "Family2-Lady1.jpg",
+                                                        "Family2-Man1.jpg",
+                                                        "Family3-Lady1.jpg",
+                                                        "Family3-Man1.jpg"
+                                                    };
 
             string sourceImageFileName = "findsimilar.jpg";
 
             // Create a face list.
             string faceListId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create FaceList {faceListId}.");
-            await client.FaceList.CreateAsync(faceListId, "face list for FindSimilar sample", "face list for FindSimilar sample");
+            await client.FaceList.CreateAsync(
+                faceListId,
+                "face list for FindSimilar sample",
+                "face list for FindSimilar sample");
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
                 // Add face to face list.
-                var faces = await client.FaceList.AddFaceFromUrlAsync(faceListId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
+                var faces = await client.FaceList.AddFaceFromUrlAsync(
+                                faceListId,
+                                $"{ImageUrlPrefix}{targetImageFileName}",
+                                targetImageFileName);
                 if (faces == null)
                 {
                     throw new Exception($"No face detected from image `{targetImageFileName}`.");
@@ -95,20 +120,24 @@
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(
+                                                    client,
+                                                    $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, faceListId);
             foreach (var similarResult in similarResults)
             {
-                PersistedFace persistedFace = persistedFaces.Find(face => face.PersistedFaceId == similarResult.PersistedFaceId);
+                PersistedFace persistedFace =
+                    persistedFaces.Find(face => face.PersistedFaceId == similarResult.PersistedFaceId);
                 if (persistedFace == null)
                 {
                     Console.WriteLine("Persisted face not found in similar result.");
                     continue;
                 }
 
-                Console.WriteLine($"Faces from {sourceImageFileName} & {persistedFace.UserData} are similar with confidence: {similarResult.Confidence}.");
+                Console.WriteLine(
+                    $"Faces from {sourceImageFileName} & {persistedFace.UserData} are similar with confidence: {similarResult.Confidence}.");
             }
 
             // Delete the face list.
@@ -124,32 +153,45 @@
         {
             Console.WriteLine("Sample of finding similar faces in large face list.");
 
-            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
-            {
-                Endpoint = endpoint
-            };
+            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
-            List<string> targetImageFileNames =
-                new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
+            List<string> targetImageFileNames = new List<string>
+                                                    {
+                                                        "Family1-Dad1.jpg",
+                                                        "Family1-Daughter1.jpg",
+                                                        "Family1-Mom1.jpg",
+                                                        "Family1-Son1.jpg",
+                                                        "Family2-Lady1.jpg",
+                                                        "Family2-Man1.jpg",
+                                                        "Family3-Lady1.jpg",
+                                                        "Family3-Man1.jpg"
+                                                    };
 
             string sourceImageFileName = "findsimilar.jpg";
 
             // Create a large face list.
             string largeFaceListId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create large face list {largeFaceListId}.");
-            await client.LargeFaceList.CreateAsync(largeFaceListId, "large face list for FindSimilar sample", "large face list for FindSimilar sample");
+            await client.LargeFaceList.CreateAsync(
+                largeFaceListId,
+                "large face list for FindSimilar sample",
+                "large face list for FindSimilar sample");
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
                 // Add face to the large face list.
-                var faces = await client.LargeFaceList.AddFaceFromUrlAsync(largeFaceListId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
+                var faces = await client.LargeFaceList.AddFaceFromUrlAsync(
+                                largeFaceListId,
+                                $"{ImageUrlPrefix}{targetImageFileName}",
+                                targetImageFileName);
                 if (faces == null)
                 {
                     throw new Exception($"No face detected from image `{targetImageFileName}`.");
                 }
 
-                Console.WriteLine($"Face from image {targetImageFileName} is successfully added to the large face list.");
+                Console.WriteLine(
+                    $"Face from image {targetImageFileName} is successfully added to the large face list.");
             }
 
             // Start to train the large face list.
@@ -181,20 +223,27 @@
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(
+                                                    client,
+                                                    $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to large face list.
-            var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, largeFaceListId);
+            var similarResults = await client.Face.FindSimilarAsync(
+                                     detectedFaces[0].FaceId.Value,
+                                     null,
+                                     largeFaceListId);
             foreach (var similarResult in similarResults)
             {
-                PersistedFace persistedFace = persistedFaces.Find(face => face.PersistedFaceId == similarResult.PersistedFaceId);
+                PersistedFace persistedFace =
+                    persistedFaces.Find(face => face.PersistedFaceId == similarResult.PersistedFaceId);
                 if (persistedFace == null)
                 {
                     Console.WriteLine("Persisted face not found in similar result.");
                     continue;
                 }
 
-                Console.WriteLine($"Faces from {sourceImageFileName} & {persistedFace.UserData} are similar with confidence: {similarResult.Confidence}.");
+                Console.WriteLine(
+                    $"Faces from {sourceImageFileName} & {persistedFace.UserData} are similar with confidence: {similarResult.Confidence}.");
             }
 
             // Delete the large face list.
