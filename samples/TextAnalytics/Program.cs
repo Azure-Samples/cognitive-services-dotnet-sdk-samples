@@ -114,7 +114,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
                 foreach (EntityRecordV2dot1 entity in document.Entities)
                 {
                     Console.WriteLine("\t\tEntity Name: {0}", entity.Name);
-                    Console.WriteLine("\t\tWikepedia Language: {0}", entity.WikipediaLanguage);
+                    Console.WriteLine("\t\tWikipedia Language: {0}", entity.WikipediaLanguage);
                     Console.WriteLine("\t\tWikipedia Url: {0}", entity.WikipediaUrl);
                     Console.WriteLine("\t\tNumber of times appeared on the text: {0}", entity.Matches.Count);
                     Console.WriteLine("\t\tEntity Type: {0}", entity.Type);
