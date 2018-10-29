@@ -78,7 +78,7 @@
             List<Guid> sourceFaceIds = new List<Guid>();
 
             // Detect faces from source image url.
-            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Add detected faceId to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)
@@ -179,7 +179,7 @@
             List<Guid> sourceFaceIds = new List<Guid>();
 
             // Detect faces from source image url.
-            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Add detected faceIds to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)

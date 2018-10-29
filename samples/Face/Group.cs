@@ -26,7 +26,7 @@
             foreach (var imageFileName in imageFileNames)
             {
                 // Detect faces from image url.
-                IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{imageFileName}");
+                IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{imageFileName}");
 
                 // Add detected faceId to faceIds and faces.
                 faceIds.Add(detectedFaces[0].FaceId.Value);

@@ -28,14 +28,14 @@
             foreach (var targetImageFileName in targetImageFileNames)
             {
                 // Detect faces from target image url.
-                var faces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{targetImageFileName}");
+                var faces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{targetImageFileName}");
 
                 // Add detected faceId to targetFaceIds.
                 targetFaceIds.Add(faces[0].FaceId.Value);
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to faceIds.
             IList<SimilarFace> similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, null, targetFaceIds);
@@ -95,7 +95,7 @@
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, faceListId);
@@ -181,7 +181,7 @@
             }
 
             // Detect faces from source image url.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+            IList<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to large face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, largeFaceListId);

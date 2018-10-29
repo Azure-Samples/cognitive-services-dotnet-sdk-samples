@@ -23,16 +23,16 @@
             foreach (var imageFileName in targetImageFileNames)
             {
                 // Detect faces from target image url.
-                List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{imageFileName}");
+                List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{imageFileName}");
                 targetFaceIds.Add(detectedFaces[0].FaceId.Value);
             }
 
             // Detect faces from source image file 1.
-            List<DetectedFace> detectedFaces1 = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            List<DetectedFace> detectedFaces1 = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
             Guid sourceFaceId1 = detectedFaces1[0].FaceId.Value;
 
             // Detect faces from source image file 2.
-            List<DetectedFace> detectedFaces2 = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName2}");
+            List<DetectedFace> detectedFaces2 = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName2}");
             Guid sourceFaceId2 = detectedFaces2[0].FaceId.Value;
 
             // Verification example for faces of the same person.
@@ -94,7 +94,7 @@
             List<Guid> faceIds = new List<Guid>();
 
             // Add detected faceId to faceIds.
-            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
             faceIds.Add(detectedFaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.
@@ -152,7 +152,7 @@
             List<Guid> faceIds = new List<Guid>();
 
             // Add detected faceId to faceIds.
-            List<DetectedFace> detectedfaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            List<DetectedFace> detectedfaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
             faceIds.Add(detectedfaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.
