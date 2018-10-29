@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Azure.CognitiveServices.Vision.Face;
     using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
@@ -18,6 +17,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg", "Family3-Lady1.jpg", "Family1-Daughter1.jpg", "Family1-Daughter2.jpg", "Family1-Daughter3.jpg" };
             Dictionary<string, string> faces = new Dictionary<string, string>();
@@ -25,8 +25,8 @@
 
             foreach (var imageFileName in imageFileNames)
             {
-                // Detect faces from image file.
-                IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", imageFileName));
+                // Detect faces from image url.
+                IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{imageFileName}");
 
                 // Add detected faceId to faceIds and faces.
                 faceIds.Add(detectedFaces[0].FaceId.Value);

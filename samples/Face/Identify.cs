@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Azure.CognitiveServices.Vision.Face;
     using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
@@ -11,13 +10,14 @@
     {
         public static async Task Run(string endpoint, string key)
         {
-            Console.WriteLine("Sample of Identify faces in person group.");
+            Console.WriteLine("Sample of identify faces in person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
             {
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary = new Dictionary<string, string[]>
             {
                 { "Family1-Dad", new[] { "Family1-Dad1.jpg", "Family1-Dad2.jpg" } },
@@ -37,23 +37,19 @@
             foreach (var targetImageFileDictionaryName in targetImageFileDictionary.Keys)
             {
                 // Create a person group person.
-                Person p = new Person { Name = targetImageFileDictionaryName, UserData = "Person for sample" };
-                p.PersonId = (await client.PersonGroupPerson.CreateAsync(personGroupId, p.Name)).PersonId;
-                Console.WriteLine($"Create a person group person '{p.Name}'.");
+                Person person = new Person { Name = targetImageFileDictionaryName, UserData = "Person for sample" };
+                person.PersonId = (await client.PersonGroupPerson.CreateAsync(personGroupId, person.Name)).PersonId;
+                Console.WriteLine($"Create a person group person '{person.Name}'.");
 
                 foreach (var targetImageFileName in targetImageFileDictionary[targetImageFileDictionaryName])
                 {
-                    // Read target image file. 
-                    using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileDictionary[targetImageFileDictionaryName][0]), FileMode.Open))
-                    {
-                        // Add face to the person group person.
-                        Console.WriteLine($"Add face to the person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`.");
-                        PersistedFace face = await client.PersonGroupPerson.AddFaceFromStreamAsync(personGroupId, p.PersonId, stream, targetImageFileName);
+                    // Add face to the person group person.
+                    Console.WriteLine($"Add face to the person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`.");
+                    PersistedFace face = await client.PersonGroupPerson.AddFaceFromUrlAsync(personGroupId, person.PersonId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
 
-                        if (face == null)
-                        {
-                            throw new Exception($"No persisted face from image `{targetImageFileName}`.");
-                        }
+                    if (face == null)
+                    {
+                        throw new Exception($"No persisted face from image `{targetImageFileName}`.");
                     }
                 }
             }
@@ -81,22 +77,27 @@
 
             List<Guid> sourceFaceIds = new List<Guid>();
 
+            // Detect faces from source image url.
+            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+
             // Add detected faceId to sourceFaceIds.
-            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName));
-            sourceFaceIds.Add(detectedFaces[0].FaceId.Value);
+            foreach (var detectedFace in detectedFaces)
+            {
+                sourceFaceIds.Add(detectedFace.FaceId.Value);
+            }
 
             // Identify example of identifying faces towards person group. 
             var identifyResults = await client.Face.IdentifyAsync(sourceFaceIds, personGroupId);
             if (identifyResults == null)
             {
-                Console.WriteLine($"No people found in the group the same as the {sourceImageFileName}.");
+                Console.WriteLine($"No person identified in the person group for faces from the {sourceImageFileName}.");
                 return;
             }
 
             foreach (var identifyResult in identifyResults)
             {
                 Person person = await client.PersonGroupPerson.GetAsync(personGroupId, identifyResult.Candidates[0].PersonId);
-                Console.WriteLine($"Person '{person.Name}' is identified for faces in {sourceImageFileName}, confidence: {identifyResult.Candidates[0].Confidence}.");
+                Console.WriteLine($"Person '{person.Name}' is identified for face: {sourceImageFileName} - {identifyResult.FaceId}, confidence: {identifyResult.Candidates[0].Confidence}.");
             }
 
             // Delete the person group.
@@ -110,13 +111,14 @@
     {
         public static async Task Run(string endpoint, string key)
         {
-            Console.WriteLine("Sample of Identify faces in large person group.");
+            Console.WriteLine("Sample of identify faces in large person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
             {
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary = new Dictionary<string, string[]>
             {
                 { "Family1-Dad", new[] { "Family1-Dad1.jpg", "Family1-Dad2.jpg" } },
@@ -136,23 +138,19 @@
             foreach (var targetImageFileDictionaryName in targetImageFileDictionary.Keys)
             {
                 // Create a large person group person.
-                Person p = new Person { Name = targetImageFileDictionaryName, UserData = "Person for sample" };
-                p.PersonId = (await client.LargePersonGroupPerson.CreateAsync(largePersonGroupId, p.Name)).PersonId;
-                Console.WriteLine($"Create a large person group person '{p.Name}'.");
+                Person person = new Person { Name = targetImageFileDictionaryName, UserData = "Person for sample" };
+                person.PersonId = (await client.LargePersonGroupPerson.CreateAsync(largePersonGroupId, person.Name)).PersonId;
+                Console.WriteLine($"Create a large person group person '{person.Name}'.");
 
                 foreach (var targetImageFileName in targetImageFileDictionary[targetImageFileDictionaryName])
                 {
-                    // Read target image file. 
-                    using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileDictionary[targetImageFileDictionaryName][0]), FileMode.Open))
-                    {
-                        // Add face to the large person group person.
-                        Console.WriteLine($"Add face to the large person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`.");
-                        PersistedFace face = await client.LargePersonGroupPerson.AddFaceFromStreamAsync(largePersonGroupId, p.PersonId, stream, targetImageFileName);
+                    // Add face to the large person group person.
+                    Console.WriteLine($"Add face to the large person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`.");
+                    PersistedFace face = await client.LargePersonGroupPerson.AddFaceFromUrlAsync(largePersonGroupId, person.PersonId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
 
-                        if (face == null)
-                        {
-                            throw new Exception($"No persisted face from image `{targetImageFileName}`.");
-                        }
+                    if (face == null)
+                    {
+                        throw new Exception($"No persisted face from image `{targetImageFileName}`.");
                     }
                 }
             }
@@ -180,22 +178,27 @@
 
             List<Guid> sourceFaceIds = new List<Guid>();
 
-            // Add detected faceId to sourceFaceIds.
-            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName));
-            sourceFaceIds.Add(detectedFaces[0].FaceId.Value);
+            // Detect faces from source image url.
+            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
+
+            // Add detected faceIds to sourceFaceIds.
+            foreach (var detectedFace in detectedFaces)
+            {
+                sourceFaceIds.Add(detectedFace.FaceId.Value);
+            }
 
             // Identify example of identifying faces towards large person group. 
             var identifyResults = await client.Face.IdentifyAsync(sourceFaceIds, null, largePersonGroupId);
             if (identifyResults == null)
             {
-                Console.WriteLine($"No people found in the group the same as the {sourceImageFileName}.");
+                Console.WriteLine($"No person identified in the large person group for faces from the {sourceImageFileName}.");
                 return;
             }
 
             foreach (var identifyResult in identifyResults)
             {
                 Person person = await client.LargePersonGroupPerson.GetAsync(largePersonGroupId, identifyResult.Candidates[0].PersonId);
-                Console.WriteLine($"Person '{person.Name}' is identified for faces in {sourceImageFileName}, confidence: {identifyResult.Candidates[0].Confidence}.");
+                Console.WriteLine($"Person '{person.Name}' is identified for face: {sourceImageFileName} - {identifyResult.FaceId}, confidence: {identifyResult.Candidates[0].Confidence}.");
             }
 
             // Delete the person group.

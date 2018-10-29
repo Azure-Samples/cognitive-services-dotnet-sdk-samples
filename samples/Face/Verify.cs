@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Azure.CognitiveServices.Vision.Face;
     using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
@@ -13,42 +12,42 @@
         {
             Console.WriteLine("Sample of verify face to face.");
 
-            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key))
-            {
-                Endpoint = endpoint
-            };
+            IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
 
-            List<string> targetImageFileNames =
-                new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
+            List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
             string sourceImageFileName1 = "Family1-Dad3.jpg";
             string sourceImageFileName2 = "Family1-Son1.jpg";
 
             List<Guid> targetFaceIds = new List<Guid>();
             foreach (var imageFileName in targetImageFileNames)
             {
-                // Detect faces from target image file.
-                targetFaceIds.Add((await Common.DetectedFace(client, Path.Combine("Images", imageFileName)))[0].FaceId.Value);
+                // Detect faces from target image url.
+                List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{imageFileName}");
+                targetFaceIds.Add(detectedFaces[0].FaceId.Value);
             }
 
             // Detect faces from source image file 1.
-            Guid sourceFaceId1 = ((await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName1)))[0].FaceId.Value);
+            List<DetectedFace> detectedFaces1 = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            Guid sourceFaceId1 = detectedFaces1[0].FaceId.Value;
 
             // Detect faces from source image file 2.
-            Guid sourceFaceId2 = ((await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName2)))[0].FaceId.Value);
+            List<DetectedFace> detectedFaces2 = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName2}");
+            Guid sourceFaceId2 = detectedFaces2[0].FaceId.Value;
 
             // Verification example for faces of the same person.
             VerifyResult verifyResult1 = await client.Face.VerifyFaceToFaceAsync(sourceFaceId1, targetFaceIds[0]);
             Console.WriteLine(
                 verifyResult1.IsIdentical
                     ? $"Faces from {sourceImageFileName1} & {targetImageFileNames[0]} are of the same (Positive) person, similarity confidence: {verifyResult1.Confidence}."
-                    : $"Faces from {sourceImageFileName1} & {targetImageFileNames[0]} are of different (Negative) persons, similarity confidence: {verifyResult1.Confidence}.");
+                        : $"Faces from {sourceImageFileName1} & {targetImageFileNames[0]} are of different (Negative) persons, similarity confidence: {verifyResult1.Confidence}.");
 
             // Verification example for faces of different persons.
             VerifyResult verifyResult2 = await client.Face.VerifyFaceToFaceAsync(sourceFaceId2, targetFaceIds[0]);
             Console.WriteLine(
                 verifyResult2.IsIdentical
                     ? $"Faces from {sourceImageFileName2} & {targetImageFileNames[0]} are of the same (Negative) person, similarity confidence: {verifyResult2.Confidence}."
-                    : $"Faces from {sourceImageFileName2} & {targetImageFileNames[0]} are of different (Positive) persons, similarity confidence: {verifyResult2.Confidence}.");
+                        : $"Faces from {sourceImageFileName2} & {targetImageFileNames[0]} are of different (Positive) persons, similarity confidence: {verifyResult2.Confidence}.");
 
             Console.WriteLine();
         }
@@ -65,6 +64,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
             string sourceImageFileName1 = "Family1-Dad3.jpg";
@@ -81,24 +81,21 @@
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
-                // Read target image files.
-                using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileName), FileMode.Open))
-                {
-                    // Add face to the person group. 
-                    Console.WriteLine($"Add face to the person group person({p.Name}) from image `{targetImageFileName}`.");
-                    PersistedFace faces = await client.PersonGroupPerson.AddFaceFromStreamAsync(personGroupId, p.PersonId, stream, targetImageFileName);
+                // Add face to the person group. 
+                Console.WriteLine($"Add face to the person group person({p.Name}) from image `{targetImageFileName}`.");
+                PersistedFace faces = await client.PersonGroupPerson.AddFaceFromUrlAsync(personGroupId, p.PersonId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
 
-                    if (faces == null)
-                    {
-                        throw new Exception($"No persisted face from image `{targetImageFileName}`.");
-                    }
+                if (faces == null)
+                {
+                    throw new Exception($"No persisted face from image `{targetImageFileName}`.");
                 }
             }
 
             List<Guid> faceIds = new List<Guid>();
 
             // Add detected faceId to faceIds.
-            faceIds.Add((await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName1)))[0].FaceId.Value);
+            List<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            faceIds.Add(detectedFaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.
             VerifyResult verifyResult = await client.Face.VerifyFaceToPersonAsync(faceIds[0], p.PersonId, personGroupId);
@@ -126,6 +123,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
             string sourceImageFileName1 = "Family1-Dad3.jpg";
@@ -142,24 +140,20 @@
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
-                // Read target image files.
-                using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileName), FileMode.Open))
+                // Add face to the large person group. 
+                Console.WriteLine($"Add face to the large person group person({p.Name}) from image {targetImageFileName}.");
+                PersistedFace faces = await client.LargePersonGroupPerson.AddFaceFromUrlAsync(largePersonGroupId, p.PersonId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
+                if (faces == null)
                 {
-                    // Add face to the large person group. 
-                    Console.WriteLine($"Add face to the large person group person({p.Name}) from image {targetImageFileName}.");
-                    PersistedFace faces = await client.LargePersonGroupPerson.AddFaceFromStreamAsync(largePersonGroupId, p.PersonId, stream, targetImageFileName);
-
-                    if (faces == null)
-                    {
-                        throw new Exception($"No persisted face from image `{targetImageFileName}`.");
-                    }
+                    throw new Exception($"No persisted face from image `{targetImageFileName}`.");
                 }
             }
 
             List<Guid> faceIds = new List<Guid>();
 
             // Add detected faceId to faceIds.
-            faceIds.Add((await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName1)))[0].FaceId.Value);
+            List<DetectedFace> detectedfaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName1}");
+            faceIds.Add(detectedfaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.
             VerifyResult verifyResult = await client.Face.VerifyFaceToPersonAsync(faceIds[0], p.PersonId, null, largePersonGroupId);

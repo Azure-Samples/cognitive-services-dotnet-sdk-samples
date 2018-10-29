@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Azure.CognitiveServices.Vision.Face;
@@ -19,6 +18,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
 
@@ -27,15 +27,15 @@
             IList<Guid?> targetFaceIds = new List<Guid?>();
             foreach (var targetImageFileName in targetImageFileNames)
             {
-                // Detect faces from target image files.
-                var faces = await Common.DetectedFace(client, Path.Combine("Images", targetImageFileName));
+                // Detect faces from target image url.
+                var faces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{targetImageFileName}");
 
                 // Add detected faceId to targetFaceIds.
                 targetFaceIds.Add(faces[0].FaceId.Value);
             }
 
-            // Detect faces from source image file.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName));
+            // Detect faces from source image url.
+            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to faceIds.
             IList<SimilarFace> similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, null, targetFaceIds);
@@ -46,7 +46,7 @@
 
             foreach (var similarResult in similarResults)
             {
-                Console.WriteLine($"Faces from {detectedFaces[0].FaceId} & {similarResult.FaceId} are similar with confidence: {similarResult.Confidence}.");
+                Console.WriteLine($"Faces from {sourceImageFileName} & {similarResult.FaceId} are similar with confidence: {similarResult.Confidence}.");
             }
 
             Console.WriteLine();
@@ -64,6 +64,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
 
@@ -76,29 +77,25 @@
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
-                // Read target image files.
-                using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileName), FileMode.Open))
+                // Add face to face list.
+                var faces = await client.FaceList.AddFaceFromUrlAsync(faceListId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
+                if (faces == null)
                 {
-                    // Add face to face list.
-                    var faces = await client.FaceList.AddFaceFromStreamAsync(faceListId, stream, targetImageFileName);
-                    if (faces == null)
-                    {
-                        throw new Exception($"No face detected from image `{targetImageFileName}`.");
-                    }
-
-                    Console.WriteLine($"Face from image {targetImageFileName} is successfully added to the face list.");
+                    throw new Exception($"No face detected from image `{targetImageFileName}`.");
                 }
+
+                Console.WriteLine($"Face from image {targetImageFileName} is successfully added to the face list.");
             }
 
             // Get persisted faces from the face list.
             List<PersistedFace> persistedFaces = (await client.FaceList.GetAsync(faceListId)).PersistedFaces.ToList();
             if (persistedFaces.Count == 0)
             {
-                throw new Exception($"No persisted face in face list '{ faceListId}'.");
+                throw new Exception($"No persisted face in face list '{faceListId}'.");
             }
 
-            // Detect faces from source image file.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName));
+            // Detect faces from source image url.
+            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, faceListId);
@@ -132,6 +129,7 @@
                 Endpoint = endpoint
             };
 
+            const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames =
                 new List<string> { "Family1-Dad1.jpg", "Family1-Daughter1.jpg", "Family1-Mom1.jpg", "Family1-Son1.jpg", "Family2-Lady1.jpg", "Family2-Man1.jpg", "Family3-Lady1.jpg", "Family3-Man1.jpg" };
 
@@ -144,18 +142,14 @@
 
             foreach (var targetImageFileName in targetImageFileNames)
             {
-                // Read target image files.
-                using (FileStream stream = new FileStream(Path.Combine("Images", targetImageFileName), FileMode.Open))
+                // Add face to the large face list.
+                var faces = await client.LargeFaceList.AddFaceFromUrlAsync(largeFaceListId, $"{ImageUrlPrefix}{targetImageFileName}", targetImageFileName);
+                if (faces == null)
                 {
-                    // Add face to the large face list.
-                    var faces = await client.LargeFaceList.AddFaceFromStreamAsync(largeFaceListId, stream, targetImageFileName);
-                    if (faces == null)
-                    {
-                        throw new Exception($"No face detected from image `{targetImageFileName}`.");
-                    }
-
-                    Console.WriteLine($"Face from image {targetImageFileName} is successfully added to the large face list.");
+                    throw new Exception($"No face detected from image `{targetImageFileName}`.");
                 }
+
+                Console.WriteLine($"Face from image {targetImageFileName} is successfully added to the large face list.");
             }
 
             // Start to train the large face list.
@@ -183,11 +177,11 @@
             List<PersistedFace> persistedFaces = (await client.LargeFaceList.ListFacesAsync(largeFaceListId)).ToList();
             if (persistedFaces.Count == 0)
             {
-                throw new Exception($"No persisted face in large face list '{ largeFaceListId}'.");
+                throw new Exception($"No persisted face in large face list '{largeFaceListId}'.");
             }
 
-            // Detect faces from source image file.
-            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, Path.Combine("Images", sourceImageFileName));
+            // Detect faces from source image url.
+            IList<DetectedFace> detectedFaces = await Common.DetectedFace(client, $"{ImageUrlPrefix}{sourceImageFileName}");
 
             // Find similar example of faceId to large face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, null, largeFaceListId);
