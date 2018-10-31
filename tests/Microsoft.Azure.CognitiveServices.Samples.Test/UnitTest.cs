@@ -98,6 +98,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
                         paras.Add(TestContext.Properties[paraName].ToString());
                     }
 
+                    Console.WriteLine($"{project}: {method.Name}");
+
                     if (method.ReturnType == typeof(Task))
                     {
                         await(Task)method.Invoke(null, paras.ToArray());
@@ -107,7 +109,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.Test
                         method.Invoke(null, paras.ToArray());
                     }
 
-                    Console.WriteLine(method.Name);
+                    // Delay one second to control TPS
+                    await Task.Delay(1000);
                 }
             }
 
