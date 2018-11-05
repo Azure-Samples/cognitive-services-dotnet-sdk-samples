@@ -18,7 +18,7 @@ namespace ObjectDetection
             string predictionKey = "<your prediction key here>";
 
             // Create the Api, passing in the training key
-            TrainingApi trainingApi = new TrainingApi() { ApiKey = trainingKey };
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient() { ApiKey = trainingKey };
 
             // Find the object detection domain
             var domains = trainingApi.GetDomains();
@@ -118,7 +118,7 @@ namespace ObjectDetection
             // Now there is a trained endpoint, it can be used to make a prediction
 
             // Create a prediction endpoint, passing in the obtained prediction key
-            PredictionEndpoint endpoint = new PredictionEndpoint() { ApiKey = predictionKey };
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient() { ApiKey = predictionKey };
 
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
