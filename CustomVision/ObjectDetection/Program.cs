@@ -11,6 +11,8 @@ namespace ObjectDetection
 {
     class Program
     {
+        private const string SouthCentralUsEndpoint = "https://southcentralus.api.cognitive.microsoft.com";
+
         static void Main(string[] args)
         {
             // Add your training & prediction key from the settings page of the portal
@@ -18,7 +20,11 @@ namespace ObjectDetection
             string predictionKey = "<your prediction key here>";
 
             // Create the Api, passing in the training key
-            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient() { ApiKey = trainingKey };
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            {
+                ApiKey = trainingKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Find the object detection domain
             var domains = trainingApi.GetDomains();
@@ -118,7 +124,11 @@ namespace ObjectDetection
             // Now there is a trained endpoint, it can be used to make a prediction
 
             // Create a prediction endpoint, passing in the obtained prediction key
-            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient() { ApiKey = predictionKey };
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            {
+                ApiKey = predictionKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
