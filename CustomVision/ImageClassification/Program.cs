@@ -11,6 +11,7 @@ namespace ImageClassification
 {
     class Program
     {
+        private const string SouthCentralUsEndpoint = "https://southcentralus.api.cognitive.microsoft.com";
         private static List<string> hemlockImages;
         private static List<string> japaneseCherryImages;
         private static MemoryStream testImage;
@@ -22,7 +23,11 @@ namespace ImageClassification
             string predictionKey = "<your prediction key here>";
 
             // Create the Api, passing in the training key
-            TrainingApi trainingApi = new TrainingApi() { ApiKey = trainingKey };
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            {
+                ApiKey = trainingKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Create a new project
             Console.WriteLine("Creating new project:");
@@ -70,7 +75,11 @@ namespace ImageClassification
             // Now there is a trained endpoint, it can be used to make a prediction
 
             // Create a prediction endpoint, passing in obtained prediction key
-            PredictionEndpoint endpoint = new PredictionEndpoint() { ApiKey = predictionKey };
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            {
+                ApiKey = predictionKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
