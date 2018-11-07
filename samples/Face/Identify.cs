@@ -48,6 +48,8 @@
             {
                 // Create a person group person.
                 Person person = new Person { Name = targetImageFileDictionaryName, UserData = "Person for sample" };
+                // Limit TPS
+                await Task.Delay(250);
                 person.PersonId = (await client.PersonGroupPerson.CreateAsync(personGroupId, person.Name)).PersonId;
                 Console.WriteLine($"Create a person group person '{person.Name}'.");
 
