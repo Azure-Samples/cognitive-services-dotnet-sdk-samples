@@ -11,5 +11,6 @@
     <Parameter name="TextAnalytics.key" value="" />
     <Parameter name="ComputerVision.endpoint" value="" />
     <Parameter name="ComputerVision.key" value="" />
+    <Parameter name="SpellCheck.key" value="" />
   </TestRunParameters>
 </RunSettings>
