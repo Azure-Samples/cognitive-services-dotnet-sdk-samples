@@ -11,8 +11,7 @@
             string endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // Run Sample
-            var kbSample = new KnowledgebaseCrudSample(apiKey, endpoint);
-            kbSample.Run().Wait();
+            KnowledgebaseCrudSample.Run(apiKey, endpoint).Wait();
 
             Console.WriteLine("\nPress ENTER to exit.");
             Console.ReadLine();

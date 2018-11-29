@@ -8,30 +8,24 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.CognitiveServices.Samples.QnAMaker
 {
-    public class KnowledgebaseCrudSample
+    public static class KnowledgebaseCrudSample
     {
-        private IQnAMakerClient client;
-
-        public KnowledgebaseCrudSample(string apiKey, string endpoint)
+        public static async Task Run(string key, string endpoint)
         {
-            this.client = new QnAMakerClient(new ApiKeyServiceClientCredentials(apiKey)) { Endpoint = endpoint };
-        }
-
-        public async Task Run()
-        {
+            var client = new QnAMakerClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             // Create a KB
             Console.WriteLine("Creating KB...");
-            var kbId = await this.CreateSampleKb();
+            var kbId = await CreateSampleKb(client);
             Console.WriteLine("Created KB with ID : {0}", kbId);
 
             // Update the KB
             Console.WriteLine("Updating KB...");
-            await this.UpdateKB(kbId);
+            await UpdateKB(client, kbId);
             Console.WriteLine("KB Updated.");
 
             // Publish the KB
             Console.Write("Publishing KB...");
-            await this.client.Knowledgebase.PublishAsync(kbId);
+            await client.Knowledgebase.PublishAsync(kbId);
             Console.WriteLine("KB Published.");
 
 
@@ -42,22 +36,22 @@ namespace Microsoft.Azure.CognitiveServices.Samples.QnAMaker
 
             // Delete the KB
             Console.Write("Deleting KB...");
-            await this.client.Knowledgebase.DeleteAsync(kbId);
+            await client.Knowledgebase.DeleteAsync(kbId);
             Console.WriteLine("KB Deleted.");
         }
 
-        private async Task UpdateKB(string kbId)
+        private static async Task UpdateKB(IQnAMakerClient client, string kbId)
         {
-            var updateOp = await this.client.Knowledgebase.UpdateAsync(kbId, new UpdateKbOperationDTO
+            var updateOp = await client.Knowledgebase.UpdateAsync(kbId, new UpdateKbOperationDTO
             {
                 Add = new UpdateKbOperationDTOAdd { QnaList = new List<QnADTO> { new QnADTO { Questions = new List<string> { "bye" }, Answer = "goodbye" } } }
             });
 
             // Loop while operation is success
-            updateOp = await this.MonitorOperation(updateOp);
+            updateOp = await MonitorOperation(client, updateOp);
         }
 
-        private async Task<string> CreateSampleKb()
+        private static async Task<string> CreateSampleKb(IQnAMakerClient client)
         {
             var qna = new QnADTO
             {
@@ -74,13 +68,13 @@ namespace Microsoft.Azure.CognitiveServices.Samples.QnAMaker
                 Urls = urls
             };
 
-            var createOp = await this.client.Knowledgebase.CreateAsync(createKbDto);
-            createOp = await this.MonitorOperation(createOp);
+            var createOp = await client.Knowledgebase.CreateAsync(createKbDto);
+            createOp = await MonitorOperation(client, createOp);
 
             return createOp.ResourceLocation.Replace("/knowledgebases/", string.Empty);
         }
 
-        public async Task<Operation> MonitorOperation(Operation operation)
+        private static async Task<Operation> MonitorOperation(IQnAMakerClient client, Operation operation)
         {
             // Loop while operation is success
             for (int i = 0;
