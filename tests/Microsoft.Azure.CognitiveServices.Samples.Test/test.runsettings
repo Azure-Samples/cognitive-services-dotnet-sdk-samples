@@ -12,5 +12,7 @@
     <Parameter name="ComputerVision.endpoint" value="" />
     <Parameter name="ComputerVision.key" value="" />
     <Parameter name="SpellCheck.key" value="" />
+    <Parameter name="QnAMaker.key" value="" />
+    <Parameter name="QnAMaker.key" value="" />
   </TestRunParameters>
 </RunSettings>
