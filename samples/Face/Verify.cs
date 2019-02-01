@@ -13,6 +13,7 @@
             Console.WriteLine("Sample of verify face to face.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
@@ -23,20 +24,22 @@
             foreach (var imageFileName in targetImageFileNames)
             {
                 // Detect faces from target image url.
-                List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{imageFileName}");
+                List<DetectedFace> detectedFaces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{imageFileName}", recognitionModel: recognitionModel);
                 targetFaceIds.Add(detectedFaces[0].FaceId.Value);
             }
 
             // Detect faces from source image file 1.
             List<DetectedFace> detectedFaces1 = await Common.DetectFaces(
                                                     client,
-                                                    $"{ImageUrlPrefix}{sourceImageFileName1}");
+                                                    $"{ImageUrlPrefix}{sourceImageFileName1}",
+                                                    recognitionModel: recognitionModel);
             Guid sourceFaceId1 = detectedFaces1[0].FaceId.Value;
 
             // Detect faces from source image file 2.
             List<DetectedFace> detectedFaces2 = await Common.DetectFaces(
                                                     client,
-                                                    $"{ImageUrlPrefix}{sourceImageFileName2}");
+                                                    $"{ImageUrlPrefix}{sourceImageFileName2}",
+                                                    recognitionModel: recognitionModel);
             Guid sourceFaceId2 = detectedFaces2[0].FaceId.Value;
 
             // Verification example for faces of the same person.
@@ -64,6 +67,7 @@
             Console.WriteLine("Sample of verify face to person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
@@ -72,7 +76,7 @@
             // Create a person group.
             string personGroupId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create a person group ({personGroupId}).");
-            await client.PersonGroup.CreateAsync(personGroupId, personGroupId);
+            await client.PersonGroup.CreateAsync(personGroupId, personGroupId, recognitionModel: recognitionModel);
 
             // Create a person group person.
             Person p = new Person { Name = "Dad", UserData = "Person for sample" };
@@ -100,7 +104,8 @@
             // Add detected faceId to faceIds.
             List<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                    client,
-                                                   $"{ImageUrlPrefix}{sourceImageFileName1}");
+                                                   $"{ImageUrlPrefix}{sourceImageFileName1}",
+                                                   recognitionModel: recognitionModel);
             faceIds.Add(detectedFaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.
@@ -126,6 +131,7 @@
             Console.WriteLine("Sample of verify face to large person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
@@ -134,7 +140,7 @@
             // Create a large person group.
             string largePersonGroupId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create a large person group ({largePersonGroupId}).");
-            await client.LargePersonGroup.CreateAsync(largePersonGroupId, largePersonGroupId);
+            await client.LargePersonGroup.CreateAsync(largePersonGroupId, largePersonGroupId, recognitionModel: recognitionModel);
 
             // Create a large person group person.
             Person p = new Person { Name = "Dad", UserData = "Person for sample" };
@@ -162,7 +168,8 @@
             // Add detected faceId to faceIds.
             List<DetectedFace> detectedfaces = await Common.DetectFaces(
                                                    client,
-                                                   $"{ImageUrlPrefix}{sourceImageFileName1}");
+                                                   $"{ImageUrlPrefix}{sourceImageFileName1}",
+                                                   recognitionModel: recognitionModel);
             faceIds.Add(detectedfaces[0].FaceId.Value);
 
             // Verification example for faces of the same person.

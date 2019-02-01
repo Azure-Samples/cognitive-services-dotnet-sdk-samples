@@ -13,6 +13,7 @@
             Console.WriteLine("Sample of grouping faces.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames = new List<string>
@@ -32,7 +33,8 @@
                 // Detect faces from image url.
                 IList<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                         client,
-                                                        $"{ImageUrlPrefix}{imageFileName}");
+                                                        $"{ImageUrlPrefix}{imageFileName}",
+                                                        recognitionModel: recognitionModel);
 
                 // Add detected faceId to faceIds and faces.
                 faceIds.Add(detectedFaces[0].FaceId.Value);

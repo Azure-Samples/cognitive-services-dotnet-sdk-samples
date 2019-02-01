@@ -13,6 +13,7 @@
             Console.WriteLine("Sample of face detection.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames = new List<string>
@@ -48,7 +49,8 @@
                                                                 FaceAttributeType.Noise,
                                                                 FaceAttributeType.Occlusion,
                                                                 FaceAttributeType.Smile
-                                                            });
+                                                            },
+                                                        recognitionModel: recognitionModel);
 
                 if (detectedFaces == null || detectedFaces.Count == 0)
                 {
