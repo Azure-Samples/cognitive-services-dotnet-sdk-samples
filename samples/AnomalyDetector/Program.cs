@@ -74,7 +74,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
                 Console.WriteLine("Anomaly was detected from the series at index:");
                 for (int i = 0; i < series.Count; ++i)
                 {
-                    if (result.IsAnomaly[i] == true)
+                    if (result.IsAnomaly[i])
                     {
                         Console.Write(i);
                     }
@@ -134,11 +134,11 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
             request.Sensitivity = 95;
             LastDetectResponse result = await client.LastDetectAsync(request).ConfigureAwait(false);
 
-            if (result.IsAnomaly == true)
+            if (result.IsAnomaly)
             {
                 Console.WriteLine("The latest point is detected as anomaly.");
             }
-            else if (result.IsAnomaly == false)
+            else
             {
                 Console.WriteLine("The latest point is not detected as anomaly.");
             }
