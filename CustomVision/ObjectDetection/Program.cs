@@ -116,9 +116,10 @@ namespace ObjectDetection
                 iteration = trainingApi.GetIteration(project.Id, iteration.Id);
             }
 
-            // The iteration is now trained. Make it the default project endpoint
-            iteration.IsDefault = true;
-            trainingApi.UpdateIteration(project.Id, iteration.Id, iteration);
+            // The iteration is now trained. Publish it to the prediction end point.
+            var predictionResourceId = "<target prediction resource ID>";
+            var publishedModelName = "treeClassModel";
+            trainingApi.PublishIteration(project.Id, iteration.Id, publishedModelName, predictionResourceId);
             Console.WriteLine("Done!\n");
 
             // Now there is a trained endpoint, it can be used to make a prediction
@@ -135,7 +136,7 @@ namespace ObjectDetection
             var imageFile = Path.Combine("Images", "test", "test_image.jpg");
             using (var stream = File.OpenRead(imageFile))
             {
-                var result = endpoint.PredictImage(project.Id, File.OpenRead(imageFile));
+                var result = endpoint.DetectImage(project.Id, publishedModelName, File.OpenRead(imageFile));
 
                 // Loop over each prediction and write out the results
                 foreach (var c in result.Predictions)
