@@ -16,8 +16,22 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
             string endpoint = "ENTER YOUR ENDPOINT HERE";
 
             // Anomaly detection samples.
-            EntireDetectSample.RunAsync(endpoint, apiKey).Wait();
-            LastDetectSample.RunAsync(endpoint, apiKey).Wait();
+            try
+            {
+                EntireDetectSample.RunAsync(endpoint, apiKey).Wait();
+                LastDetectSample.RunAsync(endpoint, apiKey).Wait();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                if(e.InnerException != null && e.InnerException is APIErrorException)
+                {
+                    APIError error = ((APIErrorException)e.InnerException).Body;
+                    Console.WriteLine("Error code: " + error.Code);
+                    Console.WriteLine("Error message: " + error.Message);
+                }
+            }
 
             Console.WriteLine("\nPress ENTER to exit.");
             Console.ReadLine();
@@ -77,8 +91,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
                     if (result.IsAnomaly[i])
                     {
                         Console.Write(i);
+                        Console.Write(" ");
                     }
-                    Console.Write(",");
                 }
                 Console.WriteLine();
             }
@@ -129,7 +143,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
             };
 
             // Detection
-            Request request = new Request(series, Granularity.Daily);
+            Request request = new Request(series, Granularity.Monthly);
             request.MaxAnomalyRatio = 0.25;
             request.Sensitivity = 95;
             LastDetectResponse result = await client.LastDetectAsync(request).ConfigureAwait(false);
