@@ -117,8 +117,8 @@ namespace ObjectDetection
             }
 
             // The iteration is now trained. Publish it to the prediction end point.
-            var predictionResourceId = "<target prediction resource ID>";
             var publishedModelName = "treeClassModel";
+            var predictionResourceId = "<target prediction resource ID>";
             trainingApi.PublishIteration(project.Id, iteration.Id, publishedModelName, predictionResourceId);
             Console.WriteLine("Done!\n");
 

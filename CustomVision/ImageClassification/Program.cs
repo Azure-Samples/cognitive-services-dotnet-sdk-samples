@@ -46,7 +46,7 @@ namespace ImageClassification
             {
                 using (var stream = new MemoryStream(File.ReadAllBytes(image)))
                 {
-                    trainingApi.CreateImagesFromData(project.Id, stream, new List<string>() { hemlockTag.Id.ToString() });
+                    trainingApi.CreateImagesFromData(project.Id, stream, new List<Guid>() { hemlockTag.Id });
                 }
             }
 
@@ -68,8 +68,8 @@ namespace ImageClassification
             }
 
             // The iteration is now trained. Publish it to the prediction end point.
-            var predictionResourceId = "<target prediction resource ID>";
             var publishedModelName = "treeClassModel";
+            var predictionResourceId = "<target prediction resource ID>";
             trainingApi.PublishIteration(project.Id, iteration.Id, publishedModelName, predictionResourceId);
             Console.WriteLine("Done!\n");
 
