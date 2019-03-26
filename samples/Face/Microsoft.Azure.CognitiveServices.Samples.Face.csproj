@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.1;netstandard1.4</TargetFrameworks>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.3.0-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="3.0.0-experimental" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@
             Console.WriteLine("Sample of finding similar faces in face ids.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>
@@ -75,7 +75,7 @@
             Console.WriteLine("Sample of finding similar faces in face list.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>
@@ -159,7 +159,7 @@
             Console.WriteLine("Sample of finding similar faces in large face list.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>

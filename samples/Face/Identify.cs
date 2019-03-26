@@ -13,7 +13,7 @@
             Console.WriteLine("Sample of identify faces in person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =
@@ -139,7 +139,7 @@
             Console.WriteLine("Sample of identify faces in large person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =

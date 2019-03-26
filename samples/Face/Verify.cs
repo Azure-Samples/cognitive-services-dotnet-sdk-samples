@@ -13,7 +13,7 @@
             Console.WriteLine("Sample of verify face to face.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
@@ -67,7 +67,7 @@
             Console.WriteLine("Sample of verify face to person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
@@ -131,7 +131,7 @@
             Console.WriteLine("Sample of verify face to large person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
-            RecognitionModel recognitionModel = RecognitionModel.RecognitionV02;
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
