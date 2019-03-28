@@ -61,6 +61,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(FaceGroupingPage));
 
         /// <summary>
+        /// RecognitionModel for Face detection
+        /// </summary>
+        private static readonly string recognitionModel = RecognitionModel.Recognition02;
+
+        /// <summary>
         /// Faces to group
         /// </summary>
         private ObservableCollection<Face> _faces = new ObservableCollection<Face>();
@@ -180,7 +185,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                             {
                                 try
                                 {
-                                    var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream);
+                                    var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
                                     return new Tuple<string, IList<DetectedFace>>(imgPath, faces);
                                 }
                                 catch (APIErrorException ex)

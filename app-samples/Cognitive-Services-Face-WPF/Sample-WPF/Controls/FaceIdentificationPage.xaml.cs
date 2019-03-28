@@ -64,6 +64,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(FaceIdentificationPage));
 
         /// <summary>
+        /// RecognitionModel for Face detection and LargePersonGroup
+        /// </summary>
+        private static readonly string recognitionModel = RecognitionModel.Recognition02;
+
+        /// <summary>
         /// Temporary group name for create person database
         /// </summary>
         public static readonly string SampleGroupName = Guid.NewGuid().ToString();
@@ -267,7 +272,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 MainWindow.Log("Request: Creating group \"{0}\"", GroupName);
                 try
                 {
-                    await faceServiceClient.LargePersonGroup.CreateAsync(GroupName, GroupName);
+                    await faceServiceClient.LargePersonGroup.CreateAsync(GroupName, GroupName, recognitionModel: recognitionModel);
                     MainWindow.Log("Response: Success. Group \"{0}\" created", GroupName);
                 }
                 catch (APIErrorException ex)
@@ -444,7 +449,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 {
                     try
                     {
-                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream);
+                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
 
                         // Convert detection result into UI binding object for rendering
                         foreach (var face in UIHelper.CalculateFaceRectangleForRendering(faces, MaxImageSize, imageInfo))
