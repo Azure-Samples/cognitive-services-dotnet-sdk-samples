@@ -26,6 +26,11 @@
     public class Sample
     {
         /// <summary>
+        /// RecognitionModel for Face detection and PersonGroup.
+        /// </summary>
+        private static readonly string recognitionModel = RecognitionModel.Recognition02;
+
+        /// <summary>
         /// Source endpoint in East Asia Region.
         /// </summary>
         private const string SourceEastAsiaEndpoint = "https://southeastasia.api.cognitive.microsoft.com/";
@@ -152,7 +157,7 @@
         {
             // Create a PersonGroup.
             var personGroupId = Guid.NewGuid().ToString();
-            await client.PersonGroup.CreateAsync(personGroupId, "test");
+            await client.PersonGroup.CreateAsync(personGroupId, "test", recognitionModel: recognitionModel);
             Console.WriteLine("Creating person group... Done");
             Console.WriteLine($"Person group ID: {personGroupId}\n");
 
@@ -229,7 +234,7 @@
         {
             using (var fileStream = new FileStream("data\\PersonGroup\\Daughter\\Daughter1.jpg", FileMode.Open, FileAccess.Read))
             {
-                var detectedFaces = await client.Face.DetectWithStreamAsync(fileStream);
+                var detectedFaces = await client.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel);
 
                 var result = await client.Face.IdentifyAsync(detectedFaces.Select(face => face.FaceId).Where(faceId => faceId != null).Select(faceId => faceId.Value).ToList(), personGroupId);
                 Console.WriteLine("Test identify against PersonGroup");
