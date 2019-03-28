@@ -64,6 +64,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(FaceFindSimilarPage));
 
         /// <summary>
+        /// RecognitionModel for Face detection and LargeFaceList
+        /// </summary>
+        private static readonly string recognitionModel = RecognitionModel.Recognition02;
+
+        /// <summary>
         /// Faces collection which will be used to find similar from
         /// </summary>
         private ObservableCollection<Face> _facesCollection = new ObservableCollection<Face>();
@@ -250,7 +255,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 {
                     MainWindow.Log("Request: Detecting faces in {0}", SelectedFile);
                     var faceServiceClient = FaceServiceClientHelper.GetInstance(this);
-                    IList<DetectedFace> faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream);
+                    IList<DetectedFace> faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
 
                     // Update detected faces on UI
                     foreach (var face in UIHelper.CalculateFaceRectangleForRendering(faces, MaxImageSize, imageInfo))
@@ -430,7 +435,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
 
                 MainWindow.Log("Request: Preparing, detecting faces in chosen folder.");
 
-                await faceServiceClient.LargeFaceList.CreateAsync(_largeFaceListName, _largeFaceListName, "large face list for sample");
+                await faceServiceClient.LargeFaceList.CreateAsync(_largeFaceListName, _largeFaceListName, "large face list for sample", recognitionModel);
 
                 var imageList =
                     new ConcurrentBag<string>(

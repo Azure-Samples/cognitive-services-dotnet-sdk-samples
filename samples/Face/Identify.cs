@@ -13,6 +13,7 @@
             Console.WriteLine("Sample of identify faces in person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =
@@ -42,7 +43,7 @@
             // Create a person group.
             string personGroupId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create a person group ({personGroupId}).");
-            await client.PersonGroup.CreateAsync(personGroupId, personGroupId);
+            await client.PersonGroup.CreateAsync(personGroupId, personGroupId, recognitionModel: recognitionModel);
 
             foreach (var targetImageFileDictionaryName in targetImageFileDictionary.Keys)
             {
@@ -97,7 +98,8 @@
             // Detect faces from source image url.
             List<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                    client,
-                                                   $"{ImageUrlPrefix}{sourceImageFileName}");
+                                                   $"{ImageUrlPrefix}{sourceImageFileName}",
+                                                   recognitionModel: recognitionModel);
 
             // Add detected faceId to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)
@@ -137,6 +139,7 @@
             Console.WriteLine("Sample of identify faces in large person group.");
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
+            string recognitionModel = RecognitionModel.Recognition02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =
@@ -166,7 +169,7 @@
             // Create a large person group.
             string largePersonGroupId = Guid.NewGuid().ToString();
             Console.WriteLine($"Create a large person group ({largePersonGroupId}).");
-            await client.LargePersonGroup.CreateAsync(largePersonGroupId, largePersonGroupId);
+            await client.LargePersonGroup.CreateAsync(largePersonGroupId, largePersonGroupId, recognitionModel: recognitionModel);
 
             foreach (var targetImageFileDictionaryName in targetImageFileDictionary.Keys)
             {
@@ -220,7 +223,8 @@
             // Detect faces from source image url.
             List<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                    client,
-                                                   $"{ImageUrlPrefix}{sourceImageFileName}");
+                                                   $"{ImageUrlPrefix}{sourceImageFileName}",
+                                                   recognitionModel: recognitionModel);
 
             // Add detected faceIds to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)

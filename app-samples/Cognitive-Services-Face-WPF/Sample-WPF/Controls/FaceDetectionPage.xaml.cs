@@ -51,13 +51,18 @@ namespace Microsoft.ProjectOxford.Face.Controls
     /// </summary>
     public partial class FaceDetectionPage : Page, INotifyPropertyChanged
     {
-
+        
         #region Fields
 
         /// <summary>
         /// Description dependency property
         /// </summary>
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(FaceDetectionPage));
+
+        /// <summary>
+        /// RecognitionModel for Face detection
+        /// </summary>
+        private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
         /// Face detection results in list container
@@ -252,7 +257,8 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                 FaceAttributeType.Noise,
                                 FaceAttributeType.Occlusion,
                                 FaceAttributeType.Smile
-                            }
+                            },
+                            recognitionModel
                         );
 
                         MainWindow.Log("Response: Success. Detected {0} face(s) in {1}", faces.Count, pickedImagePath);
