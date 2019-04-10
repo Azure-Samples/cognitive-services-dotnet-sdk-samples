@@ -11,7 +11,6 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
     {
         static void Main(string[] args)
         {
-            // Create a client.
             string apiKey = "ENTER YOUR KEY HERE";
             string endpoint = "ENTER YOUR ENDPOINT HERE";
 
@@ -20,7 +19,6 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
             {
                 EntireDetectSample.RunAsync(endpoint, apiKey).Wait();
                 LastDetectSample.RunAsync(endpoint, apiKey).Wait();
-
             }
             catch (Exception e)
             {
@@ -30,6 +28,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
                     APIError error = ((APIErrorException)e.InnerException).Body;
                     Console.WriteLine("Error code: " + error.Code);
                     Console.WriteLine("Error message: " + error.Message);
+                } else if (e.InnerException != null) {
+                    Console.WriteLine(e.InnerException.Message);
                 }
             }
 
