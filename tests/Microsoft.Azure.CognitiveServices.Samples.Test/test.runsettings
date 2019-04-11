@@ -14,5 +14,7 @@
     <Parameter name="SpellCheck.key" value="" />
     <Parameter name="QnAMaker.key" value="" />
     <Parameter name="QnAMaker.endpoint" value="" />
+    <Parameter name="AnomalyDetector.endpoint" value="" />
+    <Parameter name="AnomalyDetector.key" value="" />
   </TestRunParameters>
 </RunSettings>

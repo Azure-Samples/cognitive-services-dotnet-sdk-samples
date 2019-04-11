@@ -11,14 +11,14 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
     {
         static void Main(string[] args)
         {
-            string apiKey = "ENTER YOUR KEY HERE";
+            string key = "ENTER YOUR KEY HERE";
             string endpoint = "ENTER YOUR ENDPOINT HERE";
 
             // Anomaly detection samples.
             try
             {
-                EntireDetectSample.RunAsync(endpoint, apiKey).Wait();
-                LastDetectSample.RunAsync(endpoint, apiKey).Wait();
+                EntireDetectSample.RunAsync(endpoint, key).Wait();
+                LastDetectSample.RunAsync(endpoint, key).Wait();
             }
             catch (Exception e)
             {
