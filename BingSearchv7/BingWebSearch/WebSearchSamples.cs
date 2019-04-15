@@ -4,19 +4,20 @@
     using System.Linq;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
+    using Microsoft.Rest;
     using System.Collections.Generic;
 
     [SampleCollection("WebSearch")]
     public class WebSearchSamples
     {
         [Example("This will look up a single query (Xbox) and print out name and url for first web, image, news and videos results")]
-        public static void WebSearchResultTypesLookup(string subscriptionKey)
+        public static async void WebSearchResultTypesLookup(string subscriptionKey)
         {
-            var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            var client = new WebSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
            
             try
             {
-                var webData = client.Web.Search(query: "Xbox");
+                var webData = await client.Web.SearchAsync(query: "Xbox");
                 Console.WriteLine("Searched for Query# \" Xbox \"");
 
                 //WebPages
@@ -116,9 +117,9 @@
         }
 
         [Example("This will search (Best restaurants in Seattle), verify number of results and print out name and url of first result")]
-        public static void WebResultsWithCountAndOffset(string subscriptionKey)
+        public static async void WebResultsWithCountAndOffset(string subscriptionKey)
         {
-            var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            var client = new WebSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
@@ -155,7 +156,7 @@
         [Example("This will search (Microsoft) with response filters to news and print details of news")]
         public static void WebSearchWithResponseFilter(string subscriptionKey)
         {
-            var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            var client = new WebSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
@@ -195,7 +196,7 @@
         [Example("This will search (Lady Gaga) with answerCount and promote parameters and print details of answers")]
         public static void WebSearchWithAnswerCountPromoteAndSafeSearch(string subscriptionKey)
         {
-            var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            var client = new WebSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             try
             {
