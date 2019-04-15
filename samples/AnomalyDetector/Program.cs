@@ -11,8 +11,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
     {
         static void Main(string[] args)
         {
-            string key = "ENTER YOUR KEY HERE";
             string endpoint = "ENTER YOUR ENDPOINT HERE";
+            string key = "ENTER YOUR KEY HERE";
 
             // Anomaly detection samples.
             try
@@ -107,7 +107,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
     {
         public static async Task RunAsync(string endpoint, string key)
         {
-            Console.WriteLine("Sample of detecting whether the latest point in series is anomaly");
+            Console.WriteLine("Sample of detecting whether the latest point in series is anomaly.");
 
             IAnomalyDetectorClient client = new AnomalyDetectorClient(new ApiKeyServiceClientCredentials(key))
             {
