@@ -44,7 +44,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
 
     public static class Program
     {
-        private const string SubscriptionKey = "3e4ad3e73b5f45cc81c592ab6a15e68f";
+        private const string SubscriptionKey = "";
 
         static void Main(string[] args)
         {
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             var client = new TextAnalyticsClient(credentials)
             {
                 //Replace 'westus' with the correct region for your Text Analytics subscription
-                Endpoint = "https://eastus.api.cognitive.microsoft.com"
+                Endpoint = "https://westus.api.cognitive.microsoft.com"
             };
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
