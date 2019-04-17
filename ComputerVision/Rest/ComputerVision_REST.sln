@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyzeImage", "AnalyzeImage\AnalyzeImage.csproj", "{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyzeImage", "AnalyzeImage\AnalyzeImage.csproj", "{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCR", "OCR\OCR.csproj", "{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractText", "ExtractText\ExtractText.csproj", "{56159107-EC1A-46E6-BF01-0A6F28331A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

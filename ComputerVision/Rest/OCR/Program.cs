@@ -5,36 +5,36 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace AnalyzeImage
+namespace CSHttpClientSample
 {
     static class Program
     {
         // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+        const string subscriptionKey = "<Subscription Key>";
 
         // You must use the same Azure region in your REST API method as you used to
         // get your subscription keys. For example, if you got your subscription keys
-        // from the West Central US region, replace "westus" in the URL
-        // below with "westcentralus".
-
-
+        // from the West US region, replace "westcentralus" in the URL
+        // below with "westus".
+        //
+        // Free trial subscription keys are generated in the "westus" region.
+        // If you use a free trial subscription key, you shouldn't need to change
+        // this region.
         const string uriBase =
-            "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze";
+            "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/ocr";
 
         static void Main()
         {
             // Get the path and filename to process from the user.
-            Console.WriteLine("Analyze an image:");
-            Console.Write(
-                "Enter the path to the image you wish to analyze: ");
+            Console.WriteLine("Optical Character Recognition:");
+            Console.Write("Enter the path to an image with text you wish to read: ");
             string imageFilePath = Console.ReadLine();
-            //Hint: this repository has some sample images
 
             if (File.Exists(imageFilePath))
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                MakeAnalysisRequest(imageFilePath).Wait();
+                MakeOCRRequest(imageFilePath).Wait();
             }
             else
             {
@@ -45,11 +45,11 @@ namespace AnalyzeImage
         }
 
         /// <summary>
-        /// Gets the analysis of the specified image file by using
+        /// Gets the text visible in the specified image file by using
         /// the Computer Vision REST API.
         /// </summary>
-        /// <param name="">The image file to analyze.</param>
-        static async Task MakeAnalysisRequest(string imageFilePath)
+        /// <param name="imageFilePath">The image file with printed text.</param>
+        static async Task MakeOCRRequest(string imageFilePath)
         {
             try
             {
@@ -59,19 +59,12 @@ namespace AnalyzeImage
                 client.DefaultRequestHeaders.Add(
                     "Ocp-Apim-Subscription-Key", subscriptionKey);
 
-                // Request parameters. A third optional parameter is "details".
-                // Uncomment parameters that aren't required
-                string requestParameters = "visualFeatures=" +
-                    "Categories," +
-                    "Description," +
-                    "Color, " +
-                    "Tags, " +
-                    "Faces, " +
-                    "ImageType, " +
-                    "Adult , " +
-                    "Brands , " +
-                    "Objects"
-                    ;
+                // Request parameters. 
+                // The language parameter doesn't specify a language, so the 
+                // method detects it automatically.
+                // The detectOrientation parameter is set to true, so the method detects and
+                // and corrects text orientation before detecting text.
+                string requestParameters = "language=unk&detectOrientation=true";
 
                 // Assemble the URI for the REST API method.
                 string uri = uriBase + "?" + requestParameters;
