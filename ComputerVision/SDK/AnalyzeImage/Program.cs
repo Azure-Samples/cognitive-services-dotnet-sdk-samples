@@ -13,11 +13,9 @@ namespace ImageAnalyze
         // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
-        // localImagePath = @"C:\Documents\LocalImage.jpg"
-        private const string localImagePath = @"C:\Users\hakr\Documents\faces.png";
-
+        
         private const string remoteImageUrl =
-            "http://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg";
+            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample1.png";
 
         // Specify the features to return
         private static readonly List<VisualFeatureTypes> features =
@@ -35,7 +33,7 @@ namespace ImageAnalyze
             ComputerVisionClient computerVision = new ComputerVisionClient(
                 new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
-
+            
             // You must use the same region as you used to get your subscription
             // keys. For example, if you got your subscription keys from westus,
             // replace "westcentralus" with "westus".
@@ -47,6 +45,11 @@ namespace ImageAnalyze
             // Specify the Azure region
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
+
+
+            // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample1.png";
+            
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
             var t2 = AnalyzeLocalAsync(computerVision, localImagePath);
