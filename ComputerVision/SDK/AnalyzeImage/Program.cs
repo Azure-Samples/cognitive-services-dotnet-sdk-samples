@@ -49,7 +49,12 @@ namespace ImageAnalyze
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
             string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png";
-            
+            string[] allfiles = Directory.GetFiles(localImagePath);
+            foreach (var filename in allfiles)
+            {
+                Console.WriteLine(filename);
+            }
+
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
             var t2 = AnalyzeLocalAsync(computerVision, localImagePath);
