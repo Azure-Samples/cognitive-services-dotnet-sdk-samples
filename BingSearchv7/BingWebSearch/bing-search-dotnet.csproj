@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.20" />
   </ItemGroup>
 
 </Project>
