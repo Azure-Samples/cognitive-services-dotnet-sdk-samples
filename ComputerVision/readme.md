@@ -1,1 +1,1 @@
-Fill content here
+These folders are arranged in such a way that you can quickly clone the repository in Visual Studio, open the solution, change the startup project and run the quickstarts, without having to write code. Make sure you have ready the subscription key and the right endpoint.
