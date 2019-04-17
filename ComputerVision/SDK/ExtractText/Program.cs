@@ -16,9 +16,6 @@ namespace ExtractText
         private const TextRecognitionMode textRecognitionMode =
             TextRecognitionMode.Handwritten;
 
-        // localImagePath = @"C:\Documents\LocalImage.jpg"
-        private const string localImagePath = @"C:\Users\hakr\Documents\faces.png";
-
         private const string remoteImageUrl =
             "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
@@ -40,6 +37,9 @@ namespace ExtractText
 
             // Specify the Azure region
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
+            // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample2.png";
+
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = ExtractRemoteTextAsync(computerVision, remoteImageUrl);

@@ -14,7 +14,7 @@ namespace ImageOCR
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
         private const string remoteImageUrl =
-            "http://nitrix-reloaded.com/wp-content/uploads/2017/06/azurestack2_thumb.png";
+            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
 
         static void Main(string[] args)

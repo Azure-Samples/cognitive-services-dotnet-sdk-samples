@@ -15,7 +15,7 @@ namespace ImageAnalyze
 
         
         private const string remoteImageUrl =
-            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample1.png";
+            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
         // Specify the features to return
         private static readonly List<VisualFeatureTypes> features =
@@ -48,7 +48,7 @@ namespace ImageAnalyze
 
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample1.png";
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png";
             
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);

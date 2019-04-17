@@ -12,12 +12,9 @@ namespace DetectObjects
     {
         // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
-
-        // localImagePath = @"C:\Documents\LocalImage.jpg"
-        private const string localImagePath = @"C:\Users\hakr\Documents\faces.png";
-
+        
         private const string remoteImageUrl =
-            "http://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg";
+            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
   
         static void Main(string[] args)
@@ -36,6 +33,9 @@ namespace DetectObjects
 
             // Specify the Azure region
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
+
+            // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
