@@ -30,8 +30,9 @@ namespace ImageAnalyze
             ComputerVisionClient computerVision = new ComputerVisionClient(
                 new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
-            
-            // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, replace "westcentralus" with "westus". Free trial subscription keys are generated in the westcentralus region. 
+
+            // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, 
+            // replace "westcentralus" with "westus". Free trial subscription keys are generated in the westcentralus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
@@ -107,10 +108,9 @@ namespace ImageAnalyze
         private static void DisplayAdultResults(ImageAnalysis analysis)
         {
             //racy content
-            Console.WriteLine("Adult:");
-            Console.WriteLine("Adult score = {0} ({1}), racy score = {2} ({3})",
-                analysis.Adult.AdultScore, analysis.Adult.IsAdultContent,
-                analysis.Adult.RacyScore, analysis.Adult.IsRacyContent);
+            Console.WriteLine("Adult:"); 
+            Console.WriteLine("Has adult content? : {0} Confidence : {1}", analysis.Adult.IsAdultContent, analysis.Adult.AdultScore);
+            Console.WriteLine("Has racy content? : {0} Confidence : {1} ", analysis.Adult.IsRacyContent, analysis.Adult.RacyScore);
             Console.WriteLine("\n");
         }
 
@@ -171,18 +171,14 @@ namespace ImageAnalyze
             Console.WriteLine("Celebrities:");
             foreach (var category in analysis.Categories)
             {
-                if (category.Detail != null)
+                if (category.Detail?.Celebrities != null)
                 {
-                    if (category.Detail.Celebrities != null)
+                    foreach (var celeb in category.Detail.Celebrities)
                     {
-                        foreach (var celeb in category.Detail.Celebrities)
-                        {
-                            Console.WriteLine("Name: " + celeb.Name);
-                            Console.WriteLine("Bounding box: {0}, {1}, {2}, {3}",
-                                celeb.FaceRectangle.Left, celeb.FaceRectangle.Top,
-                                celeb.FaceRectangle.Height, celeb.FaceRectangle.Width);
-                            Console.WriteLine("Confidence:" + celeb.Confidence);
-                        }
+                        Console.WriteLine("Name: {0} with confidence {1} at location {2},{3},{4},{5}" , 
+                            celeb.Name, celeb.Confidence,
+                            celeb.FaceRectangle.Left, celeb.FaceRectangle.Top,
+                            celeb.FaceRectangle.Height, celeb.FaceRectangle.Width);
                     }
                 }
             }
@@ -191,17 +187,13 @@ namespace ImageAnalyze
             Console.WriteLine("Landmarks:");
             foreach (var category in analysis.Categories)
             {
-                if (category.Detail != null)
+                if (category.Detail?.Landmarks != null)
                 {
-                    if (category.Detail.Landmarks != null)
+                    foreach (var landmark in category.Detail.Landmarks)
                     {
-                        foreach (var landmark in category.Detail.Landmarks)
-                        {
-                            Console.WriteLine("Name: " + landmark.Name);
-                            Console.WriteLine("Confidence:" + landmark.Confidence);
-                        }
+                        Console.WriteLine("Name: {0} with confidence {1}" ,landmark.Name, landmark.Confidence);
                     }
-                }
+                }                
             }
             Console.WriteLine("\n");
         }
