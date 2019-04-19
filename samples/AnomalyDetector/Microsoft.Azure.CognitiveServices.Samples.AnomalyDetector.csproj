@@ -9,4 +9,10 @@
     <PackageReference Include="Microsoft.Azure.CognitiveServices.AnomalyDetector" Version="0.8.0-preview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="anomaly_detector_daily_series.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
