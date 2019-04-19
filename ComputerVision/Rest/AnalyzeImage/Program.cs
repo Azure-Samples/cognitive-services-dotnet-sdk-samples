@@ -18,15 +18,13 @@ namespace AnalyzeImage
         // below with "westcentralus".
 
 
-        const string uriBase =
-            "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze";
+        const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze";
 
         static void Main()
         {
             // Get the path and filename to process from the user.
             Console.WriteLine("Analyze an image:");
-            Console.Write(
-                "Enter the path to the image you wish to analyze: ");
+            Console.Write("Enter the path to the image you wish to analyze: ");
             string imageFilePath = Console.ReadLine();
             //Hint: this repository has some sample images
 
@@ -56,8 +54,7 @@ namespace AnalyzeImage
                 HttpClient client = new HttpClient();
 
                 // Request headers.
-                client.DefaultRequestHeaders.Add(
-                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Request parameters. A third optional parameter is "details".
                 // Uncomment parameters that aren't required
@@ -77,7 +74,6 @@ namespace AnalyzeImage
                 string uri = uriBase + "?" + requestParameters;
 
                 HttpResponseMessage response;
-
                 // Read the contents of the specified local image
                 // into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
@@ -88,8 +84,7 @@ namespace AnalyzeImage
                     // This example uses the "application/octet-stream" content type.
                     // The other content types you can use are "application/json"
                     // and "multipart/form-data".
-                    content.Headers.ContentType =
-                        new MediaTypeHeaderValue("application/octet-stream");
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
                     response = await client.PostAsync(uri, content);
@@ -99,8 +94,7 @@ namespace AnalyzeImage
                 string contentString = await response.Content.ReadAsStringAsync();
 
                 // Display the JSON response.
-                Console.WriteLine("\nResponse:\n\n{0}\n",
-                    JToken.Parse(contentString).ToString());
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
             catch (Exception e)
             {

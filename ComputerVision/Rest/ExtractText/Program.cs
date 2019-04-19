@@ -21,15 +21,13 @@ namespace CSHttpClientSample
         // Free trial subscription keys are generated in the "westus" region.
         // If you use a free trial subscription key, you shouldn't need to change
         // this region.
-        const string uriBase =
-            "https://westus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
+        const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
 
         static void Main()
         {
             // Get the path and filename to process from the user.
             Console.WriteLine("Text Recognition:");
-            Console.Write(
-                "Enter the path to an image with text you wish to read: ");
+            Console.Write("Enter the path to an image with text you wish to read: ");
             string imageFilePath = Console.ReadLine();
 
             if (File.Exists(imageFilePath))
@@ -87,8 +85,7 @@ namespace CSHttpClientSample
                     // This example uses the "application/octet-stream" content type.
                     // The other content types you can use are "application/json"
                     // and "multipart/form-data".
-                    content.Headers.ContentType =
-                        new MediaTypeHeaderValue("application/octet-stream");
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // The first REST API method, Batch Read, starts
                     // the async process to analyze the written text in the image.
@@ -100,14 +97,12 @@ namespace CSHttpClientSample
                 // returns the results of the process in the response body.
                 // The Batch Read operation does not return anything in the response body.
                 if (response.IsSuccessStatusCode)
-                    operationLocation =
-                        response.Headers.GetValues("Operation-Location").FirstOrDefault();
+                    operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
                 else
                 {
                     // Display the JSON error data.
                     string errorString = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("\n\nResponse:\n{0}\n",
-                        JToken.Parse(errorString).ToString());
+                    Console.WriteLine("\n\nResponse:\n{0}\n", JToken.Parse(errorString).ToString());
                     return;
                 }
 
@@ -135,8 +130,7 @@ namespace CSHttpClientSample
                 }
 
                 // Display the JSON response.
-                Console.WriteLine("\nResponse:\n\n{0}\n",
-                    JToken.Parse(contentString).ToString());
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
             catch (Exception e)
             {

@@ -20,8 +20,7 @@ namespace CSHttpClientSample
         // Free trial subscription keys are generated in the "westus" region.
         // If you use a free trial subscription key, you shouldn't need to change
         // this region.
-        const string uriBase =
-            "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/ocr";
+        const string uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/ocr";
 
         static void Main()
         {
@@ -56,8 +55,7 @@ namespace CSHttpClientSample
                 HttpClient client = new HttpClient();
 
                 // Request headers.
-                client.DefaultRequestHeaders.Add(
-                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Request parameters. 
                 // The language parameter doesn't specify a language, so the 
@@ -70,7 +68,6 @@ namespace CSHttpClientSample
                 string uri = uriBase + "?" + requestParameters;
 
                 HttpResponseMessage response;
-
                 // Read the contents of the specified local image
                 // into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
@@ -81,8 +78,7 @@ namespace CSHttpClientSample
                     // This example uses the "application/octet-stream" content type.
                     // The other content types you can use are "application/json"
                     // and "multipart/form-data".
-                    content.Headers.ContentType =
-                        new MediaTypeHeaderValue("application/octet-stream");
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
                     response = await client.PostAsync(uri, content);
@@ -92,8 +88,7 @@ namespace CSHttpClientSample
                 string contentString = await response.Content.ReadAsStringAsync();
 
                 // Display the JSON response.
-                Console.WriteLine("\nResponse:\n\n{0}\n",
-                    JToken.Parse(contentString).ToString());
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
             catch (Exception e)
             {
