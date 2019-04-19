@@ -10,10 +10,7 @@ namespace ImageAnalyze
 {
     class Program
     {
-        // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
-        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
-
-        
+        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";  //change this with your subscription key
         private const string remoteImageUrl =
             "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
@@ -34,26 +31,11 @@ namespace ImageAnalyze
                 new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
             
-            // You must use the same region as you used to get your subscription
-            // keys. For example, if you got your subscription keys from westus,
-            // replace "westcentralus" with "westus".
-            //
-            // Free trial subscription keys are generated in the westcentralus
-            // region. If you use a free trial subscription key, you shouldn't
-            // need to change the region.
-
-            // Specify the Azure region
+            // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, replace "westcentralus" with "westus". Free trial subscription keys are generated in the westcentralus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
-
-
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png";
-            string[] allfiles = Directory.GetFiles(localImagePath);
-            foreach (var filename in allfiles)
-            {
-                Console.WriteLine(filename);
-            }
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png"; 
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
@@ -65,19 +47,37 @@ namespace ImageAnalyze
         }
 
         // Analyze a remote image
-        private static async Task AnalyzeRemoteAsync(
-            ComputerVisionClient computerVision, string imageUrl)
+        private static async Task AnalyzeRemoteAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
-                Console.WriteLine(
-                    "\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
+                Console.WriteLine("\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
                 return;
             }
 
-            ImageAnalysis analysis =
-                await computerVision.AnalyzeImageAsync(imageUrl, features);
-            Console.WriteLine(imageUrl);
+            ImageAnalysis analysis = await computerVision.AnalyzeImageAsync(imageUrl, features);
+            DisplayResults(analysis,imageUrl);
+        }
+
+        // Analyze a local image
+        private static async Task AnalyzeLocalAsync(ComputerVisionClient computerVision, string imagePath)
+        {
+            if (!File.Exists(imagePath))
+            {
+                Console.WriteLine("\nUnable to open or read localImagePath:\n{0} \n", imagePath);
+                return;
+            }
+
+            using (Stream imageStream = File.OpenRead(imagePath))
+            {
+                ImageAnalysis analysis = await computerVision.AnalyzeImageInStreamAsync(imageStream, features);
+                DisplayResults(analysis,imagePath);
+            }
+        }
+
+        private static void DisplayResults(ImageAnalysis analysis, string imagePath)
+        {
+            Console.WriteLine(imagePath);
             DisplayImageDescription(analysis);
             DisplayImageCategoryResults(analysis);
             DisplayTagResults(analysis);
@@ -90,41 +90,10 @@ namespace ImageAnalyze
             DisplayImageTypeResults(analysis);
         }
 
-        // Analyze a local image
-        private static async Task AnalyzeLocalAsync(
-            ComputerVisionClient computerVision, string imagePath)
-        {
-            if (!File.Exists(imagePath))
-            {
-                Console.WriteLine(
-                    "\nUnable to open or read localImagePath:\n{0} \n", imagePath);
-                return;
-            }
-
-            using (Stream imageStream = File.OpenRead(imagePath))
-            {
-                ImageAnalysis analysis = await computerVision.AnalyzeImageInStreamAsync(
-                    imageStream, features);
-
-                Console.WriteLine(imagePath);
-                DisplayImageDescription(analysis);
-                DisplayImageCategoryResults(analysis);
-                DisplayTagResults(analysis);
-                DisplayObjectDetectionResults(analysis);
-                DisplayFaceResults(analysis);
-                DisplayBrandDetectionResults(analysis);
-                DisplayAdultResults(analysis);
-                DisplayColorSchemeResults(analysis);
-                DisplayDomainSpecificResults(analysis);
-                DisplayImageTypeResults(analysis);
-
-            }
-        }
-
         private static void DisplayFaceResults(ImageAnalysis analysis)
         {
             //faces
-            Console.WriteLine("faces:");
+            Console.WriteLine("Faces:");
             foreach (var face in analysis.Faces)
             {
                 Console.WriteLine("A {0} of age {1} at location {2},{3},{4},{5}", face.Gender, face.Age,
@@ -138,7 +107,7 @@ namespace ImageAnalyze
         private static void DisplayAdultResults(ImageAnalysis analysis)
         {
             //racy content
-            Console.WriteLine("racy content:");
+            Console.WriteLine("Adult:");
             Console.WriteLine("Adult score = {0} ({1}), racy score = {2} ({3})",
                 analysis.Adult.AdultScore, analysis.Adult.IsAdultContent,
                 analysis.Adult.RacyScore, analysis.Adult.IsRacyContent);
@@ -148,7 +117,7 @@ namespace ImageAnalyze
         private static void DisplayTagResults(ImageAnalysis analysis)
         {
             //image tags
-            Console.WriteLine("tags, confidence:");
+            Console.WriteLine("Tags, Confidence:");
             foreach (var tag in analysis.Tags)
             {
                 Console.WriteLine("{0} ({1})", tag.Name, tag.Confidence);
@@ -159,7 +128,7 @@ namespace ImageAnalyze
         private static void DisplayImageDescription(ImageAnalysis analysis)
         {
             //captioning
-            Console.WriteLine("captions:");
+            Console.WriteLine("Captions:");
             foreach (var caption in analysis.Description.Captions)
             {
                 Console.WriteLine("{0} (confidence = {1})",
@@ -171,7 +140,7 @@ namespace ImageAnalyze
         private static void DisplayObjectDetectionResults(ImageAnalysis analysis)
         {
             //objects
-            Console.WriteLine("objects:");
+            Console.WriteLine("Objects:");
             foreach (var obj in analysis.Objects)
             {
                 Console.WriteLine("{0} with confidence {1} at location {2},{3},{4},{5}",
@@ -185,7 +154,7 @@ namespace ImageAnalyze
         private static void DisplayBrandDetectionResults(ImageAnalysis analysis)
         {
             //brands
-            Console.WriteLine("brands:");
+            Console.WriteLine("Brands:");
             foreach (var brand in analysis.Brands)
             {
                 Console.WriteLine("Logo of {0} with confidence {1} at location {2},{3},{4},{5}",
@@ -234,28 +203,29 @@ namespace ImageAnalyze
                     }
                 }
             }
-
             Console.WriteLine("\n");
         }
 
         private static void DisplayColorSchemeResults(ImageAnalysis analysis)
         {
             //color scheme
-            Console.WriteLine("color:\n");
+            Console.WriteLine("Color Scheme:");
             Console.WriteLine("Is black and white?:" + analysis.Color.IsBWImg);
             Console.WriteLine("Accent color:" + analysis.Color.AccentColor);
             Console.WriteLine("Dominant background color:" + analysis.Color.DominantColorBackground);
             Console.WriteLine("Dominant foreground color:" + analysis.Color.DominantColorForeground);
-            Console.WriteLine("dominant colors:");
+            Console.WriteLine("Dominant colors:");
             foreach (var color in analysis.Color.DominantColors)
-            { Console.WriteLine(color); }
+            {
+                Console.WriteLine(color);
+            }
             Console.WriteLine("\n");
         }
 
         private static void DisplayImageCategoryResults(ImageAnalysis analysis)
         {
             //categorize
-            Console.WriteLine("categories:\n");
+            Console.WriteLine("Categories:\n");
             foreach (var category in analysis.Categories)
             {
                 Console.WriteLine("{0} with confidence {1}",
@@ -267,35 +237,10 @@ namespace ImageAnalyze
         private static void DisplayImageTypeResults(ImageAnalysis analysis)
         {
             //image types
-            Console.WriteLine("image type:\nClip art score:");
-
-            if (analysis.ImageType.ClipArtType == 0)
-            {
-                Console.WriteLine("non clip-art");
-            }
-            else if (analysis.ImageType.ClipArtType == 1)
-            {
-                Console.WriteLine("ambiguous");
-            }
-            else if (analysis.ImageType.ClipArtType == 2)
-            {
-                Console.WriteLine("normal clip-art");
-            }
-            else if (analysis.ImageType.ClipArtType == 3)
-            {
-                Console.WriteLine("good clip-art");
-            }
-
-            if (analysis.ImageType.LineDrawingType == 0)
-            {
-                Console.WriteLine("Is not line drawing");
-            }
-            else if (analysis.ImageType.LineDrawingType == 0)
-            {
-                Console.WriteLine("Is line drawing");
-            }
+            Console.WriteLine("Image Type:"); //please look at the API documentation to know more about what the scores mean
+            Console.WriteLine("Clip art score : " + analysis.ImageType.ClipArtType); 
+            Console.WriteLine("Line drawing score : " + analysis.ImageType.LineDrawingType);
             Console.WriteLine("\n");
-
         }
     }
 }
