@@ -11,24 +11,22 @@ namespace ImageAnalyze
     class Program
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";  //change this with your subscription key
-        private const string remoteImageUrl =
-            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
+        private const string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
         // Specify the features to return
         private static readonly List<VisualFeatureTypes> features =
             new List<VisualFeatureTypes>()
-        {
+            {
             VisualFeatureTypes.Categories, VisualFeatureTypes.Description,
             VisualFeatureTypes.Faces, VisualFeatureTypes.ImageType,
             VisualFeatureTypes.Tags, VisualFeatureTypes.Adult,
             VisualFeatureTypes.Color, VisualFeatureTypes.Brands,
             VisualFeatureTypes.Objects
-        };
+            };
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(
-                new ApiKeyServiceClientCredentials(subscriptionKey),
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
 
             // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, 

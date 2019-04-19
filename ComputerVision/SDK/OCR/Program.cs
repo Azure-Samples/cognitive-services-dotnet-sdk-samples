@@ -10,17 +10,13 @@ namespace ImageOCR
 {
     class Program
     {
-        // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
-        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; //replace with your obtained key
 
-        private const string remoteImageUrl =
-            "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
-
+        private const string remoteImageUrl ="https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(
-                new ApiKeyServiceClientCredentials(subscriptionKey),
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
 
             // You must use the same region as you used to get your subscription
@@ -38,8 +34,7 @@ namespace ImageOCR
 
         // Analyze a remote image
         
-        private static async Task OcrRemoteAsync(
-            ComputerVisionClient computerVision, string imageUrl)
+        private static async Task OcrRemoteAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -48,8 +43,7 @@ namespace ImageOCR
                 return;
             }
 
-            OcrResult analysis =
-                await computerVision.RecognizePrintedTextAsync(true, imageUrl);
+            OcrResult analysis = await computerVision.RecognizePrintedTextAsync(true, imageUrl);
             Console.WriteLine(imageUrl);
             DisplayResults(analysis);
         }
@@ -58,21 +52,21 @@ namespace ImageOCR
         private static void DisplayResults(OcrResult analysis)
         {
             //text
-            Console.WriteLine("text:");
+            Console.WriteLine("Text:");
             Console.WriteLine("Language : " + analysis.Language);
             Console.WriteLine("Text Angle : " + analysis.TextAngle);
             Console.WriteLine("Orientation : " + analysis.Orientation);
             Console.WriteLine("Text regions :");
             foreach (var region in analysis.Regions)
             {
-                Console.WriteLine("region bounding box = " + region.BoundingBox);
+                Console.WriteLine("Region bounding box = " + region.BoundingBox);
                 foreach (var line in region.Lines)
                 {
-                    Console.WriteLine("line bounding box = " + line.BoundingBox);
+                    Console.WriteLine("Line bounding box = " + line.BoundingBox);
 
                     foreach (var word in line.Words)
                     {
-                        Console.WriteLine("word bounding box = " + word.BoundingBox);
+                        Console.WriteLine("Word bounding box = " + word.BoundingBox);
                         Console.WriteLine("Text = " + word.Text);
                     }
                     Console.WriteLine("\n");

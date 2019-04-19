@@ -13,18 +13,15 @@ namespace ExtractText
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
         // For printed text, change to TextRecognitionMode.Printed
-        private const TextRecognitionMode textRecognitionMode =
-            TextRecognitionMode.Handwritten;
+        private const TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
 
-        private const string remoteImageUrl =
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
+        private const string remoteImageUrl ="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
         private const int numberOfCharsInOperationId = 36;
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(
-                new ApiKeyServiceClientCredentials(subscriptionKey),
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey),
                 new System.Net.Http.DelegatingHandler[] { });
 
             // You must use the same region as you used to get your subscription
@@ -51,8 +48,7 @@ namespace ExtractText
         }
 
         // Read text from a remote image
-        private static async Task ExtractRemoteTextAsync(
-            ComputerVisionClient computerVision, string imageUrl)
+        private static async Task ExtractRemoteTextAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -70,8 +66,7 @@ namespace ExtractText
         }
 
         // Recognize text from a local image
-        private static async Task ExtractLocalTextAsync(
-            ComputerVisionClient computerVision, string imagePath)
+        private static async Task ExtractLocalTextAsync(ComputerVisionClient computerVision, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
@@ -84,8 +79,7 @@ namespace ExtractText
             {
                 // Start the async process to recognize the text
                 BatchReadFileInStreamHeaders textHeaders =
-                    await computerVision.BatchReadFileInStreamAsync(
-                        imageStream, textRecognitionMode);
+                    await computerVision.BatchReadFileInStreamAsync(imageStream, textRecognitionMode);
 
                 await GetTextAsync(computerVision, textHeaders.OperationLocation);
             }
@@ -100,7 +94,6 @@ namespace ExtractText
             string operationId = operationLocation.Substring(
                 operationLocation.Length - numberOfCharsInOperationId);
 
-            Console.WriteLine("\nCalling GetHandwritingRecognitionOperationResultAsync()");
             ReadOperationResult result =
                 await computerVision.GetReadOperationResultAsync(operationId);
 
