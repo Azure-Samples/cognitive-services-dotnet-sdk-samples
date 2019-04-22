@@ -130,13 +130,45 @@ namespace Microsoft.ProjectOxford.Face.Controls
 
             foreach (var face in faces)
             {
+                var Left = (int)((face.FaceRectangle.Left * scale) + uiXOffset);
+                var Top = (int)((face.FaceRectangle.Top * scale) + uiYOffset);
+
+                // FaceAngle use for roate face Rect, default is 0(no rotate).
+                double FaceAngle = 0;
+
+                // If there has headpose attributes, will re-calculate the left/top(X/Y) position.
+                if (face.FaceAttributes?.HeadPose != null)
+                {
+                    // Headpose's roll value act directly on face angle. 
+                    FaceAngle = face.FaceAttributes.HeadPose.Roll;
+                    var angleToPi = Math.Abs((FaceAngle / 180) * Math.PI);
+
+                    // _____       | / \ |
+                    // |____|  =>  |/   /|
+                    //             | \ / |
+                    // re-calculate the face Rect left/top(X/Y) position.
+                    var newLeft = face.FaceRectangle.Left +
+                        face.FaceRectangle.Width / 2 -
+                        (face.FaceRectangle.Width * Math.Sin(angleToPi) + face.FaceRectangle.Height * Math.Cos(angleToPi)) / 2;
+
+                    var newTop = face.FaceRectangle.Top +
+                        face.FaceRectangle.Height / 2 -
+                        (face.FaceRectangle.Height * Math.Sin(angleToPi) + face.FaceRectangle.Width * Math.Cos(angleToPi)) / 2;
+
+                    Left = (int)((newLeft * scale) + uiXOffset);
+                    Top = (int)((newTop * scale) + uiYOffset);
+                }
+
                 yield return new Face()
                 {
                     FaceId = face.FaceId?.ToString(),
-                    Left = (int)((face.FaceRectangle.Left * scale) + uiXOffset),
-                    Top = (int)((face.FaceRectangle.Top * scale) + uiYOffset),
+                    Left = Left,
+                    Top = Top,
+                    OriginalLeft = (int)((face.FaceRectangle.Left * scale) + uiXOffset),
+                    OriginalTop = (int)((face.FaceRectangle.Top * scale) + uiYOffset),
                     Height = (int)(face.FaceRectangle.Height * scale),
                     Width = (int)(face.FaceRectangle.Width * scale),
+                    FaceAngle = FaceAngle,
                 };
             }
         }

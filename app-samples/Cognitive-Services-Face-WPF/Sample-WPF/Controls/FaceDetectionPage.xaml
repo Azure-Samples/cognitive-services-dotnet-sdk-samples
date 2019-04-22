@@ -47,12 +47,12 @@
             <ColumnDefinition Width="314" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="54" />
+            <RowDefinition Height="64" />
             <RowDefinition Height="45" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Text="{Binding FaceDetectionDescription}" TextWrapping="Wrap"></TextBlock>
-        <Grid Width="300" Height="300" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top">
+        <Grid Width="300" Height="300" Grid.Column="0" Grid.Row="3" VerticalAlignment="Top">
             <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ResultCollection, ElementName=FaceDetectionPane}" Panel.ZIndex="999" Height="{Binding MaxImageSize, ElementName=FaceDetectionPane}" Width="{Binding MaxImageSize, ElementName=FaceDetectionPane}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -67,7 +67,11 @@
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="#FF26B8F4" StrokeThickness="1" />
+                        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="#FF26B8F4" StrokeThickness="1">
+                            <Rectangle.LayoutTransform>
+                                <RotateTransform CenterX="-0.5" CenterY="-0.5" Angle="{Binding FaceAngle}"/>
+                            </Rectangle.LayoutTransform>
+                        </Rectangle>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -84,109 +88,110 @@
                 </Image.Style>
             </Image>
         </Grid>
+        <CheckBox Grid.Column="0" Grid.Row="1" Margin="0,-20" IsChecked="{Binding DrawHeadPose, ElementName=FaceDetectionPane}" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Draw Headpose"/>
         <Button Grid.Column="0" Grid.Row="1" Content="Choose Image" Width="300" Height="35" Background="#2196f3" Foreground="White" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 0, 0, 0" Click="ImagePicker_Click"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding DetectedResultsInText, ElementName=FaceDetectionPane}" />
         <ListView Grid.Row="2" Grid.Column="2" ItemsSource="{Binding DetectedFaces, ElementName=FaceDetectionPane}" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="340">
             <ListView.Style>
-                    <Style TargetType="ListView">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.Style>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel MaxWidth="314" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="-3, 5, 5, 5" Width="285" Height="160">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64" />
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Image Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Width="64" Height="64">
-                                <Image.Source>
-                                    <CroppedBitmap Source="{Binding ImageFile}" SourceRect="{Binding UIRect}" />
-                                </Image.Source>
-                            </Image>
-                            <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Gender}" />
-                            <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Age}" />
-                            <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Hair}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding FacialHair}" />
-                            <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Makeup}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Emotion}" />
-                            <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding ForeheadOcclusion}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Blur}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding EyeOcclusion}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="4" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Exposure}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding MouthOcclusion}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="5" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Noise}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="6" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Glasses}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="7" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding HeadPose}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="8" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Binding Accessories}"/>
+                <Style TargetType="ListView">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel MaxWidth="314" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="-3, 5, 5, 5" Width="285" Height="160">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Width="64" Height="64">
+                            <Image.Source>
+                                <CroppedBitmap Source="{Binding ImageFile}" SourceRect="{Binding UIRect}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Gender}" />
+                        <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Age}" />
+                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Hair}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding FacialHair}" />
+                        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Makeup}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Emotion}" />
+                        <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding ForeheadOcclusion}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Blur}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding EyeOcclusion}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="4" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Exposure}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding MouthOcclusion}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="5" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Noise}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="6" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Glasses}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="7" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding HeadPose}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="8" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Binding Accessories}"/>
                     </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Transparent"/>
-                            </Trigger>
-                        </Style.Triggers>
-                        <Setter Property="Focusable" Value="False" />
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                        <Setter Property="Padding" Value="0"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="true">
-                                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-                                        </Trigger>
-                                        <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                                <Condition Property="IsSelected" Value="true"/>
-                                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-                                        </MultiTrigger>
-                                        <Trigger Property="IsEnabled" Value="false">
-                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListView>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="Focusable" Value="False" />
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="true"/>
+                                            <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>
