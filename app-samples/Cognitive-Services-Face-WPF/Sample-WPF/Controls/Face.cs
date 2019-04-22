@@ -377,7 +377,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         }
 
         /// <summary>
-        /// Gets or sets face Angle
+        /// Gets or sets face angle
         /// </summary>
         public double FaceAngle
         {
@@ -394,7 +394,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating the head pose value.
+        /// Gets or sets a value indicating the head pose value
         /// </summary>
         public string HeadPose
         {

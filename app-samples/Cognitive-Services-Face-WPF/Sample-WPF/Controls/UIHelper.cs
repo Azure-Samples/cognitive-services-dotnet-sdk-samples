@@ -133,20 +133,20 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 var Left = (int)((face.FaceRectangle.Left * scale) + uiXOffset);
                 var Top = (int)((face.FaceRectangle.Top * scale) + uiYOffset);
 
-                // FaceAngle use for roate face Rect, default is 0(no rotate).
+                // FaceAngle used for rotating face rectangles, default value is 0 (not rotated).
                 double FaceAngle = 0;
 
                 // If there has headpose attributes, will re-calculate the left/top(X/Y) position.
                 if (face.FaceAttributes?.HeadPose != null)
                 {
-                    // Headpose's roll value act directly on face angle. 
+                    // Headpose's roll value acts directly as the face angle.
                     FaceAngle = face.FaceAttributes.HeadPose.Roll;
                     var angleToPi = Math.Abs((FaceAngle / 180) * Math.PI);
 
                     // _____       | / \ |
                     // |____|  =>  |/   /|
                     //             | \ / |
-                    // re-calculate the face Rect left/top(X/Y) position.
+                    // re-calculate the face rectangle left/top(X/Y) position.
                     var newLeft = face.FaceRectangle.Left +
                         face.FaceRectangle.Width / 2 -
                         (face.FaceRectangle.Width * Math.Sin(angleToPi) + face.FaceRectangle.Height * Math.Cos(angleToPi)) / 2;

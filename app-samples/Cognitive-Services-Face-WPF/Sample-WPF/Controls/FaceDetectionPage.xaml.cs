@@ -80,7 +80,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private ObservableCollection<Face> _resultCollection = new ObservableCollection<Face>();
 
         /// <summary>
-        /// Headpose results container
+        /// Container of face detection results with faces rotated by head poses
         /// </summary>
         private ObservableCollection<Face> _resultCollectionWithHeadpose = new ObservableCollection<Face>();
 
@@ -90,7 +90,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private ImageSource _selectedFile;
 
         /// <summary>
-        /// Whether draw headpose
+        /// Whether to draw rectangles rotated by head poses
         /// </summary>
         private bool _drawHeadPose;
 
@@ -209,7 +209,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         }
 
         /// <summary>
-        /// Set whether to draw headpose in face Rect.
+        /// Sets whether to draw face rectangles rotated by head poses.
         /// </summary>
         public bool DrawHeadPose
         {
@@ -217,7 +217,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
             {
                 _drawHeadPose = value;
 
-                // Update face Rect here.
+                // Update face rectangles.
                 if (_drawHeadPose)
                 {
                     for (int i = 0; i < ResultCollection.Count; i++)
