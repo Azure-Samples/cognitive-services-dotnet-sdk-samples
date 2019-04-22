@@ -26,8 +26,7 @@ namespace ImageAnalyze
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey),
-                new System.Net.Http.DelegatingHandler[] { });
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, 
             // replace "westcentralus" with "westus". Free trial subscription keys are generated in the westcentralus region. 

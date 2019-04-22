@@ -15,18 +15,11 @@ namespace DetectObjects
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey), 
-                new System.Net.Http.DelegatingHandler[] { });
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region as you used to get your subscription
-            // keys. For example, if you got your subscription keys from westus,
-            // replace "westcentralus" with "westus".
-            // Free trial subscription keys are generated in the westcentralus
-            // region. If you use a free trial subscription key, you shouldn't
-            // need to change the region.
-            
+            // You must use the same region as you used to get your subscription keys.            
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
-
+            
             // localImagePath = @"C:\Documents\LocalImage.jpg"
             string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
 
