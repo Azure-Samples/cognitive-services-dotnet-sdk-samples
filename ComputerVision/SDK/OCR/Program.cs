@@ -27,19 +27,19 @@ namespace ImageOCR
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             Console.WriteLine("Images being analyzed ...");
-            OcrRemoteAsync(computerVision, remoteImageUrl).Wait(5000);
+            OCRFromUrlAsync(computerVision, remoteImageUrl).Wait(5000);
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
 
         // Analyze a remote image
         
-        private static async Task OcrRemoteAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task OCRFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
                 Console.WriteLine(
-                    "\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
+                    "\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
@@ -53,21 +53,21 @@ namespace ImageOCR
         {
             //text
             Console.WriteLine("Text:");
-            Console.WriteLine("Language : " + analysis.Language);
-            Console.WriteLine("Text Angle : " + analysis.TextAngle);
-            Console.WriteLine("Orientation : " + analysis.Orientation);
-            Console.WriteLine("Text regions :");
+            Console.WriteLine("Language: " + analysis.Language);
+            Console.WriteLine("Text Angle: " + analysis.TextAngle);
+            Console.WriteLine("Orientation: " + analysis.Orientation);
+            Console.WriteLine("Text regions: ");
             foreach (var region in analysis.Regions)
             {
-                Console.WriteLine("Region bounding box = " + region.BoundingBox);
+                Console.WriteLine("Region bounding box: " + region.BoundingBox);
                 foreach (var line in region.Lines)
                 {
-                    Console.WriteLine("Line bounding box = " + line.BoundingBox);
+                    Console.WriteLine("Line bounding box: " + line.BoundingBox);
 
                     foreach (var word in line.Words)
                     {
-                        Console.WriteLine("Word bounding box = " + word.BoundingBox);
-                        Console.WriteLine("Text = " + word.Text);
+                        Console.WriteLine("Word bounding box: " + word.BoundingBox);
+                        Console.WriteLine("Text: " + word.Text);
                     }
                     Console.WriteLine("\n");
                 }

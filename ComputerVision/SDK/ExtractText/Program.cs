@@ -39,8 +39,8 @@ namespace ExtractText
 
 
             Console.WriteLine("Images being analyzed ...");
-            var t1 = ExtractRemoteTextAsync(computerVision, remoteImageUrl);
-            var t2 = ExtractLocalTextAsync(computerVision, localImagePath);
+            var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl);
+            var t2 = ExtractTextFromStreamAsync(computerVision, localImagePath);
 
             Task.WhenAll(t1, t2).Wait(5000);
             Console.WriteLine("Press ENTER to exit");
@@ -48,39 +48,34 @@ namespace ExtractText
         }
 
         // Read text from a remote image
-        private static async Task ExtractRemoteTextAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
                 Console.WriteLine(
-                    "\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
+                    "\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
             // Start the async process to read the text
-            BatchReadFileHeaders textHeaders =
-                await computerVision.BatchReadFileAsync(
-                    imageUrl, textRecognitionMode);
-
+            BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl, textRecognitionMode);
             await GetTextAsync(computerVision, textHeaders.OperationLocation);
         }
 
         // Recognize text from a local image
-        private static async Task ExtractLocalTextAsync(ComputerVisionClient computerVision, string imagePath)
+        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
                 Console.WriteLine(
-                    "\nUnable to open or read localImagePath:\n{0} \n", imagePath);
+                    "\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
 
             using (Stream imageStream = File.OpenRead(imagePath))
             {
                 // Start the async process to recognize the text
-                BatchReadFileInStreamHeaders textHeaders =
-                    await computerVision.BatchReadFileInStreamAsync(imageStream, textRecognitionMode);
-
+                BatchReadFileInStreamHeaders textHeaders = await computerVision.BatchReadFileInStreamAsync(imageStream, textRecognitionMode);
                 await GetTextAsync(computerVision, textHeaders.OperationLocation);
             }
         }
@@ -91,11 +86,9 @@ namespace ExtractText
         {
             // Retrieve the URI where the recognized text will be
             // stored from the Operation-Location header
-            string operationId = operationLocation.Substring(
-                operationLocation.Length - numberOfCharsInOperationId);
+            string operationId = operationLocation.Substring(operationLocation.Length - numberOfCharsInOperationId);
 
-            ReadOperationResult result =
-                await computerVision.GetReadOperationResultAsync(operationId);
+            ReadOperationResult result = await computerVision.GetReadOperationResultAsync(operationId);
 
             // Wait for the operation to complete
             int i = 0;
@@ -103,10 +96,8 @@ namespace ExtractText
             while ((result.Status == TextOperationStatusCodes.Running ||
                     result.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries)
             {
-                Console.WriteLine(
-                    "Server status: {0}, waiting {1} seconds...", result.Status, i);
+                Console.WriteLine("Server status: {0}, waiting {1} seconds...", result.Status, i);
                 await Task.Delay(1000);
-
                 result = await computerVision.GetReadOperationResultAsync(operationId);
             }
 

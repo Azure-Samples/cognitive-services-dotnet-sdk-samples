@@ -31,8 +31,8 @@ namespace DetectObjects
             string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
 
             Console.WriteLine("Images being analyzed ...");
-            var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
-            var t2 = AnalyzeLocalAsync(computerVision, localImagePath);
+            var t1 = DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);
+            var t2 = DetectObjectsFromStreamAsync(computerVision, localImagePath);
 
             Task.WhenAll(t1, t2).Wait(5000);
             Console.WriteLine("Press ENTER to exit");
@@ -40,11 +40,11 @@ namespace DetectObjects
         }
 
         // Analyze a remote image
-        private static async Task AnalyzeRemoteAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task DetectObjectsFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
-                Console.WriteLine("\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
@@ -55,11 +55,11 @@ namespace DetectObjects
         }
 
         // Analyze a local image
-        private static async Task AnalyzeLocalAsync(ComputerVisionClient computerVision, string imagePath)
+        private static async Task DetectObjectsFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
-                Console.WriteLine("\nUnable to open or read localImagePath:\n{0} \n", imagePath);
+                Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
 

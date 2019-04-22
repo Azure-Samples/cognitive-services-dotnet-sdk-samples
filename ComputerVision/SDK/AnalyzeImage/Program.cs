@@ -50,12 +50,12 @@ namespace ImageAnalyze
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
-                Console.WriteLine("\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
             ImageAnalysis analysis = await computerVision.AnalyzeImageAsync(imageUrl, features);
-            DisplayResults(analysis,imageUrl);
+            DisplayResults(analysis, imageUrl);
         }
 
         // Analyze a local image
@@ -63,14 +63,14 @@ namespace ImageAnalyze
         {
             if (!File.Exists(imagePath))
             {
-                Console.WriteLine("\nUnable to open or read localImagePath:\n{0} \n", imagePath);
+                Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
 
             using (Stream imageStream = File.OpenRead(imagePath))
             {
                 ImageAnalysis analysis = await computerVision.AnalyzeImageInStreamAsync(imageStream, features);
-                DisplayResults(analysis,imagePath);
+                DisplayResults(analysis, imagePath);
             }
         }
 
@@ -107,8 +107,8 @@ namespace ImageAnalyze
         {
             //racy content
             Console.WriteLine("Adult:"); 
-            Console.WriteLine("Has adult content? : {0} Confidence : {1}", analysis.Adult.IsAdultContent, analysis.Adult.AdultScore);
-            Console.WriteLine("Has racy content? : {0} Confidence : {1} ", analysis.Adult.IsRacyContent, analysis.Adult.RacyScore);
+            Console.WriteLine("Is adult content: {0} with confidence {1}", analysis.Adult.IsAdultContent, analysis.Adult.AdultScore);
+            Console.WriteLine("Has racy content: {0} with confidence {1} ", analysis.Adult.IsRacyContent, analysis.Adult.RacyScore);
             Console.WriteLine("\n");
         }
 
@@ -129,7 +129,7 @@ namespace ImageAnalyze
             Console.WriteLine("Captions:");
             foreach (var caption in analysis.Description.Captions)
             {
-                Console.WriteLine("{0} (confidence = {1})",
+                Console.WriteLine("{0} with confidence {1}",
                     caption.Text, caption.Confidence);
             }
             Console.WriteLine("\n");
@@ -173,7 +173,7 @@ namespace ImageAnalyze
                 {
                     foreach (var celeb in category.Detail.Celebrities)
                     {
-                        Console.WriteLine("Name: {0} with confidence {1} at location {2},{3},{4},{5}" , 
+                        Console.WriteLine("{0} with confidence {1} at location {2},{3},{4},{5}" , 
                             celeb.Name, celeb.Confidence,
                             celeb.FaceRectangle.Left, celeb.FaceRectangle.Top,
                             celeb.FaceRectangle.Height, celeb.FaceRectangle.Width);
@@ -189,7 +189,7 @@ namespace ImageAnalyze
                 {
                     foreach (var landmark in category.Detail.Landmarks)
                     {
-                        Console.WriteLine("Name: {0} with confidence {1}" ,landmark.Name, landmark.Confidence);
+                        Console.WriteLine("{0} with confidence {1}", landmark.Name, landmark.Confidence);
                     }
                 }                
             }
@@ -200,16 +200,11 @@ namespace ImageAnalyze
         {
             //color scheme
             Console.WriteLine("Color Scheme:");
-            Console.WriteLine("Is black and white?:" + analysis.Color.IsBWImg);
-            Console.WriteLine("Accent color:" + analysis.Color.AccentColor);
-            Console.WriteLine("Dominant background color:" + analysis.Color.DominantColorBackground);
-            Console.WriteLine("Dominant foreground color:" + analysis.Color.DominantColorForeground);
-            Console.WriteLine("Dominant colors:");
-            foreach (var color in analysis.Color.DominantColors)
-            {
-                Console.WriteLine(color);
-            }
-            Console.WriteLine("\n");
+            Console.WriteLine("Is black and white?: " + analysis.Color.IsBWImg);
+            Console.WriteLine("Accent color: " + analysis.Color.AccentColor);
+            Console.WriteLine("Dominant background color: " + analysis.Color.DominantColorBackground);
+            Console.WriteLine("Dominant foreground color: " + analysis.Color.DominantColorForeground);
+            Console.WriteLine("Dominant colours: " + string.Join(",", analysis.Color.DominantColors));
         }
 
         private static void DisplayImageCategoryResults(ImageAnalysis analysis)
@@ -228,8 +223,8 @@ namespace ImageAnalyze
         {
             //image types
             Console.WriteLine("Image Type:"); //please look at the API documentation to know more about what the scores mean
-            Console.WriteLine("Clip art score : " + analysis.ImageType.ClipArtType); 
-            Console.WriteLine("Line drawing score : " + analysis.ImageType.LineDrawingType);
+            Console.WriteLine("Clip Art Type: " + analysis.ImageType.ClipArtType); 
+            Console.WriteLine("Line Drawing Type: " + analysis.ImageType.LineDrawingType);
             Console.WriteLine("\n");
         }
     }
