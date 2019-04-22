@@ -16,17 +16,23 @@ namespace ImageOCR
 
         static void Main(string[] args)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                // You must use the same region as you used to get your subscription keys. 
+                Endpoint = "https://westus.api.cognitive.microsoft.com"
+            };
 
-            // You must use the same region as you used to get your subscription
-            // keys. For example, if you got your subscription keys from westus,
-            // replace "westcentralus" with "westus".
-
-            // Specify the Azure region
-            computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
+            // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample0.png";
 
             Console.WriteLine("Images being analyzed ...");
-            OCRFromUrlAsync(computerVision, remoteImageUrl).Wait(5000);
+            //OCRFromUrlAsync(computerVision, remoteImageUrl).Wait(5000);
+
+            var t1 = OCRFromUrlAsync(computerVision, remoteImageUrl);
+            var t2 = OCRFromStreamAsync(computerVision, localImagePath);
+
+            Task.WhenAll(t1, t2).Wait(5000);
+
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
@@ -37,8 +43,7 @@ namespace ImageOCR
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
-                Console.WriteLine(
-                    "\nInvalid remote image url:\n{0} \n", imageUrl);
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
@@ -46,7 +51,22 @@ namespace ImageOCR
             Console.WriteLine(imageUrl);
             DisplayResults(analysis);
         }
-            
+
+        private static async Task OCRFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
+        {
+            if (!File.Exists(imagePath))
+            {
+                Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
+                return;
+            }
+
+            using (Stream imageStream = File.OpenRead(imagePath))
+            {
+                OcrResult analysis = await computerVision.RecognizePrintedTextInStreamAsync(true, imageStream);
+                Console.WriteLine(imagePath);
+                DisplayResults(analysis);
+            }
+        }
 
         private static void DisplayResults(OcrResult analysis)
         {

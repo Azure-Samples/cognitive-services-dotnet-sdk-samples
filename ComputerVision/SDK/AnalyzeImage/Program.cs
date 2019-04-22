@@ -36,7 +36,7 @@ namespace ImageAnalyze
             string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png"; 
 
             Console.WriteLine("Images being analyzed ...");
-            var t1 = AnalyzeRemoteAsync(computerVision, remoteImageUrl);
+            var t1 = AnalyzeFromUrlAsync(computerVision, remoteImageUrl);
             var t2 = AnalyzeLocalAsync(computerVision, localImagePath);
 
             Task.WhenAll(t1, t2).Wait(5000);
@@ -45,7 +45,7 @@ namespace ImageAnalyze
         }
 
         // Analyze a remote image
-        private static async Task AnalyzeRemoteAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task AnalyzeFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
