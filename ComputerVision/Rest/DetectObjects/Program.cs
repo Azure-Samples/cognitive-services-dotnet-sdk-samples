@@ -8,18 +8,16 @@ using System.Threading.Tasks;
 namespace DetectObjects
 {
     static class Program
-    {
-        //   0123456789abcdef0123456789ABCDEF
+    { 
         // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "ee24f5559ed04f53ab6a3ed62ef18a06";
+        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
         // You must use the Azure region you used to get your subscription keys. 
         const string uri = "https://westus.api.cognitive.microsoft.com/vision/v2.0/detect";
 
         static void Main()
         {
-            // Get the path and filename to process from the user.
-            Console.WriteLine("Analyze an image:");
+            Console.WriteLine("Detect objects in images:");
 
             string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
@@ -34,25 +32,42 @@ namespace DetectObjects
             {
                 Console.WriteLine("\nInvalid file path");
             }
+
+            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
+            {
+                DetectObjectsFromURL(remoteImageUrl).Wait();
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
+            }
+
             Console.WriteLine("\nPress Enter to exit...");
             Console.ReadLine();
         }
+
+
         static async Task DetectObjectsFromURL(string imageUrl)
         {
-            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            try
             {
-                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
-                return;
+                HttpClient client = new HttpClient();
+                // Request headers
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                HttpResponseMessage response;
+                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(uri, content);
+                string contentString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
-
-
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
+            }
         }
 
-        /// <summary>
-        /// Gets the analysis of the specified image file by using
-        /// the Computer Vision REST API.
-        /// </summary>
-        /// <param name="">The image file to analyze.</param>
         static async Task MakeAnalysisRequest(string imageFilePath)
         {
             try
@@ -61,8 +76,6 @@ namespace DetectObjects
 
                 // Request headers.
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-
-                
                 HttpResponseMessage response;
                 // Read the contents of the specified local image
                 // into a byte array.

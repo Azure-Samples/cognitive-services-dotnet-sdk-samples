@@ -17,11 +17,10 @@ namespace AnalyzeImage
 
         static void Main()
         {
-            // Get the path and filename to process from the user.
-            Console.WriteLine("Analyze an image:");
-            Console.Write("Enter the path to the image you wish to analyze: ");
-            string imageFilePath = Console.ReadLine();
-            //Hint: this repository has some sample images
+            Console.WriteLine("Detect objects in images:");
+
+            string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
             if (File.Exists(imageFilePath))
             {
@@ -33,6 +32,16 @@ namespace AnalyzeImage
             {
                 Console.WriteLine("\nInvalid file path");
             }
+
+            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
+            {
+                AnalyzeFromUrl(remoteImageUrl).Wait();
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
+            }
+
             Console.WriteLine("\nPress Enter to exit...");
             Console.ReadLine();
         }
@@ -42,6 +51,48 @@ namespace AnalyzeImage
         /// the Computer Vision REST API.
         /// </summary>
         /// <param name="">The image file to analyze.</param>
+        /// 
+
+        static async Task AnalyzeFromUrl(string imageUrl)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+
+                // Request headers.
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+
+                // Request parameters. A third optional parameter is "details".
+                // Uncomment parameters that aren't required
+                string requestParameters = "visualFeatures=" +
+                    "Categories," +
+                    "Description," +
+                    "Color, " +
+                    "Tags, " +
+                    "Faces, " +
+                    "ImageType, " +
+                    "Adult , " +
+                    "Brands , " +
+                    "Objects"
+                    ;
+
+                // Assemble the URI for the REST API method.
+                string uri = uriBase + "?" + requestParameters;
+
+                HttpResponseMessage response;
+                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(uri, content);
+                string contentString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
+            }
+        }
+        
         static async Task MakeAnalysisRequest(string imageFilePath)
         {
             try
