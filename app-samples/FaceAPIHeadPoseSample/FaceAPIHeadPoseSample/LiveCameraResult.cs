@@ -1,7 +1,9 @@
-﻿namespace FaceAPIHeadPoseSample
+﻿using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+
+namespace FaceAPIHeadPoseSample
 {
     public class LiveCameraResult
     {
-        public Microsoft.Azure.CognitiveServices.Vision.Face.Models.DetectedFace[] Faces { get; set; } = null;
+        public DetectedFace[] Faces { get; set; } = null;
     }
 }

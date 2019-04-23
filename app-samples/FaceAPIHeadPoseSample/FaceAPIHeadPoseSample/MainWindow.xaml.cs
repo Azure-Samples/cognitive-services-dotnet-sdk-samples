@@ -161,7 +161,7 @@ namespace FaceAPIHeadPoseSample
                 FaceAttributeType.HeadPose
             };
 
-            var faces = await client.Face.DetectWithStreamAsync(jpg, returnFaceAttributes: attrs);
+            var faces = await client.Face.DetectWithStreamAsync(jpg, returnFaceId: false, returnFaceAttributes: attrs);
 
             // Output. 
             return new LiveCameraResult { Faces = faces.ToArray() };
