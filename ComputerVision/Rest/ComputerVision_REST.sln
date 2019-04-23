@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyzeImage", "AnalyzeImage\AnalyzeImage.csproj", "{0B8C2010-EDDE-4DB7-92D0-DFB06DAF6873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCR", "OCR\OCR.csproj", "{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCR", "OCR\OCR.csproj", "{C6CC8F81-1F9B-41FA-8372-44F3FA74EEDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractText", "ExtractText\ExtractText.csproj", "{56159107-EC1A-46E6-BF01-0A6F28331A49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtractText", "ExtractText\ExtractText.csproj", "{56159107-EC1A-46E6-BF01-0A6F28331A49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectObjects", "DetectObjects\DetectObjects.csproj", "{E647CF81-9DFC-4825-BF4D-00946F0A2D4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56159107-EC1A-46E6-BF01-0A6F28331A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E647CF81-9DFC-4825-BF4D-00946F0A2D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E647CF81-9DFC-4825-BF4D-00946F0A2D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E647CF81-9DFC-4825-BF4D-00946F0A2D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E647CF81-9DFC-4825-BF4D-00946F0A2D4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
