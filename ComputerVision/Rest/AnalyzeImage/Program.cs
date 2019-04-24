@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace AnalyzeImage
+namespace analyzeImage
 {
-    static class Program
+    static class AnalyzeImage
     {
         // Replace <Subscription Key> with your valid subscription key.
         const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
@@ -22,39 +22,23 @@ namespace AnalyzeImage
             string imageFilePath = @"Images\sample6.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
-            if (File.Exists(imageFilePath))
-            {
-                // Call the REST API method.
-                Console.WriteLine("\nWait a moment for the results to appear.\n");
-                AnalyzeFromStreamAsync(imageFilePath).Wait();
-            }
-            else
-            {
-                Console.WriteLine("\nInvalid file path");
-            }
+            Console.WriteLine("Images being analyzed ...");
+            var t1 = AnalyzeFromStreamAsync(imageFilePath);
+            var t2 = AnalyzeFromUrlAsync(remoteImageUrl);
 
-            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
-            {
-                AnalyzeFromUrlAsync(remoteImageUrl).Wait();
-            }
-            else
-            {
-                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
-            }
-
-            Console.WriteLine("\nPress Enter to exit...");
+            Task.WhenAll(t1, t2).Wait(5000);
+            Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
-
-        /// <summary>
-        /// Gets the analysis of the specified image file by using
-        /// the Computer Vision REST API.
-        /// </summary>
-        /// <param name="">The image file to analyze.</param>
-        /// 
-
+        
         static async Task AnalyzeFromUrlAsync(string imageUrl)
         {
+            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
+                return;
+            }
+
             try
             {
                 HttpClient client = new HttpClient();
@@ -63,7 +47,7 @@ namespace AnalyzeImage
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Request parameters. A third optional parameter is "details".
-                // Uncomment parameters that aren't required
+                // Comment parameters that aren't required
                 string requestParameters = "visualFeatures=" +
                     "Categories," +
                     "Description," +
@@ -95,6 +79,12 @@ namespace AnalyzeImage
         
         static async Task AnalyzeFromStreamAsync(string imageFilePath)
         {
+            if (!File.Exists(imageFilePath))
+            {
+                Console.WriteLine("Invalid file path");
+                return;
+            }
+
             try
             {
                 HttpClient client = new HttpClient();
@@ -103,7 +93,7 @@ namespace AnalyzeImage
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Request parameters. A third optional parameter is "details".
-                // Uncomment parameters that aren't required
+                // Comment parameters that aren't required
                 string requestParameters = "visualFeatures=" +
                     "Categories," +
                     "Description," +
@@ -128,8 +118,7 @@ namespace AnalyzeImage
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
                 {
                     // This example uses the "application/octet-stream" content type.
-                    // The other content types you can use are "application/json"
-                    // and "multipart/form-data".
+                    // The other content types you can use are "application/json" and "multipart/form-data".
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
@@ -147,12 +136,7 @@ namespace AnalyzeImage
                 Console.WriteLine("\n" + e.Message);
             }
         }
-
-        /// <summary>
-        /// Returns the contents of the specified file as a byte array.
-        /// </summary>
-        /// <param name="imageFilePath">The image file to read.</param>
-        /// <returns>The byte array of the image data.</returns>
+        
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             // Open a read-only file stream for the specified file.

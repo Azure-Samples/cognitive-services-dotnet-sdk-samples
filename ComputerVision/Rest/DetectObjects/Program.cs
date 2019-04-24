@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace DetectObjects
+namespace detectObjects
 {
-    static class Program
+    static class DetectObjects
     { 
         // Replace <Subscription Key> with your valid subscription key.
         const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
@@ -21,34 +21,22 @@ namespace DetectObjects
 
             string imageFilePath = @"Images\sample6.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
-            
-            if (File.Exists(imageFilePath))
-            {
-                // Call the REST API method.
-                Console.WriteLine("\nWait a moment for the results to appear.\n");
-                DetectObjectsFromStreamAsync(imageFilePath).Wait();
-            }
-            else
-            {
-                Console.WriteLine("\nInvalid file path");
-            }
 
-            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
-            {
-                DetectObjectsFromUrlAsync(remoteImageUrl).Wait();
-            }
-            else
-            {
-                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
-            }
-
-            Console.WriteLine("\nPress Enter to exit...");
+            Console.WriteLine("Images being analyzed ...");
+            var t1 = DetectObjectsFromStreamAsync(imageFilePath);
+            var t2 = DetectObjectsFromUrlAsync(remoteImageUrl);
+            Task.WhenAll(t1, t2).Wait(5000);
+            Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
 
-
         static async Task DetectObjectsFromUrlAsync(string imageUrl)
         {
+            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
+                return;
+            }
             try
             {
                 HttpClient client = new HttpClient();
@@ -70,6 +58,11 @@ namespace DetectObjects
 
         static async Task DetectObjectsFromStreamAsync(string imageFilePath)
         {
+            if (!File.Exists(imageFilePath))
+            {
+                Console.WriteLine("\nInvalid file path");
+                return;
+            }
             try
             {
                 HttpClient client = new HttpClient();
@@ -77,16 +70,14 @@ namespace DetectObjects
                 // Request headers.
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
                 HttpResponseMessage response;
-                // Read the contents of the specified local image
-                // into a byte array.
+                // Read the contents of the specified local image into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
 
                 // Add the byte array as an octet stream to the request body.
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
                 {
                     // This example uses the "application/octet-stream" content type.
-                    // The other content types you can use are "application/json"
-                    // and "multipart/form-data".
+                    // The other content types you can use are "application/json" and "multipart/form-data".
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
@@ -104,12 +95,8 @@ namespace DetectObjects
                 Console.WriteLine("\n" + e.Message);
             }
         }
+        
 
-        /// <summary>
-        /// Returns the contents of the specified file as a byte array.
-        /// </summary>
-        /// <param name="imageFilePath">The image file to read.</param>
-        /// <returns>The byte array of the image data.</returns>
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             // Open a read-only file stream for the specified file.
