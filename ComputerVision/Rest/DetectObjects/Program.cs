@@ -25,6 +25,7 @@ namespace detectObjects
             Console.WriteLine("Images being analyzed ...");
             var t1 = DetectObjectsFromStreamAsync(imageFilePath);
             var t2 = DetectObjectsFromUrlAsync(remoteImageUrl);
+
             Task.WhenAll(t1, t2).Wait(5000);
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();

@@ -37,7 +37,6 @@ namespace ImageOCR
         }
 
         // Analyze a remote image
-        
         private static async Task OCRFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
