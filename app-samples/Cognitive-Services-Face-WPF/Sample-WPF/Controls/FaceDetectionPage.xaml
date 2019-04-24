@@ -52,7 +52,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Text="{Binding FaceDetectionDescription}" TextWrapping="Wrap"></TextBlock>
-        <Grid Width="300" Height="300" Grid.Column="0" Grid.Row="3" VerticalAlignment="Top">
+        <Grid Width="300" Height="300" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top">
             <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ResultCollection, ElementName=FaceDetectionPane}" Panel.ZIndex="999" Height="{Binding MaxImageSize, ElementName=FaceDetectionPane}" Width="{Binding MaxImageSize, ElementName=FaceDetectionPane}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
