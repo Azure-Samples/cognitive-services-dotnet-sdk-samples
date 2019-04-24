@@ -205,7 +205,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _subscriptionKey = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("SubscriptionKey"));
+                OnPropertyChanged("SubscriptionKey");
             }
         }
 
@@ -219,7 +219,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _subscriptionEndpoint = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("SubscriptionEndpoint"));
+                OnPropertyChanged("SubscriptionEndpoint");
             }
         }
 
@@ -233,7 +233,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _indicateMsg = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("IndicateMsg"));
+                OnPropertyChanged("IndicateMsg");
             }
         }
 
@@ -247,7 +247,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _msgProcessVerticalTop = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("MsgProcessVerticalTop"));
+                OnPropertyChanged("MsgProcessVerticalTop");
             }
         }
 
@@ -261,7 +261,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _msgProcessVerticalDown = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("MsgProcessVerticalDown"));
+                OnPropertyChanged("MsgProcessVerticalDown");
             }
         }
 
@@ -275,7 +275,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _msgProcessHorizontalLeft = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("MsgProcessHorizontalLeft"));
+                OnPropertyChanged("MsgProcessHorizontalLeft");
             }
         }
 
@@ -289,7 +289,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _msgProcessHorizontalRight = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("MsgProcessHorizontalRight"));
+                OnPropertyChanged("MsgProcessHorizontalRight");
             }
         }
 
@@ -303,7 +303,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _d_Yaw = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("D_Yaw"));
+                OnPropertyChanged("D_Yaw");
             }
         }
 
@@ -317,7 +317,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _d_Roll = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("D_Roll"));
+                OnPropertyChanged("D_Roll");
             }
         }
 
@@ -331,7 +331,7 @@ namespace FaceAPIHeadPoseSample
             set
             {
                 _d_Pitch = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("D_Pitch"));
+                OnPropertyChanged("D_Pitch");
             }
         }
 
