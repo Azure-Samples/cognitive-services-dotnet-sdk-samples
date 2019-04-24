@@ -27,7 +27,7 @@ namespace CSHttpClientSample
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                ReadText(imageFilePath).Wait();
+                ExtractTextFromStreamAsync(imageFilePath).Wait();
             }
             else
             {
@@ -36,7 +36,7 @@ namespace CSHttpClientSample
 
             if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
             {
-                ExtractTextFromURL(remoteImageUrl).Wait();
+                ExtractTextFromUrlAsync(remoteImageUrl).Wait();
             }
             else
             {
@@ -52,7 +52,7 @@ namespace CSHttpClientSample
         /// the Computer Vision REST API.
         /// </summary>
         /// <param name="imageFilePath">The image file with text.</param>
-        static async Task ReadText(string imageFilePath)
+        static async Task ExtractTextFromStreamAsync(string imageFilePath)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace CSHttpClientSample
             }
         }
 
-        static async Task ExtractTextFromURL(string remoteImgUrl)
+        static async Task ExtractTextFromUrlAsync(string remoteImgUrl)
         {
             try
             {

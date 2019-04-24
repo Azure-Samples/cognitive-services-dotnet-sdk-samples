@@ -27,7 +27,7 @@ namespace CSHttpClientSample
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                MakeOCRRequest(imageFilePath).Wait();
+                OCRFromStreamAsync(imageFilePath).Wait();
             }
             else
             {
@@ -36,7 +36,7 @@ namespace CSHttpClientSample
 
             if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
             {
-                OcrFromUrl(remoteImageUrl).Wait();
+                OCRFromUrlAsync(remoteImageUrl).Wait();
             }
             else
             {
@@ -52,7 +52,7 @@ namespace CSHttpClientSample
         /// the Computer Vision REST API.
         /// </summary>
         /// <param name="imageFilePath">The image file with printed text.</param>
-        static async Task MakeOCRRequest(string imageFilePath)
+        static async Task OCRFromStreamAsync(string imageFilePath)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace CSHttpClientSample
         /// Gets the text visible in the specified image URL by using the Computer Vision REST API.
         /// </summary>
         /// <param name="imageUrl">The URL for the image with printed text.</param>
-        static async Task OcrFromUrl(string imageUrl)
+        static async Task OCRFromUrlAsync(string imageUrl)
         {
             try
             {

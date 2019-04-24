@@ -26,7 +26,7 @@ namespace AnalyzeImage
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                MakeAnalysisRequest(imageFilePath).Wait();
+                AnalyzeLocalAsync(imageFilePath).Wait();
             }
             else
             {
@@ -35,7 +35,7 @@ namespace AnalyzeImage
 
             if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
             {
-                AnalyzeFromUrl(remoteImageUrl).Wait();
+                AnalyzeFromUrlAsync(remoteImageUrl).Wait();
             }
             else
             {
@@ -53,7 +53,7 @@ namespace AnalyzeImage
         /// <param name="">The image file to analyze.</param>
         /// 
 
-        static async Task AnalyzeFromUrl(string imageUrl)
+        static async Task AnalyzeFromUrlAsync(string imageUrl)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace AnalyzeImage
             }
         }
         
-        static async Task MakeAnalysisRequest(string imageFilePath)
+        static async Task AnalyzeLocalAsync(string imageFilePath)
         {
             try
             {

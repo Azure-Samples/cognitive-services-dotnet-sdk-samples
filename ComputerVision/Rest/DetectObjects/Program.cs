@@ -26,7 +26,7 @@ namespace DetectObjects
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                MakeAnalysisRequest(imageFilePath).Wait();
+                DetectObjectsFromStreamAsync(imageFilePath).Wait();
             }
             else
             {
@@ -35,7 +35,7 @@ namespace DetectObjects
 
             if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
             {
-                DetectObjectsFromURL(remoteImageUrl).Wait();
+                DetectObjectsFromUrlAsync(remoteImageUrl).Wait();
             }
             else
             {
@@ -47,7 +47,7 @@ namespace DetectObjects
         }
 
 
-        static async Task DetectObjectsFromURL(string imageUrl)
+        static async Task DetectObjectsFromUrlAsync(string imageUrl)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace DetectObjects
             }
         }
 
-        static async Task MakeAnalysisRequest(string imageFilePath)
+        static async Task DetectObjectsFromStreamAsync(string imageFilePath)
         {
             try
             {
