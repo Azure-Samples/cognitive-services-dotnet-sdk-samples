@@ -21,30 +21,38 @@ namespace FaceAPIHeadPoseSample
     {
         #region Fields
 
-        private static FrameGrabber<LiveCameraResult> _grabber = null;
-        private static readonly ImageEncodingParam[] s_jpegParams = {
-            new ImageEncodingParam(ImwriteFlags.JpegQuality, 60)
-        };
+        private static FrameGrabber<LiveCameraResult> _grabber;
+
+        private static readonly ImageEncodingParam[] s_jpegParams = { new ImageEncodingParam(ImwriteFlags.JpegQuality, 60) };
 
         private readonly string _isolatedStorageSubscriptionKeyFileName = "Subscription.txt";
+
         private readonly string _isolatedStorageSubscriptionEndpointFileName = "SubscriptionEndpoint.txt";
 
         private readonly double _headPitchMaxThreshold = 30;
+
         private readonly double _headPitchMinThreshold = -15;
+
         private readonly double _headYawMaxThreshold = 20;
+
         private readonly double _headYawMinThreshold = -20;
+
         private readonly double _headRollMaxThreshold = 20;
+
         private readonly double _headRollMinThreshold = -20;
 
         private readonly string _indicateDefaultMsg = "Head pose test finished!";
 
-        static IFaceClient client;
+        private static IFaceClient client;
 
-        static bool StartHeadPoseProcess = false;
-        static bool ProcessIdel = true;
-        static bool FirstInProcess = true;
+        private static bool startHeadPoseProcess = false;
+
+        private static bool processIdel = true;
+
+        private static bool firstInProcess = true;
 
         private static int processStep = 1;
+
         private static List<double> buff = new List<double>();
 
         private static int activeFrames = 14;
@@ -60,10 +68,15 @@ namespace FaceAPIHeadPoseSample
 
             try
             {
-                client = new FaceClient(new ApiKeyServiceClientCredentials(SubscriptionKey)) { Endpoint = SubscriptionEndpoint };
+                client =
+                    new FaceClient(new ApiKeyServiceClientCredentials(SubscriptionKey))
+                    {
+                        Endpoint =
+                                SubscriptionEndpoint
+                    };
                 Log("FaceClient Initialization succeeded.");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log($"Exception:{e.Message}");
             }
@@ -72,68 +85,69 @@ namespace FaceAPIHeadPoseSample
 
             _grabber.NewFrameProvided += (s, e) =>
             {
-
                 // The callback may occur on a different thread, so we must use the
                 // MainWindow.Dispatcher when manipulating the UI. 
-                ImageDisplay.Dispatcher.Invoke((Action)(() =>
-                {
-                    // Display the image in the left pane.
-                    ImageDisplay.Source = e.Frame.Image.ToBitmapSource();
-                }));
+                ImageDisplay.Dispatcher.Invoke(
+                    () =>
+                    {
+                            // Display the image in the left pane.
+                            ImageDisplay.Source = e.Frame.Image.ToBitmapSource();
+                    });
             };
 
             // Set up a listener for when the client receives a new result from an API call. 
             _grabber.NewResultAvailable += (s, e) =>
             {
-                if (ProcessIdel)
+                if (processIdel)
                 {
                     if (e == null)
                     {
                         return;
                     }
 
-                    this.Dispatcher.BeginInvoke((Action)(() =>
-                    {
-                        if (e.Exception == null && !e.TimedOut)
+                    this.Dispatcher.BeginInvoke(
+                        (Action)(() =>
                         {
-                            if (e.Analysis.Faces != null && e.Analysis.Faces.Count() != 0)
+                            if (e.Exception == null && !e.TimedOut)
                             {
-                                var headpose = e.Analysis.Faces.FirstOrDefault().FaceAttributes?.HeadPose;
-                                if (headpose == null)
+                                if (e.Analysis.Faces != null && e.Analysis.Faces.Length != 0)
                                 {
-                                    return;
-                                }
+                                    var headpose = e.Analysis.Faces.FirstOrDefault()?.FaceAttributes?.HeadPose;
+                                    if (headpose == null)
+                                    {
+                                        return;
+                                    }
 
-                                if (StartHeadPoseProcess)
-                                {
-                                    Doprocess(headpose);
-                                }
-                                else if(_indicateDefaultMsg != IndicateMsg)
-                                {
-                                    ResetProgressBarString();
-                                }
+                                    if (startHeadPoseProcess)
+                                    {
+                                        Doprocess(headpose);
+                                    }
+                                    else if (_indicateDefaultMsg != IndicateMsg)
+                                    {
+                                        ResetProgressBarString();
+                                    }
 
-                                D_Yaw = headpose.Yaw;
-                                D_Pitch = -headpose.Pitch;
-                                D_Roll = -headpose.Roll;
+                                    D_Yaw = headpose.Yaw;
+                                    D_Pitch = -headpose.Pitch;
+                                    D_Roll = -headpose.Roll;
+                                }
                             }
-                        }
-                        else if (e.Exception != null)
-                        {
-                            Log($"Exception:{e.Exception.Message}");
-                        }
-                        else
-                        {
-                            Log($"Exception:{nameof(e.TimedOut)} is {e.TimedOut}");
-                        }
-                    }));
+                            else if (e.Exception != null)
+                            {
+                                Log($"Exception:{e.Exception.Message}");
+                            }
+                            else
+                            {
+                                Log($"Exception:{nameof(e.TimedOut)} is {e.TimedOut}");
+                            }
+                        }));
                 }
             };
 
             if (_grabber.GetNumCameras() != 0)
             {
                 _grabber.TriggerAnalysisOnInterval(TimeSpan.FromSeconds(0.3));
-                _grabber.StartProcessingCameraAsync(0).Wait();
+                _grabber.StartProcessingCameraAsync().Wait();
             }
             else
             {
@@ -188,6 +202,7 @@ namespace FaceAPIHeadPoseSample
                 string messaage = "[" + timeStr + "]: " + logMessage + "\n";
                 _logTextBox.Text += messaage;
             }
+
             _logTextBox.ScrollToEnd();
         }
 
@@ -196,12 +211,14 @@ namespace FaceAPIHeadPoseSample
         #region Properties
 
         private string _subscriptionKey = "Paste your subscription key";
+
         public string SubscriptionKey
         {
             get
             {
                 return _subscriptionKey;
             }
+
             set
             {
                 _subscriptionKey = value;
@@ -210,12 +227,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _subscriptionEndpoint = "Paste your endpoint";
+
         public string SubscriptionEndpoint
         {
             get
             {
                 return _subscriptionEndpoint;
             }
+
             set
             {
                 _subscriptionEndpoint = value;
@@ -224,12 +243,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _indicateMsg = "Head pose test";
+
         public string IndicateMsg
         {
             get
             {
                 return _indicateMsg;
             }
+
             set
             {
                 _indicateMsg = value;
@@ -238,12 +259,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _msgProcessVerticalTop = GetVerticalTopProgressBarString();
+
         public string MsgProcessVerticalTop
         {
             get
             {
                 return _msgProcessVerticalTop;
             }
+
             set
             {
                 _msgProcessVerticalTop = value;
@@ -252,12 +275,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _msgProcessVerticalDown = GetVerticalDownProgressBarString();
+
         public string MsgProcessVerticalDown
         {
             get
             {
                 return _msgProcessVerticalDown;
             }
+
             set
             {
                 _msgProcessVerticalDown = value;
@@ -266,12 +291,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _msgProcessHorizontalLeft = GetHorizontalLeftProgressBarString();
+
         public string MsgProcessHorizontalLeft
         {
             get
             {
                 return _msgProcessHorizontalLeft;
             }
+
             set
             {
                 _msgProcessHorizontalLeft = value;
@@ -280,12 +307,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private string _msgProcessHorizontalRight = GetHorizontalRightProgressBarString();
+
         public string MsgProcessHorizontalRight
         {
             get
             {
                 return _msgProcessHorizontalRight;
             }
+
             set
             {
                 _msgProcessHorizontalRight = value;
@@ -294,12 +323,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private double _d_Yaw = 0;
+
         public double D_Yaw
         {
             get
             {
                 return _d_Yaw;
             }
+
             set
             {
                 _d_Yaw = value;
@@ -308,12 +339,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private double _d_Roll = 0;
+
         public double D_Roll
         {
             get
             {
                 return _d_Roll;
             }
+
             set
             {
                 _d_Roll = value;
@@ -322,12 +355,14 @@ namespace FaceAPIHeadPoseSample
         }
 
         private double _d_Pitch = 0;
+
         public double D_Pitch
         {
             get
             {
                 return _d_Pitch;
             }
+
             set
             {
                 _d_Pitch = value;
@@ -342,17 +377,18 @@ namespace FaceAPIHeadPoseSample
         private void CleanBuffAndSetToStep(int step)
         {
             buff = new List<double>();
-            FirstInProcess = true;
+            firstInProcess = true;
             processStep = step;
         }
 
         private void Wait2SecondsToReleaseProcess()
         {
-            new Task(() =>
-            {
-                Thread.Sleep(2000);
-                ProcessIdel = true;
-            }).Start();
+            new Task(
+                () =>
+                {
+                    Thread.Sleep(2000);
+                    processIdel = true;
+                }).Start();
         }
 
         private void ResetProgressBarString()
@@ -367,7 +403,7 @@ namespace FaceAPIHeadPoseSample
 
         private void Doprocess(HeadPose headPose)
         {
-            ProcessIdel = false;
+            processIdel = false;
 
             var pitch = headPose.Pitch;
             var roll = headPose.Roll;
@@ -376,9 +412,9 @@ namespace FaceAPIHeadPoseSample
             switch (processStep)
             {
                 case 1:
-                    if (FirstInProcess)
+                    if (firstInProcess)
                     {
-                        FirstInProcess = false;
+                        firstInProcess = false;
                         Log("Step1: detect head pose up and down.");
                         IndicateMsg = "Please look Up and Down!";
                     }
@@ -386,9 +422,9 @@ namespace FaceAPIHeadPoseSample
                     StepOne(pitch);
                     break;
                 case 2:
-                    if (FirstInProcess)
+                    if (firstInProcess)
                     {
-                        FirstInProcess = false;
+                        firstInProcess = false;
                         Log("Step2: detect head pose Left and Right.");
                         IndicateMsg = "Please look Left and Right!";
                     }
@@ -396,9 +432,9 @@ namespace FaceAPIHeadPoseSample
                     StepTwo(yaw);
                     break;
                 case 3:
-                    if (FirstInProcess)
+                    if (firstInProcess)
                     {
-                        FirstInProcess = false;
+                        firstInProcess = false;
                         Log("Step3: detect head pose roll left and Right.");
                         IndicateMsg = "Please roll you face Left and Right!";
                     }
@@ -436,7 +472,7 @@ namespace FaceAPIHeadPoseSample
             }
             else
             {
-                ProcessIdel = true;
+                processIdel = true;
             }
         }
 
@@ -450,7 +486,7 @@ namespace FaceAPIHeadPoseSample
 
             var max = buff.Max();
             var min = buff.Min();
-            
+
             var maxCorrection = max < 0 ? 0 : Convert.ToInt32(max * 2);
             var minCorrection = min > 0 ? 0 : Convert.ToInt32(Math.Abs(min * 2));
 
@@ -466,7 +502,7 @@ namespace FaceAPIHeadPoseSample
             }
             else
             {
-                ProcessIdel = true;
+                processIdel = true;
             }
         }
 
@@ -497,18 +533,18 @@ namespace FaceAPIHeadPoseSample
             }
             else
             {
-                ProcessIdel = true;
+                processIdel = true;
             }
         }
 
         private void StartProcess()
         {
-            StartHeadPoseProcess = true;
+            startHeadPoseProcess = true;
         }
 
         private void StopProcess()
         {
-            StartHeadPoseProcess = false;
+            startHeadPoseProcess = false;
             CleanBuffAndSetToStep(1);
         }
 
@@ -560,11 +596,17 @@ namespace FaceAPIHeadPoseSample
         {
             string subscriptionKey = null;
 
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null))
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(
+                IsolatedStorageScope.User | IsolatedStorageScope.Assembly,
+                null,
+                null))
             {
                 try
                 {
-                    using (var iStream = new IsolatedStorageFileStream(_isolatedStorageSubscriptionKeyFileName, FileMode.Open, isoStore))
+                    using (var iStream = new IsolatedStorageFileStream(
+                        _isolatedStorageSubscriptionKeyFileName,
+                        FileMode.Open,
+                        isoStore))
                     {
                         using (var reader = new StreamReader(iStream))
                         {
@@ -572,7 +614,10 @@ namespace FaceAPIHeadPoseSample
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
 
             if (string.IsNullOrEmpty(subscriptionKey))
@@ -591,11 +636,17 @@ namespace FaceAPIHeadPoseSample
         {
             string subscriptionEndpoint = null;
 
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null))
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(
+                IsolatedStorageScope.User | IsolatedStorageScope.Assembly,
+                null,
+                null))
             {
                 try
                 {
-                    using (var iStreamForEndpoint = new IsolatedStorageFileStream(_isolatedStorageSubscriptionEndpointFileName, FileMode.Open, isoStore))
+                    using (var iStreamForEndpoint = new IsolatedStorageFileStream(
+                        _isolatedStorageSubscriptionEndpointFileName,
+                        FileMode.Open,
+                        isoStore))
                     {
                         using (var readerForEndpoint = new StreamReader(iStreamForEndpoint))
                         {
@@ -603,7 +654,10 @@ namespace FaceAPIHeadPoseSample
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
 
             if (string.IsNullOrEmpty(subscriptionEndpoint))
@@ -614,16 +668,21 @@ namespace FaceAPIHeadPoseSample
             return subscriptionEndpoint;
         }
 
-
         /// <summary>
         /// Saves the subscription key to isolated storage.
         /// </summary>
         /// <param name="subscriptionKey">The subscription key.</param>
         private void SaveSubscriptionKeyToIsolatedStorage(string subscriptionKey)
         {
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null))
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(
+                IsolatedStorageScope.User | IsolatedStorageScope.Assembly,
+                null,
+                null))
             {
-                using (var oStream = new IsolatedStorageFileStream(_isolatedStorageSubscriptionKeyFileName, FileMode.Create, isoStore))
+                using (var oStream = new IsolatedStorageFileStream(
+                    _isolatedStorageSubscriptionKeyFileName,
+                    FileMode.Create,
+                    isoStore))
                 {
                     using (var writer = new StreamWriter(oStream))
                     {
@@ -639,9 +698,15 @@ namespace FaceAPIHeadPoseSample
         /// <param name="subscriptionEndpoint">The subscription endpoint.</param>
         private void SaveSubscriptionEndpointToIsolatedStorage(string subscriptionEndpoint)
         {
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null))
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(
+                IsolatedStorageScope.User | IsolatedStorageScope.Assembly,
+                null,
+                null))
             {
-                using (var oStream = new IsolatedStorageFileStream(_isolatedStorageSubscriptionEndpointFileName, FileMode.Create, isoStore))
+                using (var oStream = new IsolatedStorageFileStream(
+                    _isolatedStorageSubscriptionEndpointFileName,
+                    FileMode.Create,
+                    isoStore))
                 {
                     using (var writer = new StreamWriter(oStream))
                     {
@@ -657,9 +722,9 @@ namespace FaceAPIHeadPoseSample
 
         private void Button_SaveSubscriptions(object sender, RoutedEventArgs e)
         {
-            if (StartHeadPoseProcess)
+            if (startHeadPoseProcess)
             {
-                Log("Headpose detection is running, please stop it and save the subscriptions again.");
+                Log("Head pose detection is running, please stop it and save the subscriptions again.");
                 return;
             }
 
@@ -668,8 +733,15 @@ namespace FaceAPIHeadPoseSample
 
             try
             {
-                client = new FaceClient(new ApiKeyServiceClientCredentials(SubscriptionKey)) { Endpoint = SubscriptionEndpoint };
-                MessageBox.Show("Subscription key and endpoint are saved in your disk.\nYou do not need to paste the key next time.", "Subscription Setting");
+                client =
+                    new FaceClient(new ApiKeyServiceClientCredentials(SubscriptionKey))
+                    {
+                        Endpoint =
+                                SubscriptionEndpoint
+                    };
+                MessageBox.Show(
+                    "Subscription key and endpoint are saved in your disk.\nYou do not need to paste the key next time.",
+                    "Subscription Setting");
             }
             catch
             {
@@ -685,9 +757,9 @@ namespace FaceAPIHeadPoseSample
 
         private void Button_StartHeadPoseTest(object sender, RoutedEventArgs e)
         {
-            if (StartHeadPoseProcess)
+            if (startHeadPoseProcess)
             {
-                Log("Headpose detection is running.");
+                Log("Head pose detection is running.");
                 return;
             }
 
