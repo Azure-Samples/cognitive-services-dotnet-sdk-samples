@@ -111,8 +111,8 @@ namespace Microsoft.ProjectOxford.Face.Controls
             var imageWidth = imageInfo.Item1;
             var imageHeight = imageInfo.Item2;
             var ratio = (float)imageWidth / imageHeight;
-            var uiWidth = 0;
-            var uiHeight = 0;
+            int uiWidth = 0;
+            int uiHeight = 0;
             if (ratio > 1.0)
             {
                 uiWidth = maxSize;
@@ -146,7 +146,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                     // _____       | / \ |
                     // |____|  =>  |/   /|
                     //             | \ / |
-                    // re-calculate the face rectangle left/top(X/Y) position.
+                    // Re-calculate the face rectangle's left & top (X & Y) positions.
                     var newLeft = face.FaceRectangle.Left +
                         face.FaceRectangle.Width / 2 -
                         (face.FaceRectangle.Width * Math.Sin(angleToPi) + face.FaceRectangle.Height * Math.Cos(angleToPi)) / 2;
@@ -164,8 +164,8 @@ namespace Microsoft.ProjectOxford.Face.Controls
                     FaceId = face.FaceId?.ToString(),
                     Left = left,
                     Top = top,
-                    OriginalLeft = (int)((face.FaceRectangle.Left * scale) + uiXOffset),
-                    OriginalTop = (int)((face.FaceRectangle.Top * scale) + uiYOffset),
+                    OriginalLeft = (int)(face.FaceRectangle.Left * scale + uiXOffset),
+                    OriginalTop = (int)(face.FaceRectangle.Top * scale + uiYOffset),
                     Height = (int)(face.FaceRectangle.Height * scale),
                     Width = (int)(face.FaceRectangle.Width * scale),
                     FaceAngle = faceAngle,
