@@ -29,14 +29,14 @@ namespace FaceAPIHeadPoseSample
         private readonly string _isolatedStorageSubscriptionKeyFileName = "Subscription.txt";
         private readonly string _isolatedStorageSubscriptionEndpointFileName = "SubscriptionEndpoint.txt";
 
-        private readonly double _HeadPitchMaxThreshold = 30;
-        private readonly double _HeadPitchMinThreshold = -15;
-        private readonly double _HeadYawMaxThreshold = 20;
-        private readonly double _HeadYawMinThreshold = -20;
-        private readonly double _HeadRollMaxThreshold = 20;
-        private readonly double _HeadRollMinThreshold = -20;
+        private readonly double _headPitchMaxThreshold = 30;
+        private readonly double _headPitchMinThreshold = -15;
+        private readonly double _headYawMaxThreshold = 20;
+        private readonly double _headYawMinThreshold = -20;
+        private readonly double _headRollMaxThreshold = 20;
+        private readonly double _headRollMinThreshold = -20;
 
-        private readonly string _IndicateDefaultMsg = "Head pose test finished!";
+        private readonly string _indicateDefaultMsg = "Head pose test finished!";
 
         static IFaceClient client;
 
@@ -44,10 +44,10 @@ namespace FaceAPIHeadPoseSample
         static bool ProcessIdel = true;
         static bool FirstInProcess = true;
 
-        static int ProcessStep = 1;
-        static List<double> buff = new List<double>();
+        private static int processStep = 1;
+        private static List<double> buff = new List<double>();
 
-        static int activeFrames = 14;
+        private static int activeFrames = 14;
 
         #endregion
 
@@ -61,7 +61,7 @@ namespace FaceAPIHeadPoseSample
             try
             {
                 client = new FaceClient(new ApiKeyServiceClientCredentials(SubscriptionKey)) { Endpoint = SubscriptionEndpoint };
-                Log("FaceClient Initialization successed.");
+                Log("FaceClient Initialization succeeded.");
             }
             catch(Exception e)
             {
@@ -98,20 +98,24 @@ namespace FaceAPIHeadPoseSample
                         {
                             if (e.Analysis.Faces != null && e.Analysis.Faces.Count() != 0)
                             {
-                                var headpost = e.Analysis.Faces.FirstOrDefault().FaceAttributes.HeadPose;
+                                var headpose = e.Analysis.Faces.FirstOrDefault().FaceAttributes?.HeadPose;
+                                if (headpose == null)
+                                {
+                                    return;
+                                }
 
                                 if (StartHeadPoseProcess)
                                 {
-                                    doProcess(headpost);
+                                    Doprocess(headpose);
                                 }
-                                else if(_IndicateDefaultMsg != IndicateMsg)
+                                else if(_indicateDefaultMsg != IndicateMsg)
                                 {
                                     ResetProgressBarString();
                                 }
 
-                                D_Yaw = headpost.Yaw;
-                                D_Pitch = -headpost.Pitch;
-                                D_Roll = -headpost.Roll;
+                                D_Yaw = headpose.Yaw;
+                                D_Pitch = -headpose.Pitch;
+                                D_Roll = -headpose.Roll;
                             }
                         }
                         else if (e.Exception != null)
@@ -126,9 +130,15 @@ namespace FaceAPIHeadPoseSample
                 }
             };
 
-            _grabber.TriggerAnalysisOnInterval(TimeSpan.FromSeconds(0.3));
-            int numCameras = _grabber.GetNumCameras();
-            _grabber.StartProcessingCameraAsync(0).Wait();
+            if (_grabber.GetNumCameras() != 0)
+            {
+                _grabber.TriggerAnalysisOnInterval(TimeSpan.FromSeconds(0.3));
+                _grabber.StartProcessingCameraAsync(0).Wait();
+            }
+            else
+            {
+                Log("Exception: No camera detected, please connect a camera and restart.");
+            }
         }
 
         #endregion
@@ -156,10 +166,9 @@ namespace FaceAPIHeadPoseSample
         {
             // Encode image. 
             var jpg = frame.Image.ToMemoryStream(".jpg", s_jpegParams);
+
             // Submit image to API. 
-            var attrs = new List<FaceAttributeType> {
-                FaceAttributeType.HeadPose
-            };
+            var attrs = new List<FaceAttributeType> { FaceAttributeType.HeadPose };
 
             var faces = await client.Face.DetectWithStreamAsync(jpg, returnFaceId: false, returnFaceAttributes: attrs);
 
@@ -169,7 +178,7 @@ namespace FaceAPIHeadPoseSample
 
         public void Log(string logMessage)
         {
-            if (String.IsNullOrEmpty(logMessage) || logMessage == "\n")
+            if (string.IsNullOrEmpty(logMessage) || logMessage == "\n")
             {
                 _logTextBox.Text += "\n";
             }
@@ -186,30 +195,30 @@ namespace FaceAPIHeadPoseSample
 
         #region Properties
 
-        private string _SubscriptionKey = "Paste your subscription key";
+        private string _subscriptionKey = "Paste your subscription key";
         public string SubscriptionKey
         {
             get
             {
-                return _SubscriptionKey;
+                return _subscriptionKey;
             }
             set
             {
-                _SubscriptionKey = value;
+                _subscriptionKey = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("SubscriptionKey"));
             }
         }
 
-        private string _SubscriptionEndpoint = "Paste your endpoint";
+        private string _subscriptionEndpoint = "Paste your endpoint";
         public string SubscriptionEndpoint
         {
             get
             {
-                return _SubscriptionEndpoint;
+                return _subscriptionEndpoint;
             }
             set
             {
-                _SubscriptionEndpoint = value;
+                _subscriptionEndpoint = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("SubscriptionEndpoint"));
             }
         }
@@ -334,7 +343,7 @@ namespace FaceAPIHeadPoseSample
         {
             buff = new List<double>();
             FirstInProcess = true;
-            ProcessStep = step;
+            processStep = step;
         }
 
         private void Wait2SecondsToReleaseProcess()
@@ -353,10 +362,10 @@ namespace FaceAPIHeadPoseSample
             MsgProcessVerticalTop = GetVerticalTopProgressBarString();
             MsgProcessVerticalDown = GetVerticalDownProgressBarString();
 
-            IndicateMsg = _IndicateDefaultMsg;
+            IndicateMsg = _indicateDefaultMsg;
         }
 
-        private void doProcess(HeadPose headPose)
+        private void Doprocess(HeadPose headPose)
         {
             ProcessIdel = false;
 
@@ -364,37 +373,39 @@ namespace FaceAPIHeadPoseSample
             var roll = headPose.Roll;
             var yaw = headPose.Yaw;
 
-            switch (ProcessStep)
+            switch (processStep)
             {
                 case 1:
                     if (FirstInProcess)
                     {
                         FirstInProcess = false;
-                        Log("Step1: detect headpose up and down.");
+                        Log("Step1: detect head pose up and down.");
                         IndicateMsg = "Please look Up and Down!";
                     }
+
                     StepOne(pitch);
                     break;
                 case 2:
                     if (FirstInProcess)
                     {
                         FirstInProcess = false;
-                        Log("Step2: detect headpose Left and Right.");
+                        Log("Step2: detect head pose Left and Right.");
                         IndicateMsg = "Please look Left and Right!";
                     }
+
                     StepTwo(yaw);
                     break;
                 case 3:
                     if (FirstInProcess)
                     {
                         FirstInProcess = false;
-                        Log("Step3: detect headpose roll left and Right.");
+                        Log("Step3: detect head pose roll left and Right.");
                         IndicateMsg = "Please roll you face Left and Right!";
                     }
+
                     StepThree(roll);
                     break;
                 default:
-                    Console.WriteLine("Default case");
                     break;
             }
         }
@@ -403,11 +414,12 @@ namespace FaceAPIHeadPoseSample
         {
             buff.Add(pitch);
             if (buff.Count > activeFrames)
+            {
                 buff.RemoveAt(0);
+            }
 
             var max = buff.Max();
             var min = buff.Min();
-            var avg = buff.Average();
 
             var maxCorrection = max < 0 ? 0 : Convert.ToInt32(max);
             var minCorrection = min > 0 ? 0 : Convert.ToInt32(Math.Abs(min));
@@ -415,10 +427,10 @@ namespace FaceAPIHeadPoseSample
             MsgProcessVerticalTop = GetVerticalTopProgressBarString(maxCorrection);
             MsgProcessVerticalDown = GetVerticalDownProgressBarString(minCorrection);
 
-            if (max > _HeadPitchMaxThreshold && min < _HeadPitchMinThreshold)
+            if (max > _headPitchMaxThreshold && min < _headPitchMinThreshold)
             {
-                IndicateMsg = "Noding Detected!";
-                Log("Noding Detected success.");
+                IndicateMsg = "Nodding Detected!";
+                Log("Nodding Detected success.");
                 CleanBuffAndSetToStep(2);
                 Wait2SecondsToReleaseProcess();
             }
@@ -428,15 +440,16 @@ namespace FaceAPIHeadPoseSample
             }
         }
 
-        private void StepTwo(double Yaw)
+        private void StepTwo(double yaw)
         {
-            buff.Add(Yaw);
+            buff.Add(yaw);
             if (buff.Count > activeFrames)
+            {
                 buff.RemoveAt(0);
+            }
 
             var max = buff.Max();
             var min = buff.Min();
-            var avg = buff.Average();
             
             var maxCorrection = max < 0 ? 0 : Convert.ToInt32(max * 2);
             var minCorrection = min > 0 ? 0 : Convert.ToInt32(Math.Abs(min * 2));
@@ -444,7 +457,7 @@ namespace FaceAPIHeadPoseSample
             MsgProcessHorizontalLeft = GetHorizontalLeftProgressBarString(maxCorrection);
             MsgProcessHorizontalRight = GetHorizontalRightProgressBarString(minCorrection);
 
-            if (min < _HeadYawMinThreshold && max > _HeadYawMaxThreshold)
+            if (min < _headYawMinThreshold && max > _headYawMaxThreshold)
             {
                 CleanBuffAndSetToStep(3);
                 IndicateMsg = "Shaking Detected!";
@@ -457,15 +470,16 @@ namespace FaceAPIHeadPoseSample
             }
         }
 
-        private void StepThree(double Roll)
+        private void StepThree(double roll)
         {
-            buff.Add(Roll);
+            buff.Add(roll);
             if (buff.Count > activeFrames)
+            {
                 buff.RemoveAt(0);
+            }
 
             var max = buff.Max();
             var min = buff.Min();
-            var avg = buff.Average();
 
             var maxCorrection = max < 0 ? 0 : Convert.ToInt32(max * 2);
             var minCorrection = min > 0 ? 0 : Convert.ToInt32(Math.Abs(min * 2));
@@ -473,12 +487,12 @@ namespace FaceAPIHeadPoseSample
             MsgProcessHorizontalLeft = GetHorizontalLeftProgressBarString(maxCorrection);
             MsgProcessHorizontalRight = GetHorizontalRightProgressBarString(minCorrection);
 
-            if (min < _HeadRollMinThreshold && max > _HeadRollMaxThreshold)
+            if (min < _headRollMinThreshold && max > _headRollMaxThreshold)
             {
                 StopProcess();
                 IndicateMsg = "Rolling Detected!";
                 Log("Rolling Detected success.");
-                Log("All headpose detection finished.");
+                Log("All head pose detection finished.");
                 Wait2SecondsToReleaseProcess();
             }
             else
@@ -507,7 +521,7 @@ namespace FaceAPIHeadPoseSample
             leftFinish = leftFinish < 0 ? 0 : leftFinish;
             leftFinish = leftFinish > totalCount ? totalCount : leftFinish;
 
-            return new String('.', totalCount - leftFinish) + new String('|', leftFinish);
+            return new string('.', totalCount - leftFinish) + new string('|', leftFinish);
         }
 
         private static string GetHorizontalRightProgressBarString(int rightFinish = 0, int totalCount = 40)
@@ -515,7 +529,7 @@ namespace FaceAPIHeadPoseSample
             rightFinish = rightFinish < 0 ? 0 : rightFinish;
             rightFinish = rightFinish > totalCount ? totalCount : rightFinish;
 
-            return new String('|', rightFinish) + new String('.', totalCount - rightFinish);
+            return new string('|', rightFinish) + new string('.', totalCount - rightFinish);
         }
 
         private static string GetVerticalTopProgressBarString(int topFinish = 0, int topCount = 30)
@@ -523,7 +537,7 @@ namespace FaceAPIHeadPoseSample
             topFinish = topFinish < 0 ? 0 : topFinish;
             topFinish = topFinish > topCount ? topCount : topFinish;
 
-            return new String('.', topCount - topFinish) + new String('|', topFinish);
+            return new string('.', topCount - topFinish) + new string('|', topFinish);
         }
 
         private static string GetVerticalDownProgressBarString(int downFinish = 0, int downCount = 15)
@@ -531,7 +545,7 @@ namespace FaceAPIHeadPoseSample
             downFinish = downFinish < 0 ? 0 : downFinish;
             downFinish = downFinish > downCount ? downCount : downFinish;
 
-            return new String('|', downFinish) + new String('.', downCount - downFinish);
+            return new string('|', downFinish) + new string('.', downCount - downFinish);
         }
 
         #endregion
@@ -558,15 +572,14 @@ namespace FaceAPIHeadPoseSample
                         }
                     }
                 }
-                catch (FileNotFoundException)
-                {
-                    subscriptionKey = null;
-                }
+                catch { }
             }
+
             if (string.IsNullOrEmpty(subscriptionKey))
             {
-                subscriptionKey = _SubscriptionKey;
+                subscriptionKey = _subscriptionKey;
             }
+
             return subscriptionKey;
         }
 
@@ -590,15 +603,14 @@ namespace FaceAPIHeadPoseSample
                         }
                     }
                 }
-                catch (FileNotFoundException)
-                {
-                    subscriptionEndpoint = null;
-                }
+                catch { }
             }
+
             if (string.IsNullOrEmpty(subscriptionEndpoint))
             {
-                subscriptionEndpoint = _SubscriptionEndpoint;
+                subscriptionEndpoint = _subscriptionEndpoint;
             }
+
             return subscriptionEndpoint;
         }
 
@@ -667,7 +679,7 @@ namespace FaceAPIHeadPoseSample
 
         private void Button_StopHeadPoseTest(object sender, RoutedEventArgs e)
         {
-            Log("Stop headpose detection.");
+            Log("Stop head pose detection.");
             StopProcess();
         }
 
@@ -679,7 +691,7 @@ namespace FaceAPIHeadPoseSample
                 return;
             }
 
-            Log("Start headpose detection.");
+            Log("Start head pose detection.");
 
             CleanBuffAndSetToStep(1);
             if (_grabber.AnalysisFunction == null)
