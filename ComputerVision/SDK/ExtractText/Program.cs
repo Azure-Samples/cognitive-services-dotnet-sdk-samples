@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExtractText
 {
-    class Program
+    class ExtractText
     {
         // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";

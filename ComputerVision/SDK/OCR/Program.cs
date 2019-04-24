@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageOCR
 {
-    class Program
+    class OCR
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; //replace with your obtained key
 

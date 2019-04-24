@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DetectObjects
 {
-    class Program
+    class DetectObjects
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; //replace this with your key
 

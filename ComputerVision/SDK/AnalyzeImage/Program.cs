@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageAnalyze
 {
-    class Program
+    class ImageAnalyze
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";  //change this with your subscription key
 
