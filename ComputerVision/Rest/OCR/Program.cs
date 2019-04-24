@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace ocr
+namespace OCR
 {
     static class OCR
     {
@@ -50,7 +50,7 @@ namespace ocr
                 // The detectOrientation parameter is set to true, so the method detects and and corrects text orientation before detecting text.
                 string requestParameters = "language=unk&detectOrientation=true";
 
-                // Assemble the URI for the REST API method.
+                //Assemble the URI and content header for the REST API request
                 string uri = uriBase + "?" + requestParameters;
 
                 HttpResponseMessage response;
@@ -102,15 +102,15 @@ namespace ocr
             {
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                //Assemble the URI and content header for the REST API request
                 string requestParameters = "language=unk&detectOrientation=true";
                 string uri = uriBase + "?" + requestParameters;
-
-                HttpResponseMessage response;
                 string requestBody = " {\"url\":\"" + imageUrl + "\"}";
                 var content = new StringContent(requestBody);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                response = await client.PostAsync(uri, content);
+                // Post the request and display the result
+                HttpResponseMessage response = await client.PostAsync(uri, content);
                 string contentString = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }

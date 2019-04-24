@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace analyzeImage
+namespace AnalyzeImage
 {
     static class AnalyzeImage
     {
@@ -30,53 +30,7 @@ namespace analyzeImage
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
-        
-        static async Task AnalyzeFromUrlAsync(string imageUrl)
-        {
-            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
-            {
-                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
-                return;
-            }
-
-            try
-            {
-                HttpClient client = new HttpClient();
-
-                // Request headers.
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-
-                // Request parameters. A third optional parameter is "details".
-                // Comment parameters that aren't required
-                string requestParameters = "visualFeatures=" +
-                    "Categories," +
-                    "Description," +
-                    "Color, " +
-                    "Tags, " +
-                    "Faces, " +
-                    "ImageType, " +
-                    "Adult , " +
-                    "Brands , " +
-                    "Objects"
-                    ;
-
-                // Assemble the URI for the REST API method.
-                string uri = uriBase + "?" + requestParameters;
-
-                HttpResponseMessage response;
-                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
-                var content = new StringContent(requestBody);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                response = await client.PostAsync(uri, content);
-                string contentString = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("\n" + e.Message);
-            }
-        }
-        
+                
         static async Task AnalyzeFromStreamAsync(string imageFilePath)
         {
             if (!File.Exists(imageFilePath))
@@ -140,13 +94,61 @@ namespace analyzeImage
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             // Open a read-only file stream for the specified file.
-            using (FileStream fileStream =
-                new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
             {
                 // Read the file's contents into a byte array.
                 BinaryReader binaryReader = new BinaryReader(fileStream);
                 return binaryReader.ReadBytes((int)fileStream.Length);
             }
         }
+
+        static async Task AnalyzeFromUrlAsync(string imageUrl)
+        {
+            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
+                return;
+            }
+
+            try
+            {
+                HttpClient client = new HttpClient();
+
+                // Request headers.
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+
+                // Request parameters. A third optional parameter is "details".
+                // Comment parameters that aren't required
+                string requestParameters = "visualFeatures=" +
+                    "Categories," +
+                    "Description," +
+                    "Color, " +
+                    "Tags, " +
+                    "Faces, " +
+                    "ImageType, " +
+                    "Adult , " +
+                    "Brands , " +
+                    "Objects"
+                    ;
+
+                //Assemble the URI and content header for the REST API request
+                string uri = uriBase + "?" + requestParameters;
+
+                HttpResponseMessage response;
+                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                // Post the request and display the result
+                response = await client.PostAsync(uri, content);
+                string contentString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
+            }
+        }
+
     }
 }

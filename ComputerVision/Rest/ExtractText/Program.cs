@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace extractText
+namespace ExtractText
 {
     static class ExtractText
     {
@@ -58,9 +58,9 @@ namespace extractText
                 // Request parameter.
                 // replace to mode=Printed if passing in images with printed text
                 //string requestParameters = "mode=Printed";
-                string requestParameters = "mode=Handwritten";  
+                string requestParameters = "mode=Handwritten";
 
-                // Assemble the URI for the REST API method.
+                //Assemble the URI and content header for the REST API request
                 string uri = uriBase + "?" + requestParameters;
 
                 HttpResponseMessage response;
@@ -105,7 +105,6 @@ namespace extractText
 
         static async Task WaitForExtractTextOperationResultAsync(HttpClient client, HttpResponseMessage response)
         {
-            
             // operationLocation stores the URI of the second REST API method returned by the first REST API method.
             string operationLocation;
 
@@ -147,7 +146,6 @@ namespace extractText
             Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
         }
 
-
         /// <summary>
         /// Gets the text from the specified image URL by using the Computer Vision REST API.
         /// </summary>
@@ -163,23 +161,22 @@ namespace extractText
 
             try
             {
+                //Assemble the URI and content header for the REST API request
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
                 // replace to mode=Handwritten if passing in images with handwritten text
                 //string requestParameters = "mode=Handwritten";
-                string requestParameters = "mode=Printed";  
+                string requestParameters = "mode=Printed";
                 string uri = uriBase + "?" + requestParameters;
-
-                HttpResponseMessage response;
-
                 string requestBody = " {\"url\":\"" + remoteImgUrl + "\"}";
                 var content = new StringContent(requestBody);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                response = await client.PostAsync(uri, content);
+                
+                // Post the request
+                HttpResponseMessage response = await client.PostAsync(uri, content);
 
                 // The response header for the Batch Read method contains the URI of the second method, Read Operation Result, which returns the results of the process in the response body.
                 await WaitForExtractTextOperationResultAsync(client, response);
-
             }
             catch (Exception e)
             {
@@ -188,4 +185,3 @@ namespace extractText
         }
     }
 }
- 

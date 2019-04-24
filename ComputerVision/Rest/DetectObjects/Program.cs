@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace detectObjects
+namespace DetectObjects
 {
     static class DetectObjects
     { 
@@ -29,32 +29,6 @@ namespace detectObjects
             Task.WhenAll(t1, t2).Wait(5000);
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
-        }
-
-        static async Task DetectObjectsFromUrlAsync(string imageUrl)
-        {
-            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
-            {
-                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
-                return;
-            }
-            try
-            {
-                HttpClient client = new HttpClient();
-                // Request headers
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-                HttpResponseMessage response;
-                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
-                var content = new StringContent(requestBody);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                response = await client.PostAsync(uri, content);
-                string contentString = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("\n" + e.Message);
-            }
         }
 
         static async Task DetectObjectsFromStreamAsync(string imageFilePath)
@@ -97,16 +71,42 @@ namespace detectObjects
             }
         }
         
-
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             // Open a read-only file stream for the specified file.
-            using (FileStream fileStream =
-                new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
             {
                 // Read the file's contents into a byte array.
                 BinaryReader binaryReader = new BinaryReader(fileStream);
                 return binaryReader.ReadBytes((int)fileStream.Length);
+            }
+        }
+
+        static async Task DetectObjectsFromUrlAsync(string imageUrl)
+        {
+            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
+                return;
+            }
+            try
+            {
+                HttpClient client = new HttpClient();
+                // Request headers
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                HttpResponseMessage response;
+                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                // Post the request and display the result
+                response = await client.PostAsync(uri, content);
+                string contentString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
             }
         }
     }
