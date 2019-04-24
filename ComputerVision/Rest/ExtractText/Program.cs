@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace CSHttpClientSample
 {
-    static class Program
+    static class ExtractText
     {
-        // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "<Subscription Key>";
+        // Replace with your valid subscription key.
+        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
         // You must use the same Azure region in your REST API method as you used to get your subscription keys. Free trial subscription keys are generated in the "westus" region.
         const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
 
         static void Main()
         {
-            // Get the path and filename to process from the user.
-            Console.WriteLine("Text Recognition:");
-            Console.Write("Enter the path to an image with text you wish to read: ");
-            string imageFilePath = Console.ReadLine();
+            Console.WriteLine("Extract text in images:");
+
+            string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample2.png";
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             if (File.Exists(imageFilePath))
             {
@@ -33,6 +33,16 @@ namespace CSHttpClientSample
             {
                 Console.WriteLine("\nInvalid file path");
             }
+
+            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
+            {
+                ExtractTextFromURL(remoteImageUrl).Wait();
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
+            }
+
             Console.WriteLine("\nPress Enter to exit...");
             Console.ReadLine();
         }
@@ -49,8 +59,7 @@ namespace CSHttpClientSample
                 HttpClient client = new HttpClient();
 
                 // Request headers.
-                client.DefaultRequestHeaders.Add(
-                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Request parameter.
                 string requestParameters = "mode=Handwritten";  // replace mode=Printed
@@ -145,6 +154,63 @@ namespace CSHttpClientSample
                 // Read the file's contents into a byte array.
                 BinaryReader binaryReader = new BinaryReader(fileStream);
                 return binaryReader.ReadBytes((int)fileStream.Length);
+            }
+        }
+
+        static async Task ExtractTextFromURL(string remoteImgUrl)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                string requestParameters = "mode=Printed";  // replace mode=Handwritten
+                string uri = uriBase + "?" + requestParameters;
+
+                HttpResponseMessage response;
+                string operationLocation;
+
+                string requestBody = " {\"url\":\"" + remoteImgUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(uri, content);
+
+                // The response header for the Batch Read method contains the URI of the second method, Read Operation Result, which returns the results of the process in the response body.
+
+                if (response.IsSuccessStatusCode)
+                    operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
+                else
+                {
+                    // Display the JSON error data.
+                    string errorString = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("\n\nResponse:\n{0}\n", JToken.Parse(errorString).ToString());
+                    return;
+                }
+
+                // If the first REST API method completes successfully, the second REST API method retrieves the text written in the image.
+
+                string contentString;
+                int i = 0;
+                do
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    response = await client.GetAsync(operationLocation);
+                    contentString = await response.Content.ReadAsStringAsync();
+                    ++i;
+                }
+                while (i < 10 && contentString.IndexOf("\"status\":\"Succeeded\"") == -1);
+
+                if (i == 10 && contentString.IndexOf("\"status\":\"Succeeded\"") == -1)
+                {
+                    Console.WriteLine("\nTimeout error.\n");
+                    return;
+                }
+
+                // Display the JSON response.
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
             }
         }
     }

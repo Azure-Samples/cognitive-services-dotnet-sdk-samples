@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace CSHttpClientSample
 {
-    static class Program
+    static class OCR
     {
         // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "<Subscription Key>";
+        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 
         // You must use the same Azure region in your REST API method as you used to get your subscription keys. 
         // Free trial subscription keys are generated in the "westus" region. 
@@ -18,10 +18,10 @@ namespace CSHttpClientSample
 
         static void Main()
         {
-            // Get the path and filename to process from the user.
-            Console.WriteLine("Optical Character Recognition:");
-            Console.Write("Enter the path to an image with text you wish to read: ");
-            string imageFilePath = Console.ReadLine();
+            Console.WriteLine("Extract text in images:");
+
+            string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample1.png";
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             if (File.Exists(imageFilePath))
             {
@@ -33,6 +33,16 @@ namespace CSHttpClientSample
             {
                 Console.WriteLine("\nInvalid file path");
             }
+
+            if (Uri.IsWellFormedUriString(remoteImageUrl, UriKind.Absolute))
+            {
+                OcrFromUrl(remoteImageUrl).Wait();
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", remoteImageUrl);
+            }
+
             Console.WriteLine("\nPress Enter to exit...");
             Console.ReadLine();
         }
@@ -103,6 +113,33 @@ namespace CSHttpClientSample
                 // Read the file's contents into a byte array.
                 BinaryReader binaryReader = new BinaryReader(fileStream);
                 return binaryReader.ReadBytes((int)fileStream.Length);
+            }
+        }
+
+        /// <summary>
+        /// Gets the text visible in the specified image URL by using the Computer Vision REST API.
+        /// </summary>
+        /// <param name="imageUrl">The URL for the image with printed text.</param>
+        static async Task OcrFromUrl(string imageUrl)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                string requestParameters = "language=unk&detectOrientation=true";
+                string uri = uriBase + "?" + requestParameters;
+
+                HttpResponseMessage response;
+                string requestBody = " {\"url\":\"" + imageUrl + "\"}";
+                var content = new StringContent(requestBody);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(uri, content);
+                string contentString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message);
             }
         }
     }
