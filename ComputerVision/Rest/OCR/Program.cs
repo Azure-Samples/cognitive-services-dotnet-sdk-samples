@@ -53,7 +53,6 @@ namespace OCR
                 //Assemble the URI and content header for the REST API request
                 string uri = uriBase + "?" + requestParameters;
 
-                HttpResponseMessage response;
                 // Read the contents of the specified local image into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
 
@@ -65,14 +64,13 @@ namespace OCR
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
-                    response = await client.PostAsync(uri, content);
+                    HttpResponseMessage response = await client.PostAsync(uri, content);
+
+                    // Asynchronously get the JSON response.
+                    string contentString = await response.Content.ReadAsStringAsync();
+                    // Display the JSON response.
+                    Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
                 }
-
-                // Asynchronously get the JSON response.
-                string contentString = await response.Content.ReadAsStringAsync();
-
-                // Display the JSON response.
-                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
             catch (Exception e)
             {

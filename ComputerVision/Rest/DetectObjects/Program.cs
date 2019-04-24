@@ -44,10 +44,8 @@ namespace DetectObjects
 
                 // Request headers.
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-                HttpResponseMessage response;
                 // Read the contents of the specified local image into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
-
                 // Add the byte array as an octet stream to the request body.
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
                 {
@@ -56,14 +54,12 @@ namespace DetectObjects
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // Asynchronously call the REST API method.
-                    response = await client.PostAsync(uri, content);
+                    HttpResponseMessage response = await client.PostAsync(uri, content);
+                    // Asynchronously get the JSON response.
+                    string contentString = await response.Content.ReadAsStringAsync();
+                    // Display the JSON response.
+                    Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
                 }
-
-                // Asynchronously get the JSON response.
-                string contentString = await response.Content.ReadAsStringAsync();
-
-                // Display the JSON response.
-                Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }
             catch (Exception e)
             {
@@ -94,13 +90,12 @@ namespace DetectObjects
                 HttpClient client = new HttpClient();
                 // Request headers
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-                HttpResponseMessage response;
                 string requestBody = " {\"url\":\"" + imageUrl + "\"}";
                 var content = new StringContent(requestBody);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 // Post the request and display the result
-                response = await client.PostAsync(uri, content);
+                HttpResponseMessage response = await client.PostAsync(uri, content);
                 string contentString = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
             }

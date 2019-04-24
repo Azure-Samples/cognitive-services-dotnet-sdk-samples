@@ -63,8 +63,6 @@ namespace ExtractText
                 //Assemble the URI and content header for the REST API request
                 string uri = uriBase + "?" + requestParameters;
 
-                HttpResponseMessage response;
-
                 // Reads the contents of the specified local image into a byte array.
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
 
@@ -76,10 +74,9 @@ namespace ExtractText
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     // The first REST API method, Batch Read, starts the async process to analyze the written text in the image.
-                    response = await client.PostAsync(uri, content);
+                    HttpResponseMessage response = await client.PostAsync(uri, content);
+                    await WaitForExtractTextOperationResultAsync(client, response);
                 }
-
-                await WaitForExtractTextOperationResultAsync(client, response);
             }
             catch (Exception e)
             {
@@ -133,8 +130,7 @@ namespace ExtractText
                 response = await client.GetAsync(operationLocation);
                 contentString = await response.Content.ReadAsStringAsync();
                 ++i;
-            }
-            while (i < 10 && contentString.IndexOf("\"status\":\"Succeeded\"") == -1);
+            } while (i < 10 && contentString.IndexOf("\"status\":\"Succeeded\"") == -1);
 
             if (i == 10 && contentString.IndexOf("\"status\":\"Succeeded\"") == -1)
             {
