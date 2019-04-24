@@ -99,7 +99,9 @@ namespace CSHttpClientSample
                 // returns the results of the process in the response body.
                 // The Batch Read operation does not return anything in the response body.
                 if (response.IsSuccessStatusCode)
+                {
                     operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
+                }
                 else
                 {
                     // Display the JSON error data.
@@ -148,8 +150,7 @@ namespace CSHttpClientSample
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             // Open a read-only file stream for the specified file.
-            using (FileStream fileStream =
-                new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read))
             {
                 // Read the file's contents into a byte array.
                 BinaryReader binaryReader = new BinaryReader(fileStream);

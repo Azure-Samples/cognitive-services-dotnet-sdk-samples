@@ -1,1 +1,1 @@
-You'll need to have Azure subscription keys to use the SDK.
+Here you will find a set of examples for various Computer Vision scenarios that are written based on the Computer Vision SDK. Just update the code to enter your API Key, modify the End Point, select the desired project as the starting project, and hit F5 in Visual Studio.

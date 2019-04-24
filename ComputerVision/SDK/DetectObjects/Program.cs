@@ -11,7 +11,6 @@ namespace DetectObjects
     class Program
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; //replace this with your key
-        private const string remoteImageUrl ="https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
         static void Main(string[] args)
         {
@@ -20,8 +19,8 @@ namespace DetectObjects
             // You must use the same region as you used to get your subscription keys.            
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
             
-            // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = @"Images\sample6.png";
+            string localImagePath = @"Images\sample6.png";   // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);

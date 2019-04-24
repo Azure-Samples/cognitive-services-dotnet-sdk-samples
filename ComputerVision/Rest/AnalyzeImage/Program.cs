@@ -26,7 +26,7 @@ namespace AnalyzeImage
             {
                 // Call the REST API method.
                 Console.WriteLine("\nWait a moment for the results to appear.\n");
-                AnalyzeLocalAsync(imageFilePath).Wait();
+                AnalyzeFromStreamAsync(imageFilePath).Wait();
             }
             else
             {
@@ -93,7 +93,7 @@ namespace AnalyzeImage
             }
         }
         
-        static async Task AnalyzeLocalAsync(string imageFilePath)
+        static async Task AnalyzeFromStreamAsync(string imageFilePath)
         {
             try
             {

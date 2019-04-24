@@ -11,7 +11,6 @@ namespace ImageAnalyze
     class Program
     {
         private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";  //change this with your subscription key
-        private const string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
         // Specify the features to return
         private static readonly List<VisualFeatureTypes> features =
@@ -33,7 +32,8 @@ namespace ImageAnalyze
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = @"Images\sample5.png"; 
+            string localImagePath = @"Images\sample5.png";
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeFromUrlAsync(computerVision, remoteImageUrl);
@@ -128,8 +128,7 @@ namespace ImageAnalyze
             Console.WriteLine("Captions:");
             foreach (var caption in analysis.Description.Captions)
             {
-                Console.WriteLine("{0} with confidence {1}",
-                    caption.Text, caption.Confidence);
+                Console.WriteLine("{0} with confidence {1}", caption.Text, caption.Confidence);
             }
             Console.WriteLine("\n");
         }
@@ -203,7 +202,7 @@ namespace ImageAnalyze
             Console.WriteLine("Accent color: " + analysis.Color.AccentColor);
             Console.WriteLine("Dominant background color: " + analysis.Color.DominantColorBackground);
             Console.WriteLine("Dominant foreground color: " + analysis.Color.DominantColorForeground);
-            Console.WriteLine("Dominant colours: " + string.Join(",", analysis.Color.DominantColors));
+            Console.WriteLine("Dominant colors: " + string.Join(",", analysis.Color.DominantColors));
         }
 
         private static void DisplayImageCategoryResults(ImageAnalysis analysis)
@@ -212,8 +211,7 @@ namespace ImageAnalyze
             Console.WriteLine("Categories:\n");
             foreach (var category in analysis.Categories)
             {
-                Console.WriteLine("{0} with confidence {1}",
-                    category.Name, category.Score);
+                Console.WriteLine("{0} with confidence {1}",category.Name, category.Score);
             }
             Console.WriteLine("\n");
         }

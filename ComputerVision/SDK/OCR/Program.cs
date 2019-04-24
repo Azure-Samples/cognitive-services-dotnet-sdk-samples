@@ -22,11 +22,10 @@ namespace ImageOCR
                 Endpoint = "https://westus.api.cognitive.microsoft.com"
             };
 
-            // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = @"Images\sample0.png";
+            string localImagePath = @"Images\sample0.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             Console.WriteLine("Images being analyzed ...");
-            //OCRFromUrlAsync(computerVision, remoteImageUrl).Wait(5000);
 
             var t1 = OCRFromUrlAsync(computerVision, remoteImageUrl);
             var t2 = OCRFromStreamAsync(computerVision, localImagePath);

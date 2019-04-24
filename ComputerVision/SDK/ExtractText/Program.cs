@@ -15,8 +15,6 @@ namespace ExtractText
         // For printed text, change to TextRecognitionMode.Printed
         private const TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
 
-        private const string remoteImageUrl ="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
-
         private const int numberOfCharsInOperationId = 36;
 
         static void Main(string[] args)
@@ -25,8 +23,9 @@ namespace ExtractText
 
             // You must use the same region as you used to get your subscription keys. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
-            // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = @"Images\sample2.png";
+            
+            string localImagePath = @"Images\sample2.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string remoteImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl);
@@ -42,8 +41,7 @@ namespace ExtractText
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
-                Console.WriteLine(
-                    "\nInvalid remote image url:\n{0} \n", imageUrl);
+                Console.WriteLine("\nInvalid remote image url:\n{0} \n", imageUrl);
                 return;
             }
 
@@ -57,8 +55,7 @@ namespace ExtractText
         {
             if (!File.Exists(imagePath))
             {
-                Console.WriteLine(
-                    "\nUnable to open or read local image path:\n{0} \n", imagePath);
+                Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
 
@@ -71,8 +68,7 @@ namespace ExtractText
         }
 
         // Retrieve the recognized text
-        private static async Task GetTextAsync(
-            ComputerVisionClient computerVision, string operationLocation)
+        private static async Task GetTextAsync(ComputerVisionClient computerVision, string operationLocation)
         {
             // Retrieve the URI where the recognized text will be
             // stored from the Operation-Location header

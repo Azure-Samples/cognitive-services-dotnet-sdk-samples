@@ -1,1 +1,1 @@
-This has quickstarts for the REST API. You will need to obtain an Azure subscription key to run these. 
+Here, you will find a set of examples for various Computer Vision scenarios that are written based on the Computer Vision Rest APIs. Just update the code with your API Key and End Point, select the desired project as the starting project, and hit F5 in Visual Studio.
