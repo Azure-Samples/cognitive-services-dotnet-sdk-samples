@@ -19,7 +19,7 @@ namespace DetectObjects
         {
             Console.WriteLine("Detect objects in images:");
 
-            string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
+            string imageFilePath = @"Images\sample6.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
             
             if (File.Exists(imageFilePath))

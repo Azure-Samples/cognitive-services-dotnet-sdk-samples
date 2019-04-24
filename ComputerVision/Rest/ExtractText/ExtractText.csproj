@@ -6,7 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\..\Images\sample2.png" Link="Images\sample2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 
 </Project>

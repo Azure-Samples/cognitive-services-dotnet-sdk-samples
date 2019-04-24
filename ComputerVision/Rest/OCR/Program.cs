@@ -20,7 +20,7 @@ namespace CSHttpClientSample
         {
             Console.WriteLine("Extract text in images:");
 
-            string imageFilePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample1.png";
+            string imageFilePath = @"Images\sample1.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             if (File.Exists(imageFilePath))
