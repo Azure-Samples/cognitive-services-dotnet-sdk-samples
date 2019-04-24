@@ -69,7 +69,7 @@
                     <DataTemplate>
                         <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="#FF26B8F4" StrokeThickness="1">
                             <Rectangle.LayoutTransform>
-                                <RotateTransform CenterX="-0.5" CenterY="-0.5" Angle="{Binding FaceAngle}"/>
+                                <RotateTransform Angle="{Binding FaceAngle}"/>
                             </Rectangle.LayoutTransform>
                         </Rectangle>
                     </DataTemplate>
