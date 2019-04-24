@@ -21,7 +21,7 @@ namespace DetectObjects
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
             
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample6.png";
+            string localImagePath = @"Images\sample6.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);

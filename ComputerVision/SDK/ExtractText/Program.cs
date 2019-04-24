@@ -26,7 +26,7 @@ namespace ExtractText
             // You must use the same region as you used to get your subscription keys. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample2.png";
+            string localImagePath = @"Images\sample2.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl);

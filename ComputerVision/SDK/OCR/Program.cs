@@ -23,7 +23,7 @@ namespace ImageOCR
             };
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample0.png";
+            string localImagePath = @"Images\sample0.png";
 
             Console.WriteLine("Images being analyzed ...");
             //OCRFromUrlAsync(computerVision, remoteImageUrl).Wait(5000);

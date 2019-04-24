@@ -33,7 +33,7 @@ namespace ImageAnalyze
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = Directory.GetCurrentDirectory() + @"../../../../../../Images\sample5.png"; 
+            string localImagePath = @"Images\sample5.png"; 
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeFromUrlAsync(computerVision, remoteImageUrl);
