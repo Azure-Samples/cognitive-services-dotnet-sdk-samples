@@ -11,6 +11,7 @@ namespace Face_CS
 {
     class Program
     {
+        // NOTE: Replace this with a valid Face subscription key.
         private const string subscriptionKey = "INSERT KEY HERE";
 
         // You must use the same region as you used to get your subscription
@@ -23,10 +24,6 @@ namespace Face_CS
         // Specify the Azure region
         private const string faceEndpoint =
             "https://westcentralus.api.cognitive.microsoft.com";
-
-        // Set this to a unique name, such as "jfk_group_12345".
-        // Use only numbers, lowercase English letters, '-', and '_'. Maximum length is 64.
-        private const string personGroupID = "INSERT GROUP NAME HERE";
 
         // This image should contain a single face.
         private const string remoteImageUrl_1 =
@@ -64,7 +61,7 @@ namespace Face_CS
             return detectedFaces;
         }
 
-        // Find similar faces to @FaceID in @faceIDs.
+        // Find similar faces to @faceID in @faceIDs.
         private static async Task<IList<SimilarFace>> FindSimilarFaces(
             FaceClient faceClient, Guid faceID, IList<Guid> faceIDs)
         {
