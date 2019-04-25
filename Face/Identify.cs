@@ -190,7 +190,7 @@ namespace Face_CS
         private static async Task RunQuickstart(FaceClient faceClient)
         {
             var faceIDs = await GetFaceIDs(faceClient, remoteImageUrl_1);
-            if (true == faceIDs.Any())
+            if (false == faceIDs.Any())
             {
                 Console.WriteLine("No faces detected in " + remoteImageUrl_1 + ".");
             }
@@ -206,7 +206,7 @@ namespace Face_CS
                         if (true == await TrainGroup(faceClient))
                         {
                             var identifiedFaceIDs = await IdentifyFaces(faceClient, faceIDs);
-                            if (true == identifiedFaceIDs.Any())
+                            if (false == identifiedFaceIDs.Any())
                             {
                                 Console.WriteLine("No faces identified in " + remoteImageUrl_2 + ".");
                             }
