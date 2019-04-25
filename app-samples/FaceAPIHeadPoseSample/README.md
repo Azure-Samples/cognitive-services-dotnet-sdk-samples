@@ -20,8 +20,6 @@ This program requires a camera, you need to connect one.
 
 After the build is complete, press F5 to run the sample.
 
-First, you need to connect a camera.
-
 First, you must obtain a Face API subscription key by [following instructions on our website](<https://www.microsoft.com/cognitive-services/en-us/sign-up>).
 
 Locate the text edit box saying "Paste your subscription key" and "Paste your endpoint" on
