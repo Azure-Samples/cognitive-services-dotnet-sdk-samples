@@ -80,9 +80,24 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private int _top;
 
         /// <summary>
+        /// Face original position X relative to image left-top in pixel
+        /// </summary>
+        private int _originalLeft;
+
+        /// <summary>
+        /// Face original position Y relative to image left-top in pixel
+        /// </summary>
+        private int _originalTop;
+
+        /// <summary>
         /// Face width in pixel
         /// </summary>
         private int _width;
+
+        /// <summary>
+        /// Face angle
+        /// </summary>
+        private double _faceAngle;
 
         /// <summary>
         /// Indicates the headPose
@@ -147,7 +162,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         /// <summary>
         /// Indicates the noise
         /// </summary>
-        private string _noise;        
+        private string _noise;
 
         #endregion Fields
 
@@ -311,6 +326,40 @@ namespace Microsoft.ProjectOxford.Face.Controls
         }
 
         /// <summary>
+        /// Gets or sets face original position X
+        /// </summary>
+        public int OriginalLeft
+        {
+            get
+            {
+                return _originalLeft;
+            }
+
+            set
+            {
+                _originalLeft = value;
+                OnPropertyChanged<int>();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets face original position Y
+        /// </summary>
+        public int OriginalTop
+        {
+            get
+            {
+                return _originalTop;
+            }
+
+            set
+            {
+                _originalTop = value;
+                OnPropertyChanged<int>();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets face width
         /// </summary>
         public int Width
@@ -328,7 +377,24 @@ namespace Microsoft.ProjectOxford.Face.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating the head pose value.
+        /// Gets or sets face angle
+        /// </summary>
+        public double FaceAngle
+        {
+            get
+            {
+                return _faceAngle;
+            }
+
+            set
+            {
+                _faceAngle = value;
+                OnPropertyChanged<int>();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the head pose value
         /// </summary>
         public string HeadPose
         {

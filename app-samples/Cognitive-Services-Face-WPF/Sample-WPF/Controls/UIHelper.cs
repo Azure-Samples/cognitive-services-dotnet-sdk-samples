@@ -110,7 +110,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
         {
             var imageWidth = imageInfo.Item1;
             var imageHeight = imageInfo.Item2;
-            float ratio = (float)imageWidth / imageHeight;
+            var ratio = (float)imageWidth / imageHeight;
             int uiWidth = 0;
             int uiHeight = 0;
             if (ratio > 1.0)
@@ -124,19 +124,51 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 uiWidth = (int)(ratio * uiHeight);
             }
 
-            int uiXOffset = (maxSize - uiWidth) / 2;
-            int uiYOffset = (maxSize - uiHeight) / 2;
-            float scale = (float)uiWidth / imageWidth;
+            var uiXOffset = (maxSize - uiWidth) / 2;
+            var uiYOffset = (maxSize - uiHeight) / 2;
+            var scale = (float)uiWidth / imageWidth;
 
             foreach (var face in faces)
             {
+                var left = (int)(face.FaceRectangle.Left * scale + uiXOffset);
+                var top = (int)(face.FaceRectangle.Top * scale + uiYOffset);
+
+                // Angle of face rectangles, default value is 0 (not rotated).
+                double faceAngle = 0;
+
+                // If head pose attributes have been obtained, re-calculate the left & top (X & Y) positions.
+                if (face.FaceAttributes?.HeadPose != null)
+                {
+                    // Head pose's roll value acts directly as the face angle.
+                    faceAngle = face.FaceAttributes.HeadPose.Roll;
+                    var angleToPi = Math.Abs((faceAngle / 180) * Math.PI);
+
+                    // _____       | / \ |
+                    // |____|  =>  |/   /|
+                    //             | \ / |
+                    // Re-calculate the face rectangle's left & top (X & Y) positions.
+                    var newLeft = face.FaceRectangle.Left +
+                        face.FaceRectangle.Width / 2 -
+                        (face.FaceRectangle.Width * Math.Sin(angleToPi) + face.FaceRectangle.Height * Math.Cos(angleToPi)) / 2;
+
+                    var newTop = face.FaceRectangle.Top +
+                        face.FaceRectangle.Height / 2 -
+                        (face.FaceRectangle.Height * Math.Sin(angleToPi) + face.FaceRectangle.Width * Math.Cos(angleToPi)) / 2;
+
+                    left = (int)(newLeft * scale + uiXOffset);
+                    top = (int)(newTop * scale + uiYOffset);
+                }
+
                 yield return new Face()
                 {
                     FaceId = face.FaceId?.ToString(),
-                    Left = (int)((face.FaceRectangle.Left * scale) + uiXOffset),
-                    Top = (int)((face.FaceRectangle.Top * scale) + uiYOffset),
+                    Left = left,
+                    Top = top,
+                    OriginalLeft = (int)(face.FaceRectangle.Left * scale + uiXOffset),
+                    OriginalTop = (int)(face.FaceRectangle.Top * scale + uiYOffset),
                     Height = (int)(face.FaceRectangle.Height * scale),
                     Width = (int)(face.FaceRectangle.Width * scale),
+                    FaceAngle = faceAngle,
                 };
             }
         }

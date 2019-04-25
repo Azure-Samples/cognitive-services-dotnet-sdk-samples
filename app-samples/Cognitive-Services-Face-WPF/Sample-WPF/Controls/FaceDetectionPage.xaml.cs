@@ -51,7 +51,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
     /// </summary>
     public partial class FaceDetectionPage : Page, INotifyPropertyChanged
     {
-        
+
         #region Fields
 
         /// <summary>
@@ -80,9 +80,19 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private ObservableCollection<Face> _resultCollection = new ObservableCollection<Face>();
 
         /// <summary>
+        /// Container of face detection results with faces rotated by head poses
+        /// </summary>
+        private ObservableCollection<Face> _resultCollectionWithHeadpose = new ObservableCollection<Face>();
+
+        /// <summary>
         /// Image used for rendering and detecting
         /// </summary>
         private ImageSource _selectedFile;
+
+        /// <summary>
+        /// Whether to draw rectangles rotated by head poses
+        /// </summary>
+        private bool _drawHeadPose;
 
         #endregion Fields
 
@@ -198,6 +208,42 @@ namespace Microsoft.ProjectOxford.Face.Controls
             }
         }
 
+        /// <summary>
+        /// Sets whether to draw face rectangles rotated by head poses.
+        /// </summary>
+        public bool DrawHeadPose
+        {
+            set
+            {
+                _drawHeadPose = value;
+
+                // Update face rectangles.
+                if (_drawHeadPose)
+                {
+                    for (int i = 0; i < ResultCollection.Count; i++)
+                    {
+                        ResultCollection[i].FaceAngle = _resultCollectionWithHeadpose[i].FaceAngle;
+                        ResultCollection[i].Left = _resultCollectionWithHeadpose[i].Left;
+                        ResultCollection[i].Top = _resultCollectionWithHeadpose[i].Top;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ResultCollection.Count; i++)
+                    {
+                        ResultCollection[i].FaceAngle = 0;
+                        ResultCollection[i].Left = _resultCollectionWithHeadpose[i].OriginalLeft;
+                        ResultCollection[i].Top = _resultCollectionWithHeadpose[i].OriginalTop;
+                    }
+                }
+
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("DrawHeadPose"));
+                }
+            }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -222,9 +268,10 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 var renderingImage = UIHelper.LoadImageAppliedOrientation(pickedImagePath);
                 var imageInfo = UIHelper.GetImageInfoForRendering(renderingImage);
                 SelectedFile = renderingImage;
-                
+
                 // Clear last detection result
                 ResultCollection.Clear();
+                _resultCollectionWithHeadpose.Clear();
                 DetectedFaces.Clear();
                 DetectedResultsInText = string.Format("Detecting...");
 
@@ -296,6 +343,23 @@ namespace Microsoft.ProjectOxford.Face.Controls
                         // Convert detection result into UI binding object for rendering
                         foreach (var face in UIHelper.CalculateFaceRectangleForRendering(faces, MaxImageSize, imageInfo))
                         {
+                            _resultCollectionWithHeadpose.Add(
+                                new Face()
+                                {
+                                    FaceAngle = face.FaceAngle,
+                                    Left = face.Left,
+                                    Top = face.Top,
+                                    OriginalLeft = face.OriginalLeft,
+                                    OriginalTop = face.OriginalTop
+                                });
+
+                            if (!_drawHeadPose)
+                            {
+                                face.FaceAngle = 0;
+                                face.Top = face.OriginalTop;
+                                face.Left = face.OriginalLeft;
+                            }
+
                             ResultCollection.Add(face);
                         }
                     }
@@ -344,14 +408,14 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 return "NoAccessories";
             }
 
-            string []accessoryArray = new string[accessories.Count];
+            string[] accessoryArray = new string[accessories.Count];
 
             for (int i = 0; i < accessories.Count; ++i)
             {
                 accessoryArray[i] = accessories[i].Type.ToString();
             }
 
-            return "Accessories: "+ String.Join(",", accessoryArray);
+            return "Accessories: " + String.Join(",", accessoryArray);
         }
 
         private string GetEmotion(Emotion emotion)
