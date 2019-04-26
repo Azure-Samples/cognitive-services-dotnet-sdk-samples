@@ -136,10 +136,6 @@ namespace FaceAPIHeadPoseSample
                             {
                                 Log($"Exception:{e.Exception.Message}");
                             }
-                            else
-                            {
-                                Log($"Exception:{nameof(e.TimedOut)} is {e.TimedOut}");
-                            }
                         }));
                 }
             };
@@ -752,6 +748,7 @@ namespace FaceAPIHeadPoseSample
         private void Button_StopHeadPoseTest(object sender, RoutedEventArgs e)
         {
             Log("Stop head pose detection.");
+            _grabber.AnalysisFunction = null;
             StopProcess();
         }
 

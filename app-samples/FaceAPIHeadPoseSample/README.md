@@ -1,7 +1,11 @@
-# Microsoft Cognitive Service Face API: WPF Sample Application
-This repo contains the Windows WPF sample for the Microsoft Face API, an offering within [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services), formerly known as Project Oxford.
+# Microsoft Cognitive Service Face Samples: WPF Head Pose Sample Application
+This repo contains the Windows WPF Head pose sample for the Microsoft Face API, an offering within [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services), will demonstrate how to perform near-real-time head pose analysis on frames taken from a live video stream. 
+* Acquire frames from a video source
+* Select which frames to analyze
+* Submit these frames to the API
+* Consume each analysis result that is returned from the API call
 
-This is to deprecate the [Microsoft.ProjectOxford.Face](https://www.nuget.org/packages/Microsoft.ProjectOxford.Face/) SDK and its sample at [Microsoft/Cognitive-Face-Windows](https://github.com/Microsoft/Cognitive-Face-Windows). The sample in this repo is using latest [Microsoft.Azure.CognitiveServices.Vision.Face SDK](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Vision.Face/) while keeping the same sample logic.
+The sample in this repo is using latest [Microsoft.Azure.CognitiveServices.Vision.Face SDK](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Vision.Face/).
 * [Learn about the Face API](https://www.microsoft.com/cognitive-services/en-us/face-api)
 * [Read the documentation](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/overview)
 * [Find more SDKs & Samples](https://www.microsoft.com/cognitive-services/en-us/SDK-Sample?api=face)
