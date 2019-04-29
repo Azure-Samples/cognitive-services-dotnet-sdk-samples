@@ -9,14 +9,14 @@ namespace AnalyzeImage
 {
     static class AnalyzeImage
     {
-        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
+        private const string subscriptionKey = "<your training key here>"; //Replace with your Cognitive Service subscription key here. The < and > must be removed too.
 
-        // You must use the same Azure region in your REST API method as you used to get your subscription keys. 
+        // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
         const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze";
 
         static void Main()
         {
-            Console.WriteLine("Detect objects in images:");
+            Console.WriteLine("Images being analyzed:");
 
             string imageFilePath = @"Images\sample6.png";
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";

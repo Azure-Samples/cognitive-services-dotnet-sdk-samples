@@ -20,13 +20,13 @@ namespace ExtractText
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
+            // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             string localImagePath = @"Images\sample2.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
             string remoteImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
-            Console.WriteLine("Images being analyzed ...");
+            Console.WriteLine("Text being extracted ...");
             var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl);
             var t2 = ExtractTextFromStreamAsync(computerVision, localImagePath);
 

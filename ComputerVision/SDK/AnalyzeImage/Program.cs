@@ -27,7 +27,7 @@ namespace AnalyzeImage
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
+            // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"

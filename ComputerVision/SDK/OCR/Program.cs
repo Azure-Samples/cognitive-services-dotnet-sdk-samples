@@ -18,14 +18,14 @@ namespace ImageOCR
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
             {
-                // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
+                // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
                 Endpoint = "https://westus.api.cognitive.microsoft.com"
             };
 
             string localImagePath = @"Images\sample0.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
-            Console.WriteLine("Images being analyzed ...");
+            Console.WriteLine("OCR on the images");
 
             var t1 = OCRFromUrlAsync(computerVision, remoteImageUrl);
             var t2 = OCRFromStreamAsync(computerVision, localImagePath);
