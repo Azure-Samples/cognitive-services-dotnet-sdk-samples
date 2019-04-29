@@ -41,10 +41,7 @@ with your subscription key. For example, if your subscription key is `0123456789
 ```c#
 private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
 ```
- 1. Update the endpoint with the region you generated your endpoint for. For example, if you are using the westcentralus endpoint, you should change the line ``` computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com"; ``` to 
-```c#
-computerVision.Endpoint = "https://westcentralus.api.cognitive.microsoft.com";
-```
+1. Update the endpoint with the region you generated your endpoint for. For example, if you are using the westcentralus endpoint, you should change the line ``` computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com"; ``` to  ``` computerVision.Endpoint = "https://westcentralus.api.cognitive.microsoft.com"; ```
 1. (Optional) Change the remote image URL and location of local image
 1. (Optional) Comment out visual parameters not needed for AnalyzeImage 
 1. Hit F5 or build the solution
