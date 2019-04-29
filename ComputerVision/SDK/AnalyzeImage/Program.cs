@@ -32,7 +32,7 @@ namespace AnalyzeImage
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
             string localImagePath = @"Images\sample5.png";
-            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample3.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = AnalyzeFromUrlAsync(computerVision, remoteImageUrl);

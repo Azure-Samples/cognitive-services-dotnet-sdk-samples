@@ -12,8 +12,6 @@ namespace ImageOCR
     {
         private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
-        private const string remoteImageUrl ="https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
-
         static void Main(string[] args)
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
@@ -23,7 +21,7 @@ namespace ImageOCR
             };
 
             string localImagePath = @"Images\sample0.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             Console.WriteLine("OCR on the images");
 

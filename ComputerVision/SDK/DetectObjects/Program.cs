@@ -20,7 +20,7 @@ namespace DetectObjects
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             string localImagePath = @"Images\sample6.png";   // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
             Console.WriteLine("Objects being detected ...");
             var t1 = DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);
