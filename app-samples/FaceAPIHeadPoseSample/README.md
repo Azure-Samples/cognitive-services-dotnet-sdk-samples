@@ -1,5 +1,5 @@
-# Microsoft Cognitive Service Face Samples: WPF Head Pose Sample Application
-This repo contains the Windows WPF Head pose sample for the Microsoft Face API, an offering within [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services), will demonstrate how to perform near-real-time head pose analysis on frames taken from a live video stream. 
+# Microsoft Cognitive Service Face API Samples: Head Pose Sample Application in WPF
+This repo contains the Windows WPF Head pose sample for the Microsoft Face API, an offering within [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services), demonstrates how to perform near-real-time head pose analysis on frames taken from a live video stream.
 * Acquire frames from a video source
 * Select which frames to analyze
 * Submit these frames to the API
@@ -11,7 +11,7 @@ The sample in this repo is using latest [Microsoft.Azure.CognitiveServices.Visio
 * [Find more SDKs & Samples](https://www.microsoft.com/cognitive-services/en-us/SDK-Sample?api=face)
 
 ## The Sample
-This sample is a Windows WPF application to demonstrate the use of Face API. It demonstrates head pose from face detection.
+This sample is a WPF application to show the usage of Face API's head pose attribute in near-real-time video scenario.
 ### Build the Sample
  1. Starting in the folder where you clone the repository (this folder)
  2. Start Microsoft Visual Studio 2015 and select `File > Open > Project/Solution`.
@@ -30,7 +30,7 @@ Locate the text edit box saying "Paste your subscription key" and "Paste your en
 the top left corner. Paste your subscription key and Endpoint. You can choose to persist
 your subscription key and endpoint in your machine by clicking "Save SubscriptionKey and Endpoint" button.
 
-Click on "Start head pose test" to use samples of different scenarios, and
+Click on "Start head pose test" to trigger the interaction, and
 follow the instructions on screen.
 
 <img src="SampleScreenshots/SampleRunning.png" width="100%"/>
