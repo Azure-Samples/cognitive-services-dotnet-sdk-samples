@@ -11,7 +11,7 @@ namespace DetectObjects
     {
         private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
-        // You must use the Azure region you used to get your subscription keys. 
+        // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
         const string uri = "https://westus.api.cognitive.microsoft.com/vision/v2.0/detect";
 
         static void Main()
@@ -19,7 +19,7 @@ namespace DetectObjects
             Console.WriteLine("Detect objects in images:");
 
             string imageFilePath = @"Images\sample6.png";
-            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = DetectObjectsFromStreamAsync(imageFilePath);

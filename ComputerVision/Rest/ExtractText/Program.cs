@@ -10,10 +10,9 @@ namespace ExtractText
 {
     static class ExtractText
     {
-        // Replace with your valid subscription key.
-        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
-        // You must use the same Azure region in your REST API method as you used to get your subscription keys. Free trial subscription keys are generated in the "westus" region.
+        // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
         const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
 
         static void Main()
@@ -21,7 +20,7 @@ namespace ExtractText
             Console.WriteLine("Extract text in images:");
 
             string imageFilePath = @"Images\sample2.png";
-            string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
 
             Console.WriteLine("Images being analyzed ...");
             var t1 = ExtractTextFromStreamAsync(imageFilePath);
