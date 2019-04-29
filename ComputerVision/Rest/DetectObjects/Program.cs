@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 namespace DetectObjects
 {
     static class DetectObjects
-    { 
-        // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+    {
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
         // You must use the Azure region you used to get your subscription keys. 
         const string uri = "https://westus.api.cognitive.microsoft.com/vision/v2.0/detect";

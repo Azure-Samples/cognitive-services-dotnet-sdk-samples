@@ -10,15 +10,15 @@ namespace DetectObjects
 {
     class DetectObjects
     {
-        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; //replace this with your key
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
         static void Main(string[] args)
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region as you used to get your subscription keys.            
+            // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
-            
+
             string localImagePath = @"Images\sample6.png";   // localImagePath = @"C:\Documents\LocalImage.jpg"
             string remoteImageUrl = "https://github.com/harishkrishnav/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample4.png";
 

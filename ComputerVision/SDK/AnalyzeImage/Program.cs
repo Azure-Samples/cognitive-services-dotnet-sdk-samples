@@ -10,7 +10,7 @@ namespace AnalyzeImage
 {
     class AnalyzeImage
     {
-        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";  //change this with your subscription key
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
         // Specify the features to return
         private static readonly List<VisualFeatureTypes> features =
@@ -27,8 +27,7 @@ namespace AnalyzeImage
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region as you used to get your subscription keys. For example, if you got your subscription keys from westus, 
-            // replace "westcentralus" with "westus". Free trial subscription keys are generated in the westcentralus region. 
+            // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"

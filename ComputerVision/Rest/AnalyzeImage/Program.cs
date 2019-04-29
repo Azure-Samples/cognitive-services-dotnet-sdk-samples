@@ -9,8 +9,7 @@ namespace AnalyzeImage
 {
     static class AnalyzeImage
     {
-        // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
         // You must use the same Azure region in your REST API method as you used to get your subscription keys. 
         const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze";

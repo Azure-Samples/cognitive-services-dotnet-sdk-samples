@@ -9,8 +9,7 @@ namespace ExtractText
 {
     class ExtractText
     {
-        // subscriptionKey = "0123456789abcdef0123456789ABCDEF"
-        private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF";
+        private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
 
         // For printed text, change to TextRecognitionMode.Printed
         private const TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
@@ -21,9 +20,9 @@ namespace ExtractText
         {
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
-            // You must use the same region as you used to get your subscription keys. 
+            // You must use the same region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
-            
+
             string localImagePath = @"Images\sample2.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
             string remoteImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
