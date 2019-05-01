@@ -21,7 +21,7 @@ namespace ImageOCR
             };
 
             string localImagePath = @"Images\sample0.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-dotnet-sdk-samples/raw/master/ComputerVision/Images/sample0.png";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/sample0.png";
 
             Console.WriteLine("OCR on the images");
 
