@@ -47,4 +47,4 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 
 ## API documentation and further reading
 - An explanation of the various concepts and visual features in the API can be found [here](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/home)
-- A detailed documentations of the API can be found [here][https://westus.dev.cognitive.microsoft.com/docs/services/5adf991815e1060e6355ad44/operations/56f91f2e778daf14a499e1fa)
+- A detailed documentations of the API can be found [here](https://westus.dev.cognitive.microsoft.com/docs/services/5adf991815e1060e6355ad44/operations/56f91f2e778daf14a499e1fa)
