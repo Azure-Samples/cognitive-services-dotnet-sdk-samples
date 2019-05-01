@@ -19,6 +19,8 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 | ExtractText | Looks for printed or handwritten text in an image|
 | OCR | Performs OCR on the image|
 | ComputerVision_SDK.sln | The Visual Studio solution with the above as projects|
+| Microsoft.Azure.CognitiveServices.Samples.ComputerVision.csproj | An earlier sample solution|
+| Program.cs | Code associated with this earlier sample solution|
 | `readme.md` | This README file. |
 
 
@@ -31,6 +33,8 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 
 1. Clone or download this sample repository
 2. Open the solution ComputerVision_SDK.sln in Visual Studio
+3. Download the images from [this repo](https://github.com/Azure-Samples/cognitive-services-sample-data-files/blob/master/ComputerVision/Images/) and add the images to each project. Alternatively modify the `imageFilePath` in all projects to reflect the path of an appropriate local image.
+
 
 ## Running the samples
 
