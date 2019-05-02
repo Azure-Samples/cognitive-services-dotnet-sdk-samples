@@ -24,6 +24,7 @@ namespace ExtractText
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             string localImagePath = @"Images\handwritten_text.jpg";  // localImagePath = @"C:\Documents\LocalImage.jpg"
+            // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
             string remoteImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
 
             Console.WriteLine("Text being extracted ...");

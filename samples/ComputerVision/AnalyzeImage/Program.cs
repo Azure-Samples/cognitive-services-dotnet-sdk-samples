@@ -31,7 +31,7 @@ namespace AnalyzeImage
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string localImagePath = @"Images\celebrities.jpg";
+            string localImagePath = @"Images\celebrities.jpg"; // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmarks.jpg";
 
             Console.WriteLine("Images being analyzed ...");
