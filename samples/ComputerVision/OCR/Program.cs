@@ -20,8 +20,8 @@ namespace ImageOCR
                 Endpoint = "https://westus.api.cognitive.microsoft.com"
             };
 
-            string localImagePath = @"Images\sample0.png";  // localImagePath = @"C:\Documents\LocalImage.jpg"
-            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/sample0.png";
+            string localImagePath = @"Images\handwritten_text.jpg";  // localImagePath = @"C:\Documents\LocalImage.jpg"
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
             Console.WriteLine("OCR on the images");
 
