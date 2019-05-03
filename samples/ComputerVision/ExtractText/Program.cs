@@ -10,10 +10,7 @@ namespace ExtractText
     class ExtractText
     {
         private const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Service subscription key here
-
-        // For printed text, change to TextRecognitionMode.Printed
-        private const TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
-
+        
         private const int numberOfCharsInOperationId = 36;
 
         static void Main(string[] args)
@@ -24,7 +21,7 @@ namespace ExtractText
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
             string localImagePath = @"Images\handwritten_text.jpg";  // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
-            string remoteImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg";
+            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
             Console.WriteLine("Text being extracted ...");
             var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl);
@@ -44,6 +41,9 @@ namespace ExtractText
                 return;
             }
 
+            // For handwritten text, change to TextRecognitionMode.Handwritten
+            TextRecognitionMode textRecognitionMode = TextRecognitionMode.Printed;
+
             // Start the async process to read the text
             BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl, textRecognitionMode);
             await GetTextAsync(computerVision, textHeaders.OperationLocation);
@@ -57,6 +57,9 @@ namespace ExtractText
                 Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
+            
+            // For printed text, change to TextRecognitionMode.Printed
+            TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
 
             using (Stream imageStream = File.OpenRead(imagePath))
             {
