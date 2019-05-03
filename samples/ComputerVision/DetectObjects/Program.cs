@@ -19,8 +19,7 @@ namespace DetectObjects
             // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
             computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com";
 
-            string localImagePath = @"Images\objects.jpg";   // localImagePath = @"C:\Documents\LocalImage.jpg"
-            // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
+            string localImagePath = @"Images\objects.jpg";   // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/faces.jpg";
 
             Console.WriteLine("Objects being detected ...");
