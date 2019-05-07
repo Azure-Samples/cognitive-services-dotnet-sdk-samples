@@ -36,10 +36,10 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 
 ## Running the samples
 
-1. Right-click on the relavant project (detectObjects, extractObjects, etc) and click on 'Set as StartUp Project'
+1. Right-click on the relavant project (detectObjects, extractText, etc) and click on 'Set as StartUp Project'
 2. In 'Program.cs' , update the line ```private const string subscriptionKey = "<your training key here>";``` with your subscription key. For example, if your subscription key is `0123456789abcdef0123456789ABCDEF`, then the line should look like ```c# private const string subscriptionKey = "0123456789abcdef0123456789ABCDEF"; ```
-3. Update the endpoint with the region you generated your endpoint for. For example, if you are using the westcentralus endpoint, you should change the line ``` computerVision.Endpoint = "https://westus.api.cognitive.microsoft.com"; ``` to  ``` computerVision.Endpoint = "https://westcentralus.api.cognitive.microsoft.com"; ```
-4. (Optional) Change the remote image URL and location of local image
+3. Update the endpoint with the region you generated your endpoint for. For example, if you are using the westcentralus endpoint, you should change the line ```public const string endpoint = "https://westus.api.cognitive.microsoft.com"; ``` to  ``` public const string endpoint = "https://westcentralus.api.cognitive.microsoft.com"; ```
+4. (Optional) Change the remote image URL
 5. (Optional) Comment out visual parameters not needed for AnalyzeImage 
 6. Hit F5 or build the solution
 

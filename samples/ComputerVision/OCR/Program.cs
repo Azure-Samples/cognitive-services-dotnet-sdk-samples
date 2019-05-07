@@ -17,7 +17,7 @@
         {
             try
             {
-                OCRSample.Run(endpoint, subscriptionKey);
+                OCRSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -30,7 +30,7 @@
 
         private class OCRSample
         {
-            public static void Run(string endpoint, string subscriptionKey)
+            public static async Task RunAsync(string endpoint, string subscriptionKey)
             {
                 ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
                 {
@@ -42,10 +42,8 @@
 
                 Console.WriteLine("OCR on the images");
 
-                var t1 = OCRFromUrlAsync(computerVision, remoteImageUrl);
-                var t2 = OCRFromStreamAsync(computerVision, localImagePath);
-
-                Task.WhenAll(t1, t2).Wait(5000);
+                await OCRFromUrlAsync(computerVision, remoteImageUrl);
+                await OCRFromStreamAsync(computerVision, localImagePath);
             }
 
             // Analyze a remote image

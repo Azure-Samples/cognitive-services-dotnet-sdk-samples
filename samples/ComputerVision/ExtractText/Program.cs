@@ -17,7 +17,7 @@
         {
             try
             {
-                ExtractTextSample.Run(endpoint, subscriptionKey);
+                ExtractTextSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -30,7 +30,7 @@
 
         private class ExtractTextSample
         {
-            public static void Run(string endpoint, string subscriptionKey)
+            public static async Task RunAsync(string endpoint, string subscriptionKey)
             {
                 ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
                 {
@@ -42,10 +42,8 @@
                 string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
                 Console.WriteLine("Text being extracted ...");
-                var t1 = ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
-                var t2 = ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId);
-
-                Task.WhenAll(t1, t2).Wait(5000);
+                await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
+                await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId);
             }
 
             // Read text from a remote image

@@ -17,7 +17,7 @@
         {
             try
             {
-                AnalyzeImageSample.Run(endpoint, subscriptionKey);
+                AnalyzeImageSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -30,7 +30,7 @@
 
         private class AnalyzeImageSample
         {
-            public static void Run(string endpoint, string subscriptionKey)
+            public static async Task RunAsync(string endpoint, string subscriptionKey)
             {
                 ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
                 {
@@ -50,10 +50,8 @@
                 };
 
                 Console.WriteLine("Images being analyzed ...");
-                var t1 = AnalyzeFromUrlAsync(computerVision, remoteImageUrl, features);
-                var t2 = AnalyzeLocalAsync(computerVision, localImagePath, features);
-
-                Task.WhenAll(t1, t2).Wait(5000);
+                await AnalyzeFromUrlAsync(computerVision, remoteImageUrl, features);
+                await AnalyzeLocalAsync(computerVision, localImagePath, features);
             }
 
             // Analyze a remote image

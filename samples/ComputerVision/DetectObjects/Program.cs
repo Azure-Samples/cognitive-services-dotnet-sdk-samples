@@ -17,7 +17,7 @@
         {
             try
             {
-                DetectObjectSample.Run(endpoint, subscriptionKey);
+                DetectObjectSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -30,7 +30,7 @@
 
         private class DetectObjectSample
         {
-            public static void Run(string endpoint, string subscriptionKey)
+            public static async Task RunAsync(string endpoint, string subscriptionKey)
             {
                 ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
                 {
@@ -41,10 +41,8 @@
                 string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/faces.jpg";
 
                 Console.WriteLine("Objects being detected ...");
-                var t1 = DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);
-                var t2 = DetectObjectsFromStreamAsync(computerVision, localImagePath);
-
-                Task.WhenAll(t1, t2).Wait(5000);
+                await DetectObjectsFromUrlAsync(computerVision, remoteImageUrl);
+                await DetectObjectsFromStreamAsync(computerVision, localImagePath);
             }
 
             // Analyze a remote image
