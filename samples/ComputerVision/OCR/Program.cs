@@ -1,14 +1,14 @@
-﻿namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
 {
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
-
-    public static class Program
+    class Program
     {
         public const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Services subscription key here
         public const string endpoint = "https://westus.api.cognitive.microsoft.com"; // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
@@ -28,7 +28,7 @@
             Console.ReadLine();
         }
 
-        private class OCRSample
+        public class OCRSample
         {
             public static async Task RunAsync(string endpoint, string subscriptionKey)
             {
