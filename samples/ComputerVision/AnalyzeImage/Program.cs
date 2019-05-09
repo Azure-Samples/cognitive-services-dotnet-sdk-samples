@@ -38,7 +38,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
                 };
 
                 string localImagePath = @"Images\celebrities.jpg"; // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
-                string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmarks.jpg";
+                string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmark.jpg";
 
                 List<VisualFeatureTypes> features = new List<VisualFeatureTypes>()
                 {
