@@ -38,7 +38,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
                 Endpoint = endpoint
             };
 
-            string localImagePath = @"Images\handwritten_text.jpg";  // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
+            string localImagePath = @"Images\printed_text.jpg";  // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
             Console.WriteLine("OCR on the images");
