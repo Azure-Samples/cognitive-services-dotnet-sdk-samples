@@ -31,9 +31,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
 
     public class OCRSample
     {
-        public static async Task RunAsync(string endpoint, string subscriptionKey)
+        public static async Task RunAsync(string endpoint, string key)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
             {
                 Endpoint = endpoint
             };

@@ -30,9 +30,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DetectObjects
     }
     public class DetectObjectSample
     {
-        public static async Task RunAsync(string endpoint, string subscriptionKey)
+        public static async Task RunAsync(string endpoint, string key)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
             {
                 Endpoint = endpoint
             };

@@ -30,9 +30,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
     }
     public class ExtractTextSample
     {
-        public static async Task RunAsync(string endpoint, string subscriptionKey)
+        public static async Task RunAsync(string endpoint, string key)
         {
-            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
             {
                 Endpoint = endpoint
             };
