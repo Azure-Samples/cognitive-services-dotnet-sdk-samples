@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyzeImage", "AnalyzeImage\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage.csproj", "{D5E73FA6-23BA-4AD8-9868-0337D3C4359C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCR", "OCR\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR.csproj", "{6BA8C0EE-D981-4888-9244-DC6DA28175B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DetectObjects", "DetectObjects\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DetectObjects.csproj", "{423AF756-D9B6-40FF-A61B-EC427228CF24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtractText", "ExtractText\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText.csproj", "{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5E73FA6-23BA-4AD8-9868-0337D3C4359C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5E73FA6-23BA-4AD8-9868-0337D3C4359C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5E73FA6-23BA-4AD8-9868-0337D3C4359C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5E73FA6-23BA-4AD8-9868-0337D3C4359C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA8C0EE-D981-4888-9244-DC6DA28175B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA8C0EE-D981-4888-9244-DC6DA28175B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA8C0EE-D981-4888-9244-DC6DA28175B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA8C0EE-D981-4888-9244-DC6DA28175B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423AF756-D9B6-40FF-A61B-EC427228CF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423AF756-D9B6-40FF-A61B-EC427228CF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423AF756-D9B6-40FF-A61B-EC427228CF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423AF756-D9B6-40FF-A61B-EC427228CF24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62E40D38-EBB5-46B6-99D9-D3BD680B4326}
+	EndGlobalSection
+EndGlobal
