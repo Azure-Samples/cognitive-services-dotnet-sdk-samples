@@ -29,7 +29,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
         }
     }
 
-    class AnalyzeImageSample
+    public class AnalyzeImageSample
     {
         public static async Task RunAsync(string endpoint, string subscriptionKey)
         {
