@@ -22,9 +22,9 @@ The samples included in this C# solution are:
 * In Visual Studio, create a .NET Framework C# console app and replace the default Program.cs file with the Program.cs file provided here.
 * Dependencies: 
     - The **Authenticate** function is used by all samples.
-    - The **DetectFaceRecognize** (using recognitional model 02) function is a helper function that is used by several other samples.
+    - The **DetectFaceRecognize** function (using recognitional model 02) is a helper function that is used by several other samples.
     - The **Snapshot** function needs a person group ID to be executed, so it uses the one created from the **IdentifyInPersonGroup**. 
-    - The **DeletePersonGroup** function uses a person group ID, so it uses the one used in the **Sanpshot**.
+    - The **DeletePersonGroup** function uses a person group ID, so it uses the one used in the **Snapshot** function.
 
 ### References
 * [Face recognition concepts](https://docs.microsoft.com/en-us/azure/cognitive-services/face/concepts/face-recognition)
