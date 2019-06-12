@@ -64,16 +64,16 @@ namespace FaceQuickstart
         }
 
         /*
-		 * Authenticate with Face subscription key and endpoint
-		 */
+	 * Authenticate with Face subscription key and endpoint
+ 	 */
         public static IFaceClient Authenticate(string endpoint, string key)
         {
             return new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
         }
 
         /* 
-		 * Detect faces from URL images
-		 */
+	 * Detect faces from URL images
+	 */
         public static async Task DetectFaceExtract(IFaceClient client, string recognitionModel)
         {
             Console.WriteLine("========Sample of face detection========");
@@ -81,14 +81,14 @@ namespace FaceQuickstart
             // Create a list of images
             const string IMAGE_BASE_URL = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames = new List<string>
-                                        {
-                                            "detection1.jpg",    // single female with glasses
-											// "detection2.jpg", // (optional: single man)
-											// "detection3.jpg", // (optional: single male construction worker)
-											// "detection4.jpg", // (optional: 3 people at cafe, 1 is blurred)
-											"detection5.jpg",    // black family, woman child man
-											"detection6.jpg"     // elderly couple, male female
-										};
+            				  {
+                                 	      "detection1.jpg",    // single female with glasses
+					      // "detection2.jpg", // (optional: single man)
+					      // "detection3.jpg", // (optional: single male construction worker)
+					      // "detection4.jpg", // (optional: 3 people at cafe, 1 is blurred)
+					      "detection5.jpg",    // black family, woman child man
+					      "detection6.jpg"     // elderly couple, male female
+					  };
 
             foreach (var imageFileName in imageFileNames)
             {
@@ -96,11 +96,11 @@ namespace FaceQuickstart
 
                 // Detect faces with all attributes from image url.
                 detectedFaces = await client.Face.DetectWithUrlAsync($"{IMAGE_BASE_URL}{imageFileName}",
-                                            returnFaceAttributes: new List<FaceAttributeType> { FaceAttributeType.Accessories, FaceAttributeType.Age,
-                                            FaceAttributeType.Blur, FaceAttributeType.Emotion, FaceAttributeType.Exposure, FaceAttributeType.FacialHair,
-                                            FaceAttributeType.Gender, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.HeadPose,
-                                            FaceAttributeType.Makeup, FaceAttributeType.Noise, FaceAttributeType.Occlusion, FaceAttributeType.Smile },
-                                            recognitionModel: recognitionModel);
+				    returnFaceAttributes: new List<FaceAttributeType> { FaceAttributeType.Accessories, FaceAttributeType.Age,
+				    FaceAttributeType.Blur, FaceAttributeType.Emotion, FaceAttributeType.Exposure, FaceAttributeType.FacialHair,
+				    FaceAttributeType.Gender, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.HeadPose,
+				    FaceAttributeType.Makeup, FaceAttributeType.Noise, FaceAttributeType.Occlusion, FaceAttributeType.Smile },
+				    recognitionModel: recognitionModel);
 
                 Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{imageFileName}`.");
 
@@ -186,8 +186,8 @@ namespace FaceQuickstart
         }
 
         /*
-		 * Find similar face
-		 */
+	 * Find similar face
+	 */
         public static async Task FindSimilar(IFaceClient client, string recognitionModel1)
         {
             Console.WriteLine("========Sample of finding similar faces in another photo========");
@@ -229,9 +229,9 @@ namespace FaceQuickstart
         }
 
         /*
-		 * Identify faces
-		 * To identify faces, you need to create and define a person group.
-		 */
+	 * Identify faces
+	 * To identify faces, you need to create and define a person group.
+	 */
         public static async Task IdentifyInPersonGroup(IFaceClient client, string recognitionModel1)
         {
             Console.WriteLine("========Sample of identifing faces in a person group========");
@@ -307,10 +307,10 @@ namespace FaceQuickstart
         }
 
         /*
-		 * Group images
-		 * This method of grouping is useful if you don't need to create a person group. It will automatically group similar
-		 * images based on IDs, whereas the person group method allows you to define the groups.
-		 */
+	 * Group images
+	 * This method of grouping is useful if you don't need to create a person group. It will automatically group similar
+	 * images based on IDs, whereas the person group method allows you to define the groups.
+	 */
         public static async Task Group(IFaceClient client, string imageUrlBase, string recognitionModel1)
         {
             Console.WriteLine("========Sample of grouping faces========");
@@ -360,11 +360,11 @@ namespace FaceQuickstart
         }
 
         /*
-		 * Take a snapshot of a person group
-		 * This sample uses a pre-existing person group and copies it from one Azure region to another. For example: from the EastUS region to the WestUS region
-		 * The same process can be used for face lists. 
-		 * NOTE: a copy of the person group in the target region has a new person group ID, so it no longer associates with the source person group.
-		 */
+	 * Take a snapshot of a person group
+	 * This sample uses a pre-existing person group and copies it from one Azure region to another. For example: from the EastUS region to the WestUS region
+	 * The same process can be used for face lists. 
+	 * NOTE: a copy of the person group in the target region has a new person group ID, so it no longer associates with the source person group.
+	 */
         public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid azureSubscriptionId)
         {
             Console.WriteLine("========Sample of creating a snapshot========");
@@ -411,11 +411,11 @@ namespace FaceQuickstart
             Console.WriteLine("Applying snapshot... Done\n");
         }
 
-        /*
-		 * Delete person group 
-		 * After this entire sample is executed, delete the person group in your Azure account,
-		 * otherwise you cannot recreate one with the same name (if running sample repeatedly).
-		 */
+	/*
+	 * Delete person group 
+	 * After this entire sample is executed, delete the person group in your Azure account,
+	 * otherwise you cannot recreate one with the same name (if running sample repeatedly).
+	 */
         public static async Task DeletePersonGroup(IFaceClient client, String personGroupId)
         {
             // First, list the person groups in each region
