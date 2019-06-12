@@ -42,12 +42,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
             Console.WriteLine("Text being extracted ...");
-            await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
-            await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId);
+            await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId, TextRecognitionMode.Handwritten); // if localImagePath points to an image with printed text, use TextRecognitionMode.Printed 
+            await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId, TextRecognitionMode.Printed);
         }
 
         // Read text from a remote image
-        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId)
+        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId, TextRecognitionMode textRecognitionMode)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -55,25 +55,19 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
                 return;
             }
 
-            // For handwritten text, change to TextRecognitionMode.Handwritten
-            TextRecognitionMode textRecognitionMode = TextRecognitionMode.Printed;
-
             // Start the async process to read the text
             BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl, textRecognitionMode);
             await GetTextAsync(computerVision, textHeaders.OperationLocation, numberOfCharsInOperationId);
         }
 
         // Recognize text from a local image
-        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId)
+        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId, TextRecognitionMode textRecognitionMode)
         {
             if (!File.Exists(imagePath))
             {
                 Console.WriteLine("\nUnable to open or read local image path:\n{0} \n", imagePath);
                 return;
             }
-
-            // For printed text, change to TextRecognitionMode.Printed
-            TextRecognitionMode textRecognitionMode = TextRecognitionMode.Handwritten;
 
             using (Stream imageStream = File.OpenRead(imagePath))
             {
