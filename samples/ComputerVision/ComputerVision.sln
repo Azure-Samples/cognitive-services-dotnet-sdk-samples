@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText", "ExtractText\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText.csproj", "{C95DBBF5-2740-4E8C-9E1C-9F7D338A9EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage", "DescribeImage\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage.csproj", "{6F5A680C-CC0D-4CFC-A796-74FBD2D1C633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage", "DescribeImage\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage.csproj", "{6F5A680C-CC0D-4CFC-A796-74FBD2D1C633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.TagImage", "TagImage\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.TagImage.csproj", "{2C390690-4401-42B3-B420-2EE4989515E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.TagImage", "TagImage\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.TagImage.csproj", "{2C390690-4401-42B3-B420-2EE4989515E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RegionOfInterest", "RegionOfInterest\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RegionOfInterest.csproj", "{06643960-7CE0-4624-A621-75E98F56EF63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2C390690-4401-42B3-B420-2EE4989515E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C390690-4401-42B3-B420-2EE4989515E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C390690-4401-42B3-B420-2EE4989515E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06643960-7CE0-4624-A621-75E98F56EF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06643960-7CE0-4624-A621-75E98F56EF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06643960-7CE0-4624-A621-75E98F56EF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06643960-7CE0-4624-A621-75E98F56EF63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
