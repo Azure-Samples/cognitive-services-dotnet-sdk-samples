@@ -42,12 +42,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
             Console.WriteLine("Text being extracted ...");
-            await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId, TextRecognitionMode.Handwritten); // if localImagePath points to an image with printed text, use TextRecognitionMode.Printed 
-            await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId, TextRecognitionMode.Printed);
+            await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId); 
+            await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
         }
 
         // Read text from a remote image
-        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId, TextRecognitionMode textRecognitionMode)
+        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -56,12 +56,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             }
 
             // Start the async process to read the text
-            BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl, textRecognitionMode);
+            BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl);
             await GetTextAsync(computerVision, textHeaders.OperationLocation, numberOfCharsInOperationId);
         }
 
         // Recognize text from a local image
-        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId, TextRecognitionMode textRecognitionMode)
+        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId)
         {
             if (!File.Exists(imagePath))
             {
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             using (Stream imageStream = File.OpenRead(imagePath))
             {
                 // Start the async process to recognize the text
-                BatchReadFileInStreamHeaders textHeaders = await computerVision.BatchReadFileInStreamAsync(imageStream, textRecognitionMode);
+                BatchReadFileInStreamHeaders textHeaders = await computerVision.BatchReadFileInStreamAsync(imageStream);
                 await GetTextAsync(computerVision, textHeaders.OperationLocation, numberOfCharsInOperationId);
             }
         }
