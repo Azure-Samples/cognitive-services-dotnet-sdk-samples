@@ -8,6 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>FaceQuickstart</RootNamespace>
     <AssemblyName>FaceQuickstart</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0;net461;netstandard1.4</TargetFrameworks>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

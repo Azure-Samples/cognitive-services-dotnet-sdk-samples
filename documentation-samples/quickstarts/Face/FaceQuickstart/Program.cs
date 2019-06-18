@@ -19,44 +19,44 @@ namespace FaceQuickstart
 
 		static void Main(string[] args)
 		{
-		// After creating a Face resource in the Azure portal, get a subscription key (on the Keys page) and location (on the Overview page).
-		// Add environment variables to your local machine with your key and location as values. Close and reopen this project for changes to take effect.
-		string subscriptionKey = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
-		string endpoint = $"https://{Environment.GetEnvironmentVariable("FACE_REGION")}.api.cognitive.microsoft.com";
-		// Create another Face resource in Azure (used for Snapshot sample only) with a different region than your main one.
-		// Name the key FACE_SUBSCRIPTION_KEY2 and name the endpoint FACE_REGION2 in your environment variables,
-		// with your 2nd subscription key and 2nd endpoint region as values.
-		string targetSubscriptionKey = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY2");
-		string targetEndpoint = $"https://{Environment.GetEnvironmentVariable("FACE_REGION2")}.api.cognitive.microsoft.com";
-		// Grab your subscription ID, from any resource in Azure, from the Overview page (all resources have the same subscription ID). 
-		// Add the ID to your environment variables as a value.
-		Guid azureSubscriptionId = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
+			// After creating a Face resource in the Azure portal, get a subscription key (on the Keys page) and location (on the Overview page).
+			// Add environment variables to your local machine with your key and location as values. Close and reopen this project for changes to take effect.
+			string subscriptionKey = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
+			string endpoint = $"https://{Environment.GetEnvironmentVariable("FACE_REGION")}.api.cognitive.microsoft.com";
+			// Create another Face resource in Azure (used for Snapshot sample) with a different region than your main one.
+			// Name the key FACE_SUBSCRIPTION_KEY2 and name the endpoint FACE_REGION2 in your environment variables,
+			// with your 2nd subscription key and 2nd endpoint region as values.
+			string targetSubscriptionKey = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY2");
+			string targetEndpoint = $"https://{Environment.GetEnvironmentVariable("FACE_REGION2")}.api.cognitive.microsoft.com";
+			// Grab your subscription ID, from any resource in Azure, from the Overview page (all resources have the same subscription ID). 
+			// Add the ID to your environment variables as a value.
+			Guid azureSubscriptionId = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
 
-		// Recognition model 2 is used for feature extraction, use 1 to simply recognize a face. 
-		// However, the API calls to Detection that are used with Verify, Find Simlar, or Identify must share the same recognition model.
-		const string recognitionModel2 = RecognitionModel.Recognition02;
-		const string recognitionModel1 = RecognitionModel.Recognition01;
+			// Recognition model 2 is used for feature extraction, use 1 to simply recognize a face. 
+			// However, the API calls to Detection that are used with Verify, Find Simlar, or Identify must share the same recognition model.
+			const string recognitionModel2 = RecognitionModel.Recognition02;
+			const string recognitionModel1 = RecognitionModel.Recognition01;
 
-		// Authenticate.
-		IFaceClient client = Authenticate(endpoint, subscriptionKey);
-		// Authenticate for another region
-		IFaceClient clientTarget = Authenticate(targetEndpoint, targetSubscriptionKey);
-		// Extract features from faces.
-		DetectFaceExtract(client, recognitionModel2).Wait();
-		// Find a similar face from a list of faces.
-		FindSimilar(client, recognitionModel1).Wait();
-		// Identify a face(s) in a person group (created in this sample).
-		IdentifyInPersonGroup(client, recognitionModel1).Wait();
-		// Automatically group similar faces
-		Group(client, IMAGE_BASE_URL, recognitionModel1).Wait();
-		// Take a snapshot of a person group in one region, move it to the next
-		//Snapshot(client2, recognitionModel1, samplePersonGroup, azureSubscriptionId).Wait();
-		Snapshot(client, clientTarget, sourcePersonGroup, azureSubscriptionId).Wait();
+			// Authenticate.
+			IFaceClient client = Authenticate(endpoint, subscriptionKey);
+			// Authenticate for another region
+			IFaceClient clientTarget = Authenticate(targetEndpoint, targetSubscriptionKey);
+			// Extract features from faces.
+			DetectFaceExtract(client, recognitionModel2).Wait();
+			// Find a similar face from a list of faces.
+			FindSimilar(client, recognitionModel1).Wait();
+			// Identify a face(s) in a person group (created in this sample).
+			IdentifyInPersonGroup(client, recognitionModel1).Wait();
+			// Automatically group similar faces
+			Group(client, IMAGE_BASE_URL, recognitionModel1).Wait();
+			// Take a snapshot of a person group in one region, move it to the next
+			//Snapshot(client2, recognitionModel1, samplePersonGroup, azureSubscriptionId).Wait();
+			Snapshot(client, clientTarget, sourcePersonGroup, azureSubscriptionId).Wait();
 
-		// At end, delete person groups in both regions (since testing only)
-		Console.WriteLine("========Sample of deleting a person group========");
-		DeletePersonGroup(client, sourcePersonGroup).Wait();
-		DeletePersonGroup(clientTarget, targetPersonGroup).Wait();
+			// At end, delete person groups in both regions (since testing only)
+			Console.WriteLine("========Sample of deleting a person group========");
+			DeletePersonGroup(client, sourcePersonGroup).Wait();
+			DeletePersonGroup(clientTarget, targetPersonGroup).Wait();
 
 			Console.WriteLine("End of sample.");
 			Console.WriteLine("Select ENTER key to exit...");
@@ -81,14 +81,14 @@ namespace FaceQuickstart
 			// Create a list of images
 			const string IMAGE_BASE_URL = "https://csdx.blob.core.windows.net/resources/Face/Images/";
 			List<string> imageFileNames = new List<string>
-							{
-								"detection1.jpg",    // single female with glasses
-								// "detection2.jpg", // (optional: single man)
-								// "detection3.jpg", // (optional: single male construction worker)
-								// "detection4.jpg", // (optional: 3 people at cafe, 1 is blurred)
-								"detection5.jpg",    // family, woman child man
-								"detection6.jpg"     // elderly couple, male female
-							};
+										{
+											"detection1.jpg",    // single female with glasses
+											// "detection2.jpg", // (optional: single man)
+											// "detection3.jpg", // (optional: single male construction worker)
+											// "detection4.jpg", // (optional: 3 people at cafe, 1 is blurred)
+											"detection5.jpg",    // black family, woman child man
+											"detection6.jpg"     // elderly couple, male female
+										};
 
 			foreach (var imageFileName in imageFileNames)
 			{
@@ -96,11 +96,11 @@ namespace FaceQuickstart
 
 				// Detect faces with all attributes from image url.
 				detectedFaces = await client.Face.DetectWithUrlAsync($"{IMAGE_BASE_URL}{imageFileName}",
-						returnFaceAttributes: new List <FaceAttributeType> { FaceAttributeType.Accessories, FaceAttributeType.Age,
-						FaceAttributeType.Blur, FaceAttributeType.Emotion, FaceAttributeType.Exposure, FaceAttributeType.FacialHair,
-						FaceAttributeType.Gender, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.HeadPose,
-						FaceAttributeType.Makeup, FaceAttributeType.Noise, FaceAttributeType.Occlusion, FaceAttributeType.Smile },
-						recognitionModel: recognitionModel); 
+											returnFaceAttributes: new List <FaceAttributeType> { FaceAttributeType.Accessories, FaceAttributeType.Age,
+											FaceAttributeType.Blur, FaceAttributeType.Emotion, FaceAttributeType.Exposure, FaceAttributeType.FacialHair,
+											FaceAttributeType.Gender, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.HeadPose,
+											FaceAttributeType.Makeup, FaceAttributeType.Noise, FaceAttributeType.Occlusion, FaceAttributeType.Smile },
+											recognitionModel: recognitionModel); 
 
 				Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{imageFileName}`.");
 
@@ -188,16 +188,16 @@ namespace FaceQuickstart
 
 			const string IMAGE_BASE_URL = "https://csdx.blob.core.windows.net/resources/Face/Images/";
 			List<string> targetImageFileNames = new List<string>
-								{
-									"Family1-Dad1.jpg",
-									"Family1-Daughter1.jpg",
-									"Family1-Mom1.jpg",
-									"Family1-Son1.jpg",
-									"Family2-Lady1.jpg",
-									"Family2-Man1.jpg",
-									"Family3-Lady1.jpg",
-									"Family3-Man1.jpg"
-								};
+													{
+														"Family1-Dad1.jpg",
+														"Family1-Daughter1.jpg",
+														"Family1-Mom1.jpg",
+														"Family1-Son1.jpg",
+														"Family2-Lady1.jpg",
+														"Family2-Man1.jpg",
+														"Family3-Lady1.jpg",
+														"Family3-Man1.jpg"
+													};
 	
 			string sourceImageFileName = "findsimilar.jpg";
 			IList<Guid?> targetFaceIds = new List<Guid?>();
@@ -223,7 +223,7 @@ namespace FaceQuickstart
 		}
 
 		/*
-		 * Identify faces
+		 * Idenitfy faces
 		 * To identify faces, you need to create and define a person group.
 		 */
 		public static async Task IdentifyInPersonGroup(IFaceClient client, string recognitionModel1)
@@ -309,14 +309,14 @@ namespace FaceQuickstart
 			Console.WriteLine("========Sample of grouping faces========");
 			// Create list of image names
 			List<string> imageFileNames = new List<string>
-							  {
-								  "Family1-Dad1.jpg",
-								  "Family1-Dad2.jpg",
-								  "Family3-Lady1.jpg",
-								  "Family1-Daughter1.jpg",
-								  "Family1-Daughter2.jpg",
-								  "Family1-Daughter3.jpg"
-							  };
+											  {
+												  "Family1-Dad1.jpg",
+												  "Family1-Dad2.jpg",
+												  "Family3-Lady1.jpg",
+												  "Family1-Daughter1.jpg",
+												  "Family1-Daughter2.jpg",
+												  "Family1-Daughter3.jpg"
+											  };
 			// Create empty dictionary to store the groups
 			Dictionary<string, string> faces = new Dictionary<string, string>();
 			List<Guid> faceIds = new List<Guid>();
@@ -353,7 +353,7 @@ namespace FaceQuickstart
 		}
 
 		/*
-		 * Take a snapshot
+		 * Take a snapshot of a person group
 		 * This sample uses a pre-existing person group and copies it from one Azure region to another. For example: from the EastUS region to the WestUS region
 		 * The same process can be used for face lists. 
 		 * NOTE: a copy of the person group in the target region has a new person group ID, so it no longer associates with the source person group.
@@ -385,32 +385,23 @@ namespace FaceQuickstart
 			// Apply the snapshot in target region, with a new ID.
 			var newPersonGroupId = Guid.NewGuid().ToString();
 			targetPersonGroup = newPersonGroupId;
-		
-			try
-			{
-				var applySnapshotResult = await clientTarget.Snapshot.ApplyAsync(snapshotId, newPersonGroupId);
+			var applySnapshotResult = await clientTarget.Snapshot.ApplyAsync(snapshotId, newPersonGroupId);
 
-				// Get operation id from response for tracking the progress of snapshot applying.
-				var applyOperationId = Guid.Parse(applySnapshotResult.OperationLocation.Split('/')[2]);
-				Console.WriteLine($"Applying snapshot(operation ID: {applyOperationId})... Started");
-				// Wait for applying operation to complete
-				do
-				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-					// Get the status of the operation.
-					operationStatus = await clientSource.Snapshot.GetOperationStatusAsync(applyOperationId);
-					Console.WriteLine($"Operation Status: {operationStatus.Status}");
-				}
-				while (operationStatus.Status != OperationStatusType.Succeeded && operationStatus.Status != OperationStatusType.Failed);
-				// Confirm location of the target resource location, with its ID.
-				Console.WriteLine($"Person group in new region: {newPersonGroupId}");
-				Console.WriteLine("Applying snapshot... Done\n");
-			}
-			catch (Exception e)
+			// Get operation id from response for tracking the progress of snapshot applying.
+			var applyOperationId = Guid.Parse(applySnapshotResult.OperationLocation.Split('/')[2]);
+			Console.WriteLine($"Applying snapshot(operation ID: {applyOperationId})... Started");
+			// Wait for applying operation to complete
+			do
 			{
-				throw new ApplicationException("Do you have a second Face resource in Azure? " +
-					"It's needed to transfer the person group to it for the Snapshot sample.", e);
+				Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+				// Get the status of the operation.
+				operationStatus = await clientSource.Snapshot.GetOperationStatusAsync(applyOperationId);
+				Console.WriteLine($"Operation Status: {operationStatus.Status}");
 			}
+			while (operationStatus.Status != OperationStatusType.Succeeded && operationStatus.Status != OperationStatusType.Failed);
+			// Confirm location of the target resource location, with its ID.
+			Console.WriteLine($"Person group in new region: {newPersonGroupId}");
+			Console.WriteLine("Applying snapshot... Done\n");
 		}
 
 		/*
@@ -420,7 +411,9 @@ namespace FaceQuickstart
 		 */
 		public static async Task DeletePersonGroup(IFaceClient client, String personGroupId)
 		{
+			// First, list the person groups in each region
 			Console.WriteLine("Delete started... ");
+			IList<PersonGroup> list = await client.PersonGroup.ListAsync();
 
 			await client.PersonGroup.DeleteAsync(personGroupId);
 			Console.WriteLine($"Deleted the person group {personGroupId}.");
