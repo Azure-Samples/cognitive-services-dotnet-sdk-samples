@@ -46,7 +46,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
         }
 
         // Analyze a remote image
-        private static async Task GetAreaOfInterestFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)  //the get has nothing to do with HTTP post and get
+        private static async Task GetAreaOfInterestFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)  
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
