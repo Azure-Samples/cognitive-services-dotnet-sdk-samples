@@ -41,12 +41,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/faces.jpg";
 
             Console.WriteLine("area of interest being found ...");
-            await AreaOfInterestFromUrlAsync(computerVision, remoteImageUrl);
-            await AreaOfInterestFromStreamAsync(computerVision, localImagePath);
+            await GetAreaOfInterestFromUrlAsync(computerVision, remoteImageUrl);
+            await GetAreaOfInterestFromStreamAsync(computerVision, localImagePath);
         }
 
         // Analyze a remote image
-        private static async Task AreaOfInterestFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task GetAreaOfInterestFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)  //the get has nothing to do with HTTP post and get
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -57,11 +57,11 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
             AreaOfInterestResult analysis = await computerVision.GetAreaOfInterestAsync(imageUrl);
 
             Console.WriteLine(imageUrl);
-            DisplayAreas(analysis);
+            DisplayAreaOfInterest(analysis);
         }
 
         // Analyze a local image
-        private static async Task AreaOfInterestFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
+        private static async Task GetAreaOfInterestFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
@@ -73,14 +73,14 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
             {
                 AreaOfInterestResult analysis = await computerVision.GetAreaOfInterestInStreamAsync(imageStream);
                 Console.WriteLine(imagePath);
-                DisplayAreas(analysis);
+                DisplayAreaOfInterest(analysis);
             }
         }
-        private static void DisplayAreas(AreaOfInterestResult analysis)
+        private static void DisplayAreaOfInterest(AreaOfInterestResult analysis)
         {
             Console.WriteLine("The Area of Interest is at location {0},{1},{2},{3}",
-                analysis.AreaOfInterest.X, analysis.AreaOfInterest.W,
-                analysis.AreaOfInterest.Y, analysis.AreaOfInterest.H);
+                analysis.AreaOfInterest.X, analysis.AreaOfInterest.X+analysis.AreaOfInterest.W,
+                analysis.AreaOfInterest.Y, analysis.AreaOfInterest.Y+analysis.AreaOfInterest.H);
             Console.WriteLine("\n");
         }
     }

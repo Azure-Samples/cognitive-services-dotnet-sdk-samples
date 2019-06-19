@@ -41,12 +41,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DomainSpecifi
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmark.jpg";
 
             Console.WriteLine("Domain Specific Content being analyzed ...");
-            await DomainSpecificContentFromUrlAsync(computerVision, remoteImageUrl, "landmarks");
-            await DomainSpecificContentFromStreamAsync(computerVision, localImagePath, "celebrities");
+            await RecognizeDomainSpecificContentFromUrlAsync(computerVision, remoteImageUrl, "landmarks");
+            await RecognizeDomainSpecificContentFromStreamAsync(computerVision, localImagePath, "celebrities");
         }
 
         // Analyze a remote image
-        private static async Task DomainSpecificContentFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, string specificDomain)
+        private static async Task RecognizeDomainSpecificContentFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, string specificDomain)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -54,14 +54,14 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DomainSpecifi
                 return;
             }
             
-            DomainModelResults analysis = await computerVision.AnalyzeImageByDomainAsync(specificDomain,imageUrl);  //change the first parameter to "landmarks" if that is the domain you are interested in
+            DomainModelResults analysis = await computerVision.AnalyzeImageByDomainAsync(specificDomain, imageUrl);  //change the first parameter to "landmarks" if that is the domain you are interested in
 
             Console.WriteLine(imageUrl);
             DisplayResults(analysis); 
         }
 
         // Analyze a local image
-        private static async Task DomainSpecificContentFromStreamAsync(ComputerVisionClient computerVision, string imagePath, string specificDomain)
+        private static async Task RecognizeDomainSpecificContentFromStreamAsync(ComputerVisionClient computerVision, string imagePath, string specificDomain)
         {
             if (!File.Exists(imagePath))
             {

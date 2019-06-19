@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInterest", "AreaOfInterest\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInterest.csproj", "{06643960-7CE0-4624-A621-75E98F56EF63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DomainSpecificContent", "DomainSpecificContent\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DomainSpecificContent.csproj", "{50C54063-305D-43B5-970A-F72EB5F1E2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeDomainSpecificContent", "RecognizeDomainSpecificContent\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeDomainSpecificContent.csproj", "{50C54063-305D-43B5-970A-F72EB5F1E2E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeText", "RecognizeText\Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeText.csproj", "{BB4A57A6-0BE0-46F1-8860-9F318410E028}"
 EndProject
