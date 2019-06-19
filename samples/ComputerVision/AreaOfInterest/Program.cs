@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
+namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInterest
 {
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -17,7 +17,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
         {
             try
             {
-                areaOfInterestSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
+                AreaOfInterestSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
             Console.ReadLine();
         }
     }
-    public class areaOfInterestSample
+    public class AreaOfInterestSample
     {
         public static async Task RunAsync(string endpoint, string key)
         {
@@ -41,12 +41,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/faces.jpg";
 
             Console.WriteLine("area of interest being found ...");
-            await RoiFromUrlAsync(computerVision, remoteImageUrl);
-            await RoiFromStreamAsync(computerVision, localImagePath);
+            await AreaOfInterestFromUrlAsync(computerVision, remoteImageUrl);
+            await AreaOfInterestFromStreamAsync(computerVision, localImagePath);
         }
 
         // Analyze a remote image
-        private static async Task RoiFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
+        private static async Task AreaOfInterestFromUrlAsync(ComputerVisionClient computerVision, string imageUrl)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -57,11 +57,11 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
             AreaOfInterestResult analysis = await computerVision.GetAreaOfInterestAsync(imageUrl);
 
             Console.WriteLine(imageUrl);
-            Displayareas(analysis);
+            DisplayAreas(analysis);
         }
 
         // Analyze a local image
-        private static async Task RoiFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
+        private static async Task AreaOfInterestFromStreamAsync(ComputerVisionClient computerVision, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
@@ -73,10 +73,10 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RoI
             {
                 AreaOfInterestResult analysis = await computerVision.GetAreaOfInterestInStreamAsync(imageStream);
                 Console.WriteLine(imagePath);
-                Displayareas(analysis);
+                DisplayAreas(analysis);
             }
         }
-        private static void Displayareas(AreaOfInterestResult analysis)
+        private static void DisplayAreas(AreaOfInterestResult analysis)
         {
             Console.WriteLine("The Area of Interest is at location {0},{1},{2},{3}",
                 analysis.AreaOfInterest.X, analysis.AreaOfInterest.W,

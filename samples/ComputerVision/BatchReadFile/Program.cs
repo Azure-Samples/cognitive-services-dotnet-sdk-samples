@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
+namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.BatchReadFile
 {
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -17,7 +17,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
         {
             try
             {
-                ExtractTextSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
+                BatchReadFileSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
             }
             catch (Exception e)
             {
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             Console.ReadLine();
         }
     }
-    public class ExtractTextSample
+    public class BatchReadFileSample
     {
         public static async Task RunAsync(string endpoint, string key)
         {
@@ -41,13 +41,13 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
             string localImagePath = @"Images\handwritten_text.jpg";  // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
 
-            Console.WriteLine("Text being extracted ...");
-            await ExtractTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId); 
-            await ExtractTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
+            Console.WriteLine("Text being batch read ...");
+            await BatchReadFileFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId); 
+            await BatchReadFileFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId);
         }
 
         // Read text from a remote image
-        private static async Task ExtractTextFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId)
+        private static async Task BatchReadFileFromUrlAsync(ComputerVisionClient computerVision, string imageUrl, int numberOfCharsInOperationId)
         {
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
             {
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.ExtractText
         }
 
         // Recognize text from a local image
-        private static async Task ExtractTextFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId)
+        private static async Task BatchReadFileFromStreamAsync(ComputerVisionClient computerVision, string imagePath, int numberOfCharsInOperationId)
         {
             if (!File.Exists(imagePath))
             {
