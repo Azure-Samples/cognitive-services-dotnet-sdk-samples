@@ -16,8 +16,12 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 |-------------|-------------|
 | AnalyzeImage       | Analyzes image on specified visual parameters |
 | DetectObjects | Detects objects in an image |
-| ExtractText | Looks for printed or handwritten text in an image|
+| BatchReadFile | Looks for printed or handwritten text in a file (accepts PDFs too) |
 | OCR | Performs OCR on the image|
+| RegionOfInterest | Gets area of interest|
+| TagImage | Descriptive tags for an image|
+| Describe Image | A caption for the image |
+| Recognize Text | Uses RecognizeText for printed and handwritten text | 
 | ComputerVision.sln | The Visual Studio solution with the above as projects|
 | `readme.md` | This README file. |
 
