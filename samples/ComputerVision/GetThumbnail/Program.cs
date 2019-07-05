@@ -60,9 +60,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.GetThumbnail
             Stream thumbnail = await computerVision.GenerateThumbnailAsync(width, height, imageUrl, smartCropping:true);
 
             Console.WriteLine(imageUrl);
-
-            string imageName = imageUrl.Substring(imageUrl.LastIndexOf('/') + 1);
-            string thumbnailFilePath = localSavePath + "\\" + imageName.Insert(imageName.Length - 4, "_thumb");
+            
+            string imageName = Path.GetFileName(imageUrl);
+            string thumbnailFilePath = Path.Combine(localSavePath, imageName.Insert(imageName.Length - 4, "_thumb"));
 
             SaveThumbnail(thumbnail, thumbnailFilePath);
         }
@@ -81,8 +81,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.GetThumbnail
                 Stream thumbnail = await computerVision.GenerateThumbnailInStreamAsync(width, height, imageStream, smartCropping:true);
                 Console.WriteLine(imagePath);
 
-                string imageName = imagePath.Substring(imagePath.LastIndexOf('/') + 1);
-                string thumbnailFilePath = localSavePath + "\\" + imageName.Insert(imageName.Length - 4, "_thumb");
+                string imageName = Path.GetFileName(imagePath);
+                string thumbnailFilePath = Path.Combine(localSavePath, imageName.Insert(imageName.Length - 4, "_thumb"));
 
                 SaveThumbnail(thumbnail, thumbnailFilePath);
             }
