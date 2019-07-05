@@ -43,7 +43,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.GetThumbnail
             const int thumbnailHeight = 60;
             const int thumbnailWidth = 60;
 
-            Console.WriteLine("thumbnail being got ...");
+            Console.WriteLine("getting thumbnails ...");
             await GetThumbnailFromUrlAsync(computerVision, remoteImageUrl, thumbnailWidth, thumbnailHeight, localSavePath);
             await GetThumbnailFromStreamAsync(computerVision, localImagePath, thumbnailWidth, thumbnailHeight, localSavePath);
         }
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.GetThumbnail
         }
         private static void SaveThumbnail(Stream thumbnail, string thumbnailFilePath)
         {
-            Console.WriteLine("Saving image to" + thumbnailFilePath);
+            Console.WriteLine("Saving image to " + thumbnailFilePath);
             using (Stream file = File.Create(thumbnailFilePath))
             {
                     thumbnail.CopyTo(file);
