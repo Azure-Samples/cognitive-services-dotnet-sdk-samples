@@ -43,7 +43,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.GetThumbnail
             const int thumbnailHeight = 60;
             const int thumbnailWidth = 60;
 
-            Console.WriteLine("getting thumbnails ...");
+            Console.WriteLine("Getting thumbnails ...");
             await GetThumbnailFromUrlAsync(computerVision, remoteImageUrl, thumbnailWidth, thumbnailHeight, localSavePath);
             await GetThumbnailFromStreamAsync(computerVision, localImagePath, thumbnailWidth, thumbnailHeight, localSavePath);
         }
