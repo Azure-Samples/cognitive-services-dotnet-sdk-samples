@@ -22,6 +22,7 @@ The projects in this code are quickstarts that show how to use Computer Vision S
 | TagImage | Descriptive tags for an image|
 | Describe Image | A caption for the image |
 | Recognize Text | Uses RecognizeText for printed and handwritten text | 
+| Get Thumbnail | Gets a recommended thumbnail for an image given a target size | 
 | ComputerVision.sln | The Visual Studio solution with the above as projects|
 | `readme.md` | This README file. |
 
