@@ -34,14 +34,22 @@
                 UsageScenario = ""
             };
 
-            var appId = AwaitTask(Client.Apps.AddAsync(newApp));
+            try {
+                var appId = AwaitTask(Client.Apps.AddAsync(newApp));
+                Console.WriteLine($"{appName} app created with the id {appId}");
 
-            Console.WriteLine($"{appName} app created with the id {appId}");
 
-            NavigateWithInitializer<T>((page) => {
-                page.AppId = appId;
-                page.VersionId = versionId;
-            });
+                NavigateWithInitializer<T>((page) => {
+                    page.AppId = appId;
+                    page.VersionId = versionId;
+                });
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Something went wrong. Please enter a different name");
+                Input.ReadString("Press any key to continue");
+                Program.NavigateTo<CreateAppPage<T>>();
+            }
         }
     }
 }

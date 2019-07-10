@@ -12,18 +12,25 @@
     public class EntitySearchSamples
     {
         [Example("This will look up a single entity (Satya Nadella) and print out a short description about them")]
-        public static void DominantEntityLookup(string subscriptionKey)
+        public static void DominantEntityLookup(string subscriptionKey, string endpoint)
         {
-            var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            // Example Endpoints are https://westus2.api.cognitive.microsoft.com. You can find this under your subscription.
+            // Dont use /bing/v7.0/entities/ in the enpoint
+
+            var client = new EntitySearchClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                Endpoint = endpoint
+            };
 
             try
             {
-                var entityData = client.Entities.Search(query:"Satya Nadella");
+                var entityData = client.Entities.SearchAsync(query:"Satya Nadella");
                 
-                if (entityData?.Entities?.Value?.Count > 0)
+                if (entityData?.Result.Entities?.Value?.Count > 0)
                 {
                     // find the entity that represents the dominant one
-                    var mainEntity = entityData.Entities.Value.Where(thing => thing.EntityPresentationInfo.EntityScenario == EntityScenario.DominantEntity).FirstOrDefault();
+                    var mainEntity = entityData.Result.Entities.Value.Where(thing => thing.EntityPresentationInfo.EntityScenario == EntityScenario.DominantEntity).FirstOrDefault();
 
                     if (mainEntity != null)
                     {
@@ -47,9 +54,15 @@
         }
 
         [Example("This will handle disambiguation results for an ambiguous query (William Gates)")]
-        public static void HandlingDisambiguation(string subscriptionKey)
+        public static void HandlingDisambiguation(string subscriptionKey, string endpoint)
         {
-            var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+
+            // Example Endpoints are https://westus2.api.cognitive.microsoft.com. You can find this under your subscription
+            // Dont use /bing/v7.0/entities/ in the enpoint
+            var client = new EntitySearchClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                Endpoint = endpoint
+            };
 
             try
             {
@@ -102,9 +115,14 @@
         }
 
         [Example("This will look up a single restaurant (john howie bellevue) and print out its phone number")]
-        public static void RestaurantLookup(string subscriptionKey)
+        public static void RestaurantLookup(string subscriptionKey, string endpoint)
         {
-            var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            // Example Endpoints are https://westus2.api.cognitive.microsoft.com. You can find this under your subscription
+            // Dont use /bing/v7.0/entities/ in the enpoint
+            var client = new EntitySearchClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                Endpoint = endpoint
+            };
 
             try
             {
@@ -138,9 +156,14 @@
         }
 
         [Example("This will look up a list of restaurants (seattle restaurants) and present their names and phone numbers")]
-        public static void MultipleRestaurantLookup(string subscriptionKey)
+        public static void MultipleRestaurantLookup(string subscriptionKey, string endpoint)
         {
-            var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            // Example Endpoints are https://westus2.api.cognitive.microsoft.com. You can find this under your subscription
+            // Dont use /bing/v7.0/entities/ in the enpoint
+            var client = new EntitySearchClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                Endpoint = endpoint
+            };
 
             try
             {
@@ -188,9 +211,14 @@
         }
 
         [Example("This triggers a bad request and shows how to read the error response")]
-        public static void Error(string subscriptionKey)
+        public static void Error(string subscriptionKey, string endpoint)
         {
-            var client = new EntitySearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            // Example Endpoints are https://westus2.api.cognitive.microsoft.com. You can find this under your subscription
+            // Dont use /bing/v7.0/entities/ in the enpoint
+            var client = new EntitySearchClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+            {
+                Endpoint = endpoint
+            };
 
             try
             {

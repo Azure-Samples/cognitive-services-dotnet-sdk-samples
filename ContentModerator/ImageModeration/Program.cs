@@ -1,6 +1,6 @@
-﻿using Microsoft.CognitiveServices.ContentModerator;
+﻿using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Microsoft.CognitiveServices.ContentModerator;
 using Microsoft.CognitiveServices.ContentModerator.Models;
-using ModeratorHelper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -42,13 +42,13 @@ namespace ImageModeration
         /// The name of the file that contains the image URLs to evaluate.
         /// </summary>
         /// <remarks>You will need to create an input file and update this path
-        /// accordingly. Relative paths are ralative the execution directory.</remarks>
+        /// accordingly. Relative paths are relative to the execution directory.</remarks>
         private static string ImageUrlFile = "ImageFiles.txt";
 
         /// <summary>
         /// The name of the file to contain the output from the evaluation.
         /// </summary>
-        /// <remarks>Relative paths are ralative the execution directory.</remarks>
+        /// <remarks>Relative paths are relative to the execution directory.</remarks>
         private static string OutputFile = "ModerationOutput.json";
 
         static void Main(string[] args)
@@ -67,6 +67,7 @@ namespace ImageModeration
                         string line = inputReader.ReadLine().Trim();
                         if (line != String.Empty)
                         {
+                            Console.WriteLine("Evaluating {0}", line);
                             EvaluationData imageData = EvaluateImage(client, line);
                             evaluationData.Add(imageData);
                         }
@@ -83,6 +84,10 @@ namespace ImageModeration
                 outputWriter.Flush();
                 outputWriter.Close();
             }
+
+            Console.WriteLine("Results written to {0}", OutputFile);
+            Console.WriteLine("Press ENTER to exit");
+            Console.ReadLine();
         }
 
         /// <summary>
@@ -121,6 +126,50 @@ namespace ImageModeration
             Thread.Sleep(1000);
 
             return imageData;
+        }
+    }
+
+    /// <summary>
+    /// Wraps the creation and configuration of a Content Moderator client.
+    /// </summary>
+    /// <remarks>This class library contains insecure code. If you adapt this 
+    /// code for use in production, use a secure method of storing and using
+    /// your Content Moderator subscription key.</remarks>
+    public static class Clients
+    {
+        // TODO We could make team name a static property on this class, to move all of the subscription information into one project.
+
+        /// <summary>
+        /// The region/location for your Content Moderator account, 
+        /// for example, westus.
+        /// </summary>
+        private static readonly string AzureRegion = "YOUR API REGION";
+
+        /// <summary>
+        /// The base URL fragment for Content Moderator calls.
+        /// </summary>
+        private static readonly string AzureBaseURL =
+            $"https://{AzureRegion}.api.cognitive.microsoft.com";
+
+        /// <summary>
+        /// Your Content Moderator subscription key.
+        /// </summary>
+        private static readonly string CMSubscriptionKey = "YOUR API KEY";
+
+        /// <summary>
+        /// Returns a new Content Moderator client for your subscription.
+        /// </summary>
+        /// <returns>The new client.</returns>
+        /// <remarks>The <see cref="ContentModeratorClient"/> is disposable.
+        /// When you have finished using the client,
+        /// you should dispose of it either directly or indirectly. </remarks>
+        public static ContentModeratorClient NewClient()
+        {
+            // Create and initialize an instance of the Content Moderator API wrapper.
+            ContentModeratorClient client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(CMSubscriptionKey));
+
+            client.Endpoint = AzureBaseURL;
+            return client;
         }
     }
 }

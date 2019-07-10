@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="TemplateSingle.endpoint" value="" />
+    <Parameter name="TemplateSingle.key" value="" />
+    <Parameter name="TemplateMultiple.endpoint" value="" />
+    <Parameter name="TemplateMultiple.key" value="" />
+    <Parameter name="Face.endpoint" value="" />
+    <Parameter name="Face.key" value="" />
+    <Parameter name="TextAnalytics.endpoint" value="" />
+    <Parameter name="TextAnalytics.key" value="" />
+    <Parameter name="ComputerVision.endpoint" value="" />
+    <Parameter name="ComputerVision.key" value="" />
+    <Parameter name="SpellCheck.key" value="" />
+    <Parameter name="QnAMaker.key" value="" />
+    <Parameter name="QnAMaker.endpoint" value="" />
+    <Parameter name="AnomalyDetector.endpoint" value="" />
+    <Parameter name="AnomalyDetector.key" value="" />
+  </TestRunParameters>
+</RunSettings>

@@ -4,7 +4,7 @@ platforms: dotnet
 author: cahann
 ---
 
-# Cognitive Services: LUIS Programmatic SDK Console Application Sample
+# Cognitive Services: LUIS Authoring SDK Console Application Sample
 
 A simple console that showcases how the SDK can be used to create and customize new LUIS apps.
 
@@ -16,11 +16,11 @@ The minimum prerequisites to run this sample are:
 
 ### How to run this sample
 
-The first step to using this sample app is to get your Programmatic Key. Go to the home page, [www.luis.ai](https://www.luis.ai/), and log in. After creating your LUIS account, a starter key, also known as a programmatic key, is created automatically for LUIS account. To find the programmatic key, click on the account name in the upper-right navigation bar to open [Account Settings](https://www.luis.ai/user/settings), which displays the Programmatic Key.
+The first step to using this sample app is to get your Authoring Key. Go to the home page, [www.luis.ai](https://www.luis.ai/), and log in. After creating your LUIS account, a starter key, also known as a Authoring Key, is created automatically for LUIS account. To find the Authoring Key, click on the account name in the upper-right navigation bar to open [Settings](https://www.luis.ai/user/settings), which displays the Authoring Key.
 
 ![Import an Existing Application](images/programmatic-key.png)
 
-Once you get the programmatic key, edit the [appsettings.json](LUIS-Programmatic.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Key and Azure Region.
+Once you get the Authoring Key, edit the [appsettings.json](LUIS-Programmatic.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Key and Endpoint URL, for example https://westus.api.cognitive.microsoft.com.
 
 ### Highlights
 
@@ -35,7 +35,7 @@ Once the app is running, you will see two main options:
 * **Manage Apps:** This option allows you to work with your LUIS applications. In this page, you can:
     * View information about versions, intents and entities from apps in your account
     * Train and publish any app's version
-    * Clone, import and export any app's version
+    * Clone, import and export any app's version (find the clone under the Settings tab of your LUIS app)
     * Delete apps
 
 ![Manage App Menu](images/manage-app-publish.png)

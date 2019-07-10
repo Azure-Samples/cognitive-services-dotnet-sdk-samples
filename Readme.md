@@ -1,3 +1,9 @@
+---
+services: cognitive-services, face, content-moderator, custom-vision, language-understanding 
+platforms: dotnet
+author: yangyuan
+---
+
 # Samples for [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) Nuget Packages
 
 This repo provides C# samples for the [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) Nuget Packages. 
@@ -30,4 +36,4 @@ All samples in this folder require:
 - Cognitive Services Java SDK samples: https://github.com/Azure-Samples/cognitive-services-java-sdk-samples
 - Cognitive Services Node.js SDK samples: https://github.com/Azure-Samples/cognitive-services-node-sdk-samples
 - Cognitive Services Python SDK samples: https://github.com/Azure-Samples/cognitive-services-python-sdk-samples
-- Support channels: [Stack Overflow](https://stackoverflow.com/questions/tagged/bing-search) or [Azure Support](https://azure.microsoft.com/en-us/support/options/)
+- Support channels: [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-cognitive-services) or [Azure Support](https://azure.microsoft.com/en-us/support/options/)

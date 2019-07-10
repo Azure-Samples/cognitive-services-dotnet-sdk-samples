@@ -24,7 +24,7 @@ If you want to test this sample, you have to import the pre-build [LuisApp.json]
 
 Once you imported the application you'll need to "train" the model ([Training](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/train-test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/publishapp).
 
-Finally, edit the [appsettings.json](Microsoft.Azure.CognitiveServices.LUIS.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Subscription, Application and Azure Region where the application was deployed.
+Finally, edit the [appsettings.json](Microsoft.Azure.CognitiveServices.LUIS.Sample/appsettings.json) file and update the attribute placeholders with the values corresponding to your Subscription, Application and endpoint URL.
 
 #### Where to find the Application ID and Subscription Key
 
@@ -36,9 +36,9 @@ You'll need these two values to configure the LuisDialog through the LuisModel a
 
     ![App Settings](images/prereqs-appid.png)
 
-2. Subscription Key and Azure Region
+2. Subscription Key and Endpoint URL
 
-    Click on the Publish App link from the top of the LUIS application dashboard. Once your app is published, copy the Region and Key String from *Starter_Key* from the Endpoints table on the Publish App page.
+    Click on the Publish App link from the top of the LUIS application dashboard. Once your app is published, copy the endpoint URL (https://westus.api.cognitive.microsoft.com) and Key String from *Starter_Key* from the Endpoints table on the Publish App page.
 
     ![Programmatic API Key](images/prereqs-apikey.png)
 
@@ -49,20 +49,17 @@ One of the key problems in human-computer interactions is the ability of the com
 
 Once your model is set, you can invoke de LUIS Runtime API to analize user input and obtain its intent and possible entities.
 
-From .NET you can use the *Microsoft.Azure.CognitiveServices.Language.LUIS* NuGet package. Once you have reference the library, you can start making call to the API.
+From .NET you can use the *Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime* NuGet package. Once you have reference the library, you can start making call to the API.
 
 ````C#
-using Microsoft.Azure.CognitiveServices.Language.LUIS;
-using Microsoft.Azure.CognitiveServices.Language.LUIS.Models;
+using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime;
 
 // Create client with SuscriptionKey and AzureRegion
-ILuisRuntimeAPI client = new LuisRuntimeAPI(new ApiKeyServiceClientCredentials("[LUIS_SUBSCRIPTION_KEY]"))
-{
-    AzureRegion = AzureRegions.Westus
-};
+var client = new LUISRuntimeClient(new Uri([EndPointURL]),
+new ApiKeyServiceClientCredentials([LUIS_SUBSCRIPTION_KEY]));
 
 // Predict
-LuisResult result = await client.Prediction.ResolveAsync("[LUIS_APPLICATION_ID]", "Text to Predict or User input");
+var result = await client.Prediction.ResolveAsync([LUIS_APPLICATION_ID], "Text to Predict or User input");
 ````
 
 The [LuisResult](https://github.com/Azure/azure-sdk-for-net/blob/psSdkJson6/src/SDKs/CognitiveServices/dataPlane/Language/LUIS-Runtime/Generated/Models/LuisResult.cs) object contains the possible detected intents and entities that could be extracted from the input.

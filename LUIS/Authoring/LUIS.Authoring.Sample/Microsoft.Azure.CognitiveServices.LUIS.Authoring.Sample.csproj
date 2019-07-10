@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
     <PackageReference Include="DotSpinners" Version="1.2.0" />
     <PackageReference Include="EasyConsole" Version="1.1.0" />
@@ -14,10 +14,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <OutputType>Exe</OutputType>
     <AssemblyName>Microsoft.Azure.CognitiveServices.Language.LUIS.Programmatic.Sample</AssemblyName>
-	<TargetFramework>net47</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
+	<TargetFramework>net452</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <None Include="appsettings.json" CopyToOutputDirectory="Always" />

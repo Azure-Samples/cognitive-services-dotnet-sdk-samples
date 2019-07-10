@@ -11,6 +11,8 @@ namespace ObjectDetection
 {
     class Program
     {
+        private const string SouthCentralUsEndpoint = "https://southcentralus.api.cognitive.microsoft.com";
+
         static void Main(string[] args)
         {
             // Add your training & prediction key from the settings page of the portal
@@ -18,7 +20,11 @@ namespace ObjectDetection
             string predictionKey = "<your prediction key here>";
 
             // Create the Api, passing in the training key
-            TrainingApi trainingApi = new TrainingApi() { ApiKey = trainingKey };
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            {
+                ApiKey = trainingKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Find the object detection domain
             var domains = trainingApi.GetDomains();
@@ -110,22 +116,27 @@ namespace ObjectDetection
                 iteration = trainingApi.GetIteration(project.Id, iteration.Id);
             }
 
-            // The iteration is now trained. Make it the default project endpoint
-            iteration.IsDefault = true;
-            trainingApi.UpdateIteration(project.Id, iteration.Id, iteration);
+            // The iteration is now trained. Publish it to the prediction end point.
+            var publishedModelName = "toolModel";
+            var predictionResourceId = "<target prediction resource ID>";
+            trainingApi.PublishIteration(project.Id, iteration.Id, publishedModelName, predictionResourceId);
             Console.WriteLine("Done!\n");
 
             // Now there is a trained endpoint, it can be used to make a prediction
 
             // Create a prediction endpoint, passing in the obtained prediction key
-            PredictionEndpoint endpoint = new PredictionEndpoint() { ApiKey = predictionKey };
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            {
+                ApiKey = predictionKey,
+                Endpoint = SouthCentralUsEndpoint
+            };
 
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
             var imageFile = Path.Combine("Images", "test", "test_image.jpg");
             using (var stream = File.OpenRead(imageFile))
             {
-                var result = endpoint.PredictImage(project.Id, File.OpenRead(imageFile));
+                var result = endpoint.DetectImage(project.Id, publishedModelName, File.OpenRead(imageFile));
 
                 // Loop over each prediction and write out the results
                 foreach (var c in result.Predictions)

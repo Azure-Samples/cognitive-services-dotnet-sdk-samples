@@ -6,6 +6,7 @@ using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.CognitiveServices.ContentModerator;
 using Microsoft.CognitiveServices.ContentModerator.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace VideoTranscriptReviews
 {
@@ -16,29 +17,29 @@ namespace VideoTranscriptReviews
         /// The region/location for your Content Moderator account, 
         /// for example, westus.
         /// </summary>
-        private static readonly string AzureRegion = "westus";
+        private static readonly string AzureRegion = "YOUR API REGION";
 
         // NOTE: Replace this example key with a valid subscription key.
         /// <summary>
         /// Your Content Moderator subscription key.
         /// </summary>
-        private static readonly string CMSubscriptionKey = "54fee39ae7ba418ea0c7193e0952d0a1";
+        private static readonly string CMSubscriptionKey = "YOUR API KEY";
 
-        // NOTE: Replace this example team name with your Content Moderator team name.
+        // NOTE: Replace this example team name with your Content Moderator team Id.
         /// <summary>
         /// The name of the team to assign the job to.
         /// </summary>
         /// <remarks>This must be the team name you used to create your 
         /// Content Moderator account. You can retrieve your team name from
-        /// the Conent Moderator web site. Your team name is the Id associated 
+        /// the Content Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
-        public static readonly string TeamName = "testreview6";
+        private const string TeamName = "YOUR REVIEW TEAM ID";
 
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
         /// </summary>
         private static readonly string AzureBaseURL =
-            $"{AzureRegion}.api.cognitive.microsoft.com";
+            $"https://{AzureRegion}.api.cognitive.microsoft.com";
 
         /// <summary>
         /// The minimum amount of time, in milliseconds, to wait between calls
@@ -57,7 +58,7 @@ namespace VideoTranscriptReviews
         {
             return new ContentModeratorClient(new ApiKeyServiceClientCredentials(CMSubscriptionKey))
             {
-                BaseUrl = AzureBaseURL
+                Endpoint = AzureBaseURL
             };
         }
 
@@ -124,7 +125,7 @@ namespace VideoTranscriptReviews
 
             // Screen the transcript using the Text Moderation API. For more information, see:
             // https://westus2.dev.cognitive.microsoft.com/docs/services/57cf753a3f9b070c105bd2c1/operations/57cf753a3f9b070868a1f66f
-            Screen screen = client.TextModeration.ScreenText("eng", "text/plain", transcript);
+            Screen screen = client.TextModeration.ScreenText("text/plain", new MemoryStream(Encoding.UTF8.GetBytes(transcript)), "eng");
 
             // Map the term list returned by ScreenText into a term list we can pass to AddVideoTranscriptModerationResult.
             List<TranscriptModerationBodyItemTermsItem> terms = new List<TranscriptModerationBodyItemTermsItem>();
@@ -194,7 +195,7 @@ namespace VideoTranscriptReviews
 
                 Console.WriteLine("Open your Content Moderator Dashboard and select Review > Video to see the review.");
                 Console.WriteLine("Press any key to close the application.");
-                Console.Read();
+                Console.ReadKey();
             }
         }
     }

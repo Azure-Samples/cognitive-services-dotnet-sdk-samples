@@ -16,29 +16,29 @@ namespace VideoReviews
         /// The region/location for your Content Moderator account, 
         /// for example, westus.
         /// </summary>
-        private static readonly string AzureRegion = "YOUR CONTENT MODERATOR REGION";
+        private static readonly string AzureRegion = "YOUR API REGION";
 
         // NOTE: Replace this example key with a valid subscription key.
         /// <summary>
         /// Your Content Moderator subscription key.
         /// </summary>
-        private static readonly string CMSubscriptionKey = "54fee39ae7ba418ea0c7193e0952d0a1";
+        private static readonly string CMSubscriptionKey = "YOUR API KEY";
 
-        // NOTE: Replace this example team name with your Content Moderator team name.
+        // NOTE: Replace this example team name with your Content Moderator team Id.
         /// <summary>
         /// The name of the team to assign the job to.
         /// </summary>
         /// <remarks>This must be the team name you used to create your 
         /// Content Moderator account. You can retrieve your team name from
-        /// the Conent Moderator web site. Your team name is the Id associated 
+        /// the Content Moderator web site. Your team name is the Id associated 
         /// with your subscription.</remarks>
-        public static readonly string TeamName = "testreview6";
+        private const string TeamName = "YOUR REVIEW TEAM ID";
 
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
         /// </summary>
         private static readonly string AzureBaseURL =
-            $"{AzureRegion}.api.cognitive.microsoft.com";
+            $"https://{AzureRegion}.api.cognitive.microsoft.com";
 
         /// <summary>
         /// The minimum amount of time, in milliseconds, to wait between calls
@@ -57,7 +57,7 @@ namespace VideoReviews
         {
             return new ContentModeratorClient(new ApiKeyServiceClientCredentials(CMSubscriptionKey))
             {
-                BaseUrl = AzureBaseURL
+                Endpoint = AzureBaseURL
             };
         }
 
@@ -157,7 +157,7 @@ namespace VideoReviews
         {
             Console.WriteLine("Getting frames for the review with ID {0}.", review_id);
 
-            Frames result = client.Reviews.GetVideoFrames(TeamName, review_id, 0, Int32.MaxValue);
+            Frames result = client.Reviews.GetVideoFrames(TeamName, review_id);
             Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
 
             Thread.Sleep(throttleRate);
@@ -220,7 +220,7 @@ namespace VideoReviews
 
                 Console.WriteLine("Open your Content Moderator Dashboard and select Review > Video to see the review.");
                 Console.WriteLine("Press any key to close the application.");
-                Console.Read();
+                Console.ReadKey();
             }
         }
     }
