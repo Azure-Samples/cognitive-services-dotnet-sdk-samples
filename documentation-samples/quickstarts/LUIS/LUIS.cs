@@ -1,11 +1,15 @@
 // Note: Add the NuGet package Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring to your solution.
+// <Dependencies>
 using Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring;
 using Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.Models;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
+// </Dependencies>
+
 
 /*
  * This sample builds a LUIS application, entities, and intents using the LUIS .NET SDK.
@@ -23,25 +27,29 @@ using System.Threading.Tasks;
 
 namespace LUIS_CS
 {
+    // <ApplicationInfo>
     struct ApplicationInfo
     {
         public Guid ID;
         public string Version;
     }
+    // </ApplicationInfo>
 
     class Program
     {
-        private const string key_var = "LUIS_SUBSCRIPTION_KEY";
-        private static readonly string subscription_key = Environment.GetEnvironmentVariable(key_var);
+        // <Variables>
+        private const string key_var = "COGNITIVESERVICE_AUTHORING_KEY";
+        private static readonly string authoring_key = Environment.GetEnvironmentVariable(key_var);
 
-        // Note you must use the same region as you used to get your subscription key.
-        private const string region_var = "LUIS_REGION";
+        // Note you must use the same region as you used to get your authoring key.
+        private const string region_var = "COGNITIVESERVICE_REGION";
         private static readonly string region = Environment.GetEnvironmentVariable(region_var);
         private static readonly string endpoint = "https://" + region + ".api.cognitive.microsoft.com";
+        // </Variables>
 
         static Program()
         {
-            if (null == subscription_key)
+            if (null == authoring_key)
             {
                 throw new Exception("Please set/export the environment variable: " + key_var);
             }
@@ -51,43 +59,77 @@ namespace LUIS_CS
             }
         }
 
-        // Create a new LUIS application. Return the application ID and version.
+        // <Authoring-CreateApplication>
+        // Return the application ID and version.
         async static Task<ApplicationInfo> CreateApplication(LUISAuthoringClient client)
         {
-            string app_version = "0.1";
+            string app_name =           String.Format("Contoso {0}", DateTime.Now);
+            string app_description =    "Flight booking app built with LUIS .NET SDK.";
+            string app_version =        "0.1";
+            string app_culture =        "en-us";
+
             var app_info = new ApplicationCreateObject()
             {
-                Name = String.Format("Contoso {0}", DateTime.Now),
+                Name = app_name,
                 InitialVersionId = app_version,
-                Description = "Flight booking app built with LUIS .NET SDK.",
-                Culture = "en-us"
+                Description = app_description,
+                Culture = app_culture
             };
             var app_id = await client.Apps.AddAsync(app_info);
             Console.WriteLine("Created new LUIS application {0}\n with ID {1}.", app_info.Name, app_id);
             return new ApplicationInfo() { ID = app_id, Version = app_version };
         }
+        // </Authoring-CreateApplication>
 
-        // Add entities to the LUIS application.
+        // <Authoring-AddEntities>
+        // Create entity objects
         async static Task AddEntities(LUISAuthoringClient client, ApplicationInfo app_info)
         {
-            await client.Model.AddEntityAsync(app_info.ID, app_info.Version, new ModelCreateObject()
+            // Add simple entity
+            var simpleEntityIdLocation = await client.Model.AddEntityAsync(app_info.ID, app_info.Version, new ModelCreateObject()
+            {
+                Name = "Location"
+            });
+
+            // Add 'Origin' role to simple entity
+            await client.Model.CreateEntityRoleAsync(app_info.ID, app_info.Version, simpleEntityIdLocation, new EntityRoleCreateObject()
+            {
+                Name = "Origin"
+            });
+
+            // Add 'Destination' role to simple entity
+            await client.Model.CreateEntityRoleAsync(app_info.ID, app_info.Version, simpleEntityIdLocation, new EntityRoleCreateObject()
             {
                 Name = "Destination"
             });
-            await client.Model.AddHierarchicalEntityAsync(app_info.ID, app_info.Version, new HierarchicalEntityModel()
+
+            // Add simple entity
+            var simpleEntityIdClass = await client.Model.AddEntityAsync(app_info.ID, app_info.Version, new ModelCreateObject()
             {
-                Name = "Class",
-                Children = new List<string>() { "First", "Business", "Economy" }
+                Name = "Class"
             });
+
+
+            // Add prebuilt number and datetime
+            await client.Model.AddPrebuiltAsync(app_info.ID, app_info.Version, new List<string>
+            {
+                "number",
+                "datetimeV2",
+                "geographyV2",
+                "ordinal"
+            });
+
+            // Composite entity
             await client.Model.AddCompositeEntityAsync(app_info.ID, app_info.Version, new CompositeEntityModel()
             {
                 Name = "Flight",
-                Children = new List<string>() { "Class", "Destination" }
+                Children = new List<string>() { "Location", "Class", "number", "datetimeV2", "geographyV2", "ordinal" }
             });
-            Console.WriteLine("Created entities Destination, Class, Flight.");
+            Console.WriteLine("Created entities Location, Class, number, datetimeV2, geographyV2, ordinal.");
         }
+        // </Authoring-AddEntities>
 
-        // Add intents to the LUIS application.
+        // <Authoring-AddIntents>
         async static Task AddIntents(LUISAuthoringClient client, ApplicationInfo app_info)
         {
             await client.Model.AddIntentAsync(app_info.ID, app_info.Version, new ModelCreateObject()
@@ -96,20 +138,29 @@ namespace LUIS_CS
             });
             Console.WriteLine("Created intent FindFlights");
         }
+        // </Authoring-AddIntents>        
 
-        // Create a label to be added to an utterance.
-        static EntityLabelObject CreateLabel(string utterance, string key, string value)
+        // <Authoring-BatchAddUtterancesForIntent>
+        async static Task AddUtterances(LUISAuthoringClient client, ApplicationInfo app_info)
         {
-            var start_index = utterance.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
-            return new EntityLabelObject()
+            var utterances = new List<ExampleLabelObject>()
             {
-                EntityName = key,
-                StartCharIndex = start_index,
-                EndCharIndex = start_index + value.Length
-            };
-        }
+                CreateUtterance ("FindFlights", "find flights in economy to Madrid on July 1st", new Dictionary<string, string>() { {"Flight", "economy to Madrid"}, { "Location", "Madrid" }, { "Class", "economy" } }),
+                CreateUtterance ("FindFlights", "find flights from seattle to London in first class", new Dictionary<string, string>() { { "Flight", "London in first class" }, { "Location", "London" }, { "Class", "first" } }),
+                CreateUtterance ("FindFlights", "find flights to London in first class", new Dictionary<string, string>()  { { "Flight", "London in first class" }, { "Location", "London" }, { "Class", "first" } }),
 
-        // Create an utterance to be added to the LUIS application.
+                //Role not supported in SDK yet
+                //CreateUtterance ("FindFlights", "find flights to Paris in first class", new Dictionary<string, string>()  { { "Flight", "London in first class" }, { "Location::Destination", "Paris" }, { "Class", "first" } })
+            };
+            var resultsList = await client.Examples.BatchAsync(app_info.ID, app_info.Version, utterances);
+
+            foreach (var x in resultsList)
+            {
+                var result = (!x.HasError.GetValueOrDefault()) ? "succeeded": "failed";
+                Console.WriteLine("{0} {1}", x.Value.ExampleId, result);
+            }
+        }
+        // Create utterance with marked text for entities
         static ExampleLabelObject CreateUtterance(string intent, string utterance, Dictionary<string, string> labels)
         {
             var entity_labels = labels.Select(kv => CreateLabel(utterance, kv.Key, kv.Value)).ToList();
@@ -120,26 +171,31 @@ namespace LUIS_CS
                 EntityLabels = entity_labels
             };
         }
-
-        // Add utterances to the LUIS application.
-        async static Task AddUtterances(LUISAuthoringClient client, ApplicationInfo app_info)
+        // Mark beginning and ending of entity text in utterance
+        static EntityLabelObject CreateLabel(string utterance, string key, string value)
         {
-            var utterances = new List<ExampleLabelObject>()
+            var start_index = utterance.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
+            return new EntityLabelObject()
             {
-                CreateUtterance ("FindFlights", "find flights in economy to Madrid", new Dictionary<string, string>() { {"Flight", "economy to Madrid"}, { "Destination", "Madrid" }, { "Class", "economy" } }),
-                CreateUtterance ("FindFlights", "find flights to London in first class", new Dictionary<string, string>() { { "Flight", "London in first class" }, { "Destination", "London" }, { "Class", "first" } })
+                EntityName = key,
+                StartCharIndex = start_index,
+                EndCharIndex = start_index + value.Length
             };
-            await client.Examples.BatchAsync(app_info.ID, app_info.Version, utterances);
         }
+        // </Authoring-BatchAddUtterancesForIntent>
 
-        // Train a LUIS application.
+
+        // <Authoring-TrainVersion>
         async static Task Train_App(LUISAuthoringClient client, ApplicationInfo app)
         {
             var response = await client.Train.TrainVersionAsync(app.ID, app.Version);
             Console.WriteLine("Training status: " + response.Status);
         }
+        // </Authoring-TrainVersion>
 
-        // Publish a LUIS application and show the endpoint URL for the published application.
+
+        // <Authoring-PublishVersionAndSlot>
+        // Publish app, display endpoint URL for the published application.
         async static Task Publish_App(LUISAuthoringClient client, ApplicationInfo app)
         {
             ApplicationPublishObject obj = new ApplicationPublishObject
@@ -150,15 +206,19 @@ namespace LUIS_CS
             var info = await client.Apps.PublishAsync(app.ID, obj);
             Console.WriteLine("Endpoint URL: " + info.EndpointUrl);
         }
+        // </Authoring-PublishVersionAndSlot>
 
         async static Task RunQuickstart()
         {
+            // <Authoring-CreateClient>
             // Generate the credentials and create the client.
-            var credentials = new Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.ApiKeyServiceClientCredentials(subscription_key);
+            var credentials = new Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.ApiKeyServiceClientCredentials(authoring_key);
             var client = new LUISAuthoringClient(credentials, new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = "https://" + region + ".api.cognitive.microsoft.com"
             };
+            // </Authoring-CreateClient>
+
 
             Console.WriteLine("Creating application...");
             var app = await CreateApplication(client);
