@@ -38,10 +38,10 @@ namespace LUIS_CS
     class Program
     {
         // <Variables>
-        private const string key_var = "COGNITIVESERVICE_SUBSCRIPTION_KEY";
-        private static readonly string subscription_key = Environment.GetEnvironmentVariable(key_var);
+        private const string key_var = "COGNITIVESERVICE_AUTHORING_KEY";
+        private static readonly string authoring_key = Environment.GetEnvironmentVariable(key_var);
 
-        // Note you must use the same region as you used to get your subscription key.
+        // Note you must use the same region as you used to get your authoring key.
         private const string region_var = "COGNITIVESERVICE_REGION";
         private static readonly string region = Environment.GetEnvironmentVariable(region_var);
         private static readonly string endpoint = "https://" + region + ".api.cognitive.microsoft.com";
@@ -49,7 +49,7 @@ namespace LUIS_CS
 
         static Program()
         {
-            if (null == subscription_key)
+            if (null == authoring_key)
             {
                 throw new Exception("Please set/export the environment variable: " + key_var);
             }
@@ -217,7 +217,7 @@ namespace LUIS_CS
         {
             // <Authoring-CreateClient>
             // Generate the credentials and create the client.
-            var credentials = new Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.ApiKeyServiceClientCredentials(subscription_key);
+            var credentials = new Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.ApiKeyServiceClientCredentials(authoring_key);
             var client = new LUISAuthoringClient(credentials, new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = "https://" + region + ".api.cognitive.microsoft.com"
