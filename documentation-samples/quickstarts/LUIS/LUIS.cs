@@ -140,33 +140,6 @@ namespace LUIS_CS
         }
         // </Authoring-AddIntents>        
 
-        // <Authoring-CreateLabelForUtterance>
-        // Mark beginning and ending of entity text in utterance
-        static EntityLabelObject CreateLabel(string utterance, string key, string value)
-        {
-            var start_index = utterance.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
-            return new EntityLabelObject()
-            {
-                EntityName = key,
-                StartCharIndex = start_index,
-                EndCharIndex = start_index + value.Length
-            };
-        }
-        // </Authoring-CreateLabelForUtterance>
-
-        // <Authoring-CreateUtteranceWithLabelsForIntent>
-        static ExampleLabelObject CreateUtterance(string intent, string utterance, Dictionary<string, string> labels)
-        {
-            var entity_labels = labels.Select(kv => CreateLabel(utterance, kv.Key, kv.Value)).ToList();
-            return new ExampleLabelObject()
-            {
-                IntentName = intent,
-                Text = utterance,
-                EntityLabels = entity_labels
-            };
-        }
-        // </Authoring-CreateUtteranceWithLabelsForIntent>
-
         // <Authoring-BatchAddUtterancesForIntent>
         async static Task AddUtterances(LUISAuthoringClient client, ApplicationInfo app_info)
         {
@@ -186,6 +159,28 @@ namespace LUIS_CS
                 var result = (!x.HasError.GetValueOrDefault()) ? "succeeded": "failed";
                 Console.WriteLine("{0} {1}", x.Value.ExampleId, result);
             }
+        }
+        // Create utterance with marked text for entities
+        static ExampleLabelObject CreateUtterance(string intent, string utterance, Dictionary<string, string> labels)
+        {
+            var entity_labels = labels.Select(kv => CreateLabel(utterance, kv.Key, kv.Value)).ToList();
+            return new ExampleLabelObject()
+            {
+                IntentName = intent,
+                Text = utterance,
+                EntityLabels = entity_labels
+            };
+        }
+        // Mark beginning and ending of entity text in utterance
+        static EntityLabelObject CreateLabel(string utterance, string key, string value)
+        {
+            var start_index = utterance.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
+            return new EntityLabelObject()
+            {
+                EntityName = key,
+                StartCharIndex = start_index,
+                EndCharIndex = start_index + value.Length
+            };
         }
         // </Authoring-BatchAddUtterancesForIntent>
 
