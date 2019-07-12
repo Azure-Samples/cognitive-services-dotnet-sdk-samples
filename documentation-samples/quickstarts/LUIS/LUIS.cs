@@ -59,7 +59,7 @@ namespace LUIS_CS
             }
         }
 
-        // <Authoring-CreateApplication>
+        // <AuthoringCreateApplication>
         // Return the application ID and version.
         async static Task<ApplicationInfo> CreateApplication(LUISAuthoringClient client)
         {
@@ -79,9 +79,9 @@ namespace LUIS_CS
             Console.WriteLine("Created new LUIS application {0}\n with ID {1}.", app_info.Name, app_id);
             return new ApplicationInfo() { ID = app_id, Version = app_version };
         }
-        // </Authoring-CreateApplication>
+        // </AuthoringCreateApplication>
 
-        // <Authoring-AddEntities>
+        // <AuthoringAddEntities>
         // Create entity objects
         async static Task AddEntities(LUISAuthoringClient client, ApplicationInfo app_info)
         {
@@ -127,9 +127,9 @@ namespace LUIS_CS
             });
             Console.WriteLine("Created entities Location, Class, number, datetimeV2, geographyV2, ordinal.");
         }
-        // </Authoring-AddEntities>
+        // </AuthoringAddEntities>
 
-        // <Authoring-AddIntents>
+        // <AuthoringAddIntents>
         async static Task AddIntents(LUISAuthoringClient client, ApplicationInfo app_info)
         {
             await client.Model.AddIntentAsync(app_info.ID, app_info.Version, new ModelCreateObject()
@@ -138,9 +138,9 @@ namespace LUIS_CS
             });
             Console.WriteLine("Created intent FindFlights");
         }
-        // </Authoring-AddIntents>        
+        // </AuthoringAddIntents>        
 
-        // <Authoring-BatchAddUtterancesForIntent>
+        // <AuthoringBatchAddUtterancesForIntent>
         async static Task AddUtterances(LUISAuthoringClient client, ApplicationInfo app_info)
         {
             var utterances = new List<ExampleLabelObject>()
@@ -182,19 +182,19 @@ namespace LUIS_CS
                 EndCharIndex = start_index + value.Length
             };
         }
-        // </Authoring-BatchAddUtterancesForIntent>
+        // </AuthoringBatchAddUtterancesForIntent>
 
 
-        // <Authoring-TrainVersion>
+        // <AuthoringTrainVersion>
         async static Task Train_App(LUISAuthoringClient client, ApplicationInfo app)
         {
             var response = await client.Train.TrainVersionAsync(app.ID, app.Version);
             Console.WriteLine("Training status: " + response.Status);
         }
-        // </Authoring-TrainVersion>
+        // </AuthoringTrainVersion>
 
 
-        // <Authoring-PublishVersionAndSlot>
+        // <AuthoringPublishVersionAndSlot>
         // Publish app, display endpoint URL for the published application.
         async static Task Publish_App(LUISAuthoringClient client, ApplicationInfo app)
         {
@@ -206,18 +206,18 @@ namespace LUIS_CS
             var info = await client.Apps.PublishAsync(app.ID, obj);
             Console.WriteLine("Endpoint URL: " + info.EndpointUrl);
         }
-        // </Authoring-PublishVersionAndSlot>
+        // </AuthoringPublishVersionAndSlot>
 
         async static Task RunQuickstart()
         {
-            // <Authoring-CreateClient>
+            // <AuthoringCreateClient>
             // Generate the credentials and create the client.
             var credentials = new Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.ApiKeyServiceClientCredentials(authoring_key);
             var client = new LUISAuthoringClient(credentials, new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = "https://" + region + ".api.cognitive.microsoft.com"
             };
-            // </Authoring-CreateClient>
+            // </AuthoringCreateClient>
 
 
             Console.WriteLine("Creating application...");
