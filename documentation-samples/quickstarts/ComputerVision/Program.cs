@@ -1,9 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 /*
  * Computer Vision SDK QuickStart 
@@ -53,8 +56,9 @@ namespace ComputerVisionQuickstart
 		// Download images and put in your bin/Debug/netcoreapp2.2 folder of your project:
 		// https://github.com/Azure-Samples/cognitive-services-sample-data-files/tree/master/ComputerVision/Images
 		// Or, you can just set the path to any appropriate image on your machine.
-		private const string ANALYZE_LOCAL_IMAGE = "celebrities.jpg";
+		private const string ANALYZE_LOCAL_IMAGE = "celebrities.jpg"; 
 		private const string DETECT_LOCAL_IMAGE = "objects.jpg";
+		private const string DETECT_DOMAIN_SPECIFIC_LOCAL = "celebrities.jpg";
 		private const string EXTRACT_TEXT_LOCAL_IMAGE = "handwritten_text.jpg";
 		private const string OCR_LOCAL_IMAGE = "printed_text.jpg";
 
@@ -62,6 +66,8 @@ namespace ComputerVisionQuickstart
 		private const string ANALYZE_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png";
 		// URL image for detecting objects (image of man on skateboard)
 		private const string DETECT_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample9.png";
+		// URL image for detecting domain-specific content (image of ancient ruins)
+		private const string DETECT_DOMAIN_SPECIFIC_URL = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg";
 		// URL image for extracting text (Image of motivational meme).
 		private const string EXTRACT_TEXT_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample2.jpg";
 		// URL image for OCR (optical character recognition). (Image of motivational meme).
@@ -83,6 +89,9 @@ namespace ComputerVisionQuickstart
 			DetectObjectsUrl(client, DETECT_URL_IMAGE).Wait();
 			DetectObjectsLocal(client, DETECT_LOCAL_IMAGE).Wait();
 
+			// Detect domain-specific content in both a URL image and a local image.
+			DetectDomainSpecific(client, DETECT_DOMAIN_SPECIFIC_URL, DETECT_DOMAIN_SPECIFIC_LOCAL).Wait();
+
 			// Extract text from an image (handwriting and/or printed).
 			ExtractTextUrl(client, EXTRACT_TEXT_URL_IMAGE).Wait();
 			ExtractTextLocal(client, EXTRACT_TEXT_LOCAL_IMAGE).Wait();
@@ -91,10 +100,12 @@ namespace ComputerVisionQuickstart
 			ExtractOcrUrl(client, OCR_URL).Wait();
 			ExtractOcrLocal(client, OCR_LOCAL_IMAGE).Wait();
 
+			Console.WriteLine("----------------------------------------------------------");
+			Console.WriteLine();
 			Console.WriteLine("Computer Vision quickstart is complete.");
 			Console.WriteLine();
 			Console.WriteLine("Press enter to exit...");
-			Console.ReadLine();
+			Console.WriteLine();
 		}
 
 		/*
@@ -440,6 +451,45 @@ namespace ComputerVisionQuickstart
 		 */
 
 		/*
+		 * DETECT DOMAIN-SPECIFIC CONTENT
+		 * Recognizes landmarks or celebrities in an image.
+		 */
+		public static async Task DetectDomainSpecific(ComputerVisionClient client, string urlImage, string localImage)
+		{
+			Console.WriteLine("----------------------------------------------------------");
+			Console.WriteLine("DETECT DOMAIN-SPECIFIC CONTENT - URL & LOCAL IMAGE");
+			Console.WriteLine();
+
+			// Detect the domain-specific content in a URL image.
+			DomainModelResults resultsUrl = await client.AnalyzeImageByDomainAsync("landmarks", urlImage);
+			// Display results.
+			Console.WriteLine($"Detecting landmarks in the URL image {Path.GetFileName(urlImage)}...");
+
+			var jsonUrl = JsonConvert.SerializeObject(resultsUrl.Result);
+			JObject resultJsonUrl = JObject.Parse(jsonUrl);
+			Console.WriteLine($"Landmark detected: {resultJsonUrl["landmarks"][0]["name"]} " +
+				$"with confidence {resultJsonUrl["landmarks"][0]["confidence"]}.");
+			Console.WriteLine();
+
+			// Detect the domain-specific content in a local image.
+			using (Stream imageStream = File.OpenRead(localImage))
+			{
+				// Change "celebrities" to "landmarks" if that is the domain you are interested in.
+				DomainModelResults resultsLocal = await client.AnalyzeImageByDomainInStreamAsync("celebrities", imageStream);
+				Console.WriteLine($"Detecting celebrities in the local image {Path.GetFileName(localImage)}...");
+				// Display results.
+				var jsonLocal = JsonConvert.SerializeObject(resultsLocal.Result);
+				JObject resultJsonLocal = JObject.Parse(jsonLocal);
+				Console.WriteLine($"Celebrity detected: {resultJsonLocal["celebrities"][2]["name"]} " +
+					$"with confidence {resultJsonLocal["celebrities"][2]["confidence"]}");
+			}
+			Console.WriteLine();
+		}
+		/*
+		 * END - DETECT DOMAIN-SPECIFIC CONTENT
+		 */
+
+		/*
 		 *	EXTRACT TEXT - URL IMAGE
 		 */
 		public static async Task ExtractTextUrl(ComputerVisionClient client, string urlImage)
@@ -613,6 +663,9 @@ namespace ComputerVisionQuickstart
 				Console.WriteLine("Orientation: " + localFileOcrResult.Orientation);
 				Console.WriteLine();
 				Console.WriteLine("Text regions: ");
+
+				// Getting only one line of text for testing purposes. To see full demonstration, remove the counter & conditional.
+				int counter = 0;
 				foreach (var localRegion in localFileOcrResult.Regions)
 				{
 					Console.WriteLine("Region bounding box: " + localRegion.BoundingBox);
@@ -620,16 +673,21 @@ namespace ComputerVisionQuickstart
 					{
 						Console.WriteLine("Line bounding box: " + line.BoundingBox);
 
+						if (counter == 1)
+						{
+							Console.WriteLine();
+							return;
+						}
+						counter++;
+
 						foreach (var word in line.Words)
 						{
 							Console.WriteLine("Word bounding box: " + word.BoundingBox);
 							Console.WriteLine("Text: " + word.Text);
 						}
-						Console.WriteLine();
 					}
 				}
 			}
-			Console.WriteLine("----------------------------------------------------------");
 		}
 		/*
 		 * OCR - LOCAL IMAGE
