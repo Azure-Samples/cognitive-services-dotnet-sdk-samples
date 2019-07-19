@@ -28,7 +28,8 @@ using System.Collections;
  *   - Azure Computer Vision resource from https://ms.portal.azure.com
  *   - Create a .Net Core console app, then copy/paste this Program.cs file into it. Be sure to update the namespace if it's different.
  *   - At the top of your Program.cs, set your environment variables on your local machine with the suggested names.
- *   - Download the images from the link below to your bin/Debug/netcoreapp2.2 folder.
+ *   - Download the 5 images listed in the variables section, to your bin/Debug/netcoreapp2.2 folder, from here:
+ *     https://github.com/Azure-Samples/cognitive-services-sample-data-files/tree/master/ComputerVision/Images
  *   
  *   How to run:
  *    - Once your prerequisites are complete, press the Start button in Visual Studio.
@@ -53,9 +54,7 @@ namespace ComputerVisionQuickstart
 		static string region = Environment.GetEnvironmentVariable("COMPUTER_VISION_REGION");
 
 
-		// Download images and put in your bin/Debug/netcoreapp2.2 folder of your project:
-		// https://github.com/Azure-Samples/cognitive-services-sample-data-files/tree/master/ComputerVision/Images
-		// Or, you can just set the path to any appropriate image on your machine.
+		// Download these images (link in prerequisites), or you can use any appropriate image on your local machine.
 		private const string ANALYZE_LOCAL_IMAGE = "celebrities.jpg"; 
 		private const string DETECT_LOCAL_IMAGE = "objects.jpg";
 		private const string DETECT_DOMAIN_SPECIFIC_LOCAL = "celebrities.jpg";
