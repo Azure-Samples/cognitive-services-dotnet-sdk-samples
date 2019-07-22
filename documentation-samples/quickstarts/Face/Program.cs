@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,14 +65,14 @@ namespace FaceQuickstart
 			// From your Face subscription in the Azure portal, get your subscription key and location/region (for example, 'westus').
 			// Set your environment variables with these with the names below. Close and reopen your project for changes to take effect.
 			string SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
-			string ENDPOINT = $"https://{Environment.GetEnvironmentVariable("FACE_REGION")}.api.cognitive.microsoft.com";
+			string ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT");
 			// The Snapshot example needs its own 2nd client, since it uses two different regions.
 			string TARGET_SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY2");
-			string TARGET_ENDPOINT = $"https://{Environment.GetEnvironmentVariable("FACE_REGION2")}.api.cognitive.microsoft.com";
+			string TARGET_ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT2");
 			// Grab your subscription ID, from any resource in Azure, from the Overview page (all resources have the same subscription ID). 
 			Guid AZURE_SUBSCRIPTION_ID = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
 
-			// Used in the Detect Faces example.
+			// Used in the Detect Faces and Verify examples.
 			// Recognition model 2 is used for feature extraction, use 1 to simply recognize/detect a face. 
 			// However, the API calls to Detection that are used with Verify, Find Similar, or Identify must share the same recognition model.
 			const string RECOGNITION_MODEL2 = RecognitionModel.Recognition02;
@@ -82,11 +83,13 @@ namespace FaceQuickstart
 			// Authenticate for another region (used in Snapshot only).
 			IFaceClient clientTarget = Authenticate(TARGET_ENDPOINT, TARGET_SUBSCRIPTION_KEY);
 			// Detect features from faces.
-			DetectFaceExtract(client, RECOGNITION_MODEL2 ).Wait();
+			DetectFaceExtract(client, IMAGE_BASE_URL, RECOGNITION_MODEL2).Wait();
 			// Find a similar face from a list of faces.
-			FindSimilar(client, RECOGNITION_MODEL1).Wait();
+			FindSimilar(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
+			// Compare two images if the same person or not.
+			Verify(client, IMAGE_BASE_URL, RECOGNITION_MODEL2).Wait();
 			// Identify a face(s) in a person group (person group is created in this example).
-			IdentifyInPersonGroup(client, RECOGNITION_MODEL1).Wait();
+			IdentifyInPersonGroup(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
 			// Automatically group similar faces.
 			Group(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
 			// Take a snapshot of a person group in one region, move it to the next region.
@@ -117,12 +120,11 @@ namespace FaceQuickstart
 		 * DETECT FACES
 		 * Detects features from faces and IDs them.
 		 */
-		public static async Task DetectFaceExtract(IFaceClient client, string recognitionModel)
+		public static async Task DetectFaceExtract(IFaceClient client, string url, string recognitionModel)
 		{
 			Console.WriteLine("========DETECT FACES========");
 
 			// Create a list of images
-			const string IMAGE_BASE_URL = "https://csdx.blob.core.windows.net/resources/Face/Images/";
 			List<string> imageFileNames = new List<string>
 							{
 								"detection1.jpg",    // single female with glasses
@@ -138,7 +140,7 @@ namespace FaceQuickstart
 				IList<DetectedFace> detectedFaces;
 
 				// Detect faces with all attributes from image url.
-				detectedFaces = await client.Face.DetectWithUrlAsync($"{IMAGE_BASE_URL}{imageFileName}",
+				detectedFaces = await client.Face.DetectWithUrlAsync($"{url}{imageFileName}",
 						returnFaceAttributes: new List<FaceAttributeType> { FaceAttributeType.Accessories, FaceAttributeType.Age,
 						FaceAttributeType.Blur, FaceAttributeType.Emotion, FaceAttributeType.Exposure, FaceAttributeType.FacialHair,
 						FaceAttributeType.Gender, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.HeadPose,
@@ -216,15 +218,15 @@ namespace FaceQuickstart
 			}
 		}
 
-		// Detect faces from image url for recognition purpose.
+		// Detect faces from image url for recognition purpose. This is a helper method for other functions in this quickstart.
 		// Parameter `returnFaceId` of `DetectWithUrlAsync` must be set to `true` (by default) for recognition purpose.
-		// The field `faceId` in returned `DetectedFace`s will be used in Face - Identify, Face - Verify, and Face - Find Similar.
+		// The field `faceId` in returned `DetectedFace`s will be used in Face - Find Similar, Face - Verify. and Face - Identify.
 		// It will expire 24 hours after the detection call.
-		private static async Task<List<DetectedFace>> DetectFaceRecognize(IFaceClient faceClient, string imageUrl, string RECOGNITION_MODEL1)
+		private static async Task<List<DetectedFace>> DetectFaceRecognize(IFaceClient faceClient, string url, string RECOGNITION_MODEL1)
 		{
 			// Detect faces from image URL. Since only recognizing, use the recognition model 1.
-			IList<DetectedFace> detectedFaces = await faceClient.Face.DetectWithUrlAsync(imageUrl, recognitionModel: RECOGNITION_MODEL1);
-			Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{imageUrl}`.");
+			IList<DetectedFace> detectedFaces = await faceClient.Face.DetectWithUrlAsync(url, recognitionModel: RECOGNITION_MODEL1);
+			Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{Path.GetFileName(url)}`");
 			return detectedFaces.ToList();
 		}
 		/*
@@ -235,11 +237,10 @@ namespace FaceQuickstart
 		 * FIND SIMILAR
 		 * This example will take an image and find a similar one to it in another image.
 		 */
-		public static async Task FindSimilar(IFaceClient client, string RECOGNITION_MODEL1)
+		public static async Task FindSimilar(IFaceClient client, string url, string RECOGNITION_MODEL1)
 		{
 			Console.WriteLine("========FIND SIMILAR========");
 
-			const string IMAGE_BASE_URL = "https://csdx.blob.core.windows.net/resources/Face/Images/";
 			List<string> targetImageFileNames = new List<string>
 								{
 									"Family1-Dad1.jpg",
@@ -257,13 +258,13 @@ namespace FaceQuickstart
 			foreach (var targetImageFileName in targetImageFileNames)
 			{
 				// Detect faces from target image url.
-				var faces = await DetectFaceRecognize(client, $"{IMAGE_BASE_URL}{targetImageFileName}", RECOGNITION_MODEL1);
+				var faces = await DetectFaceRecognize(client, $"{url}{targetImageFileName}", RECOGNITION_MODEL1);
 				// Add detected faceId to list of GUIDs.
 				targetFaceIds.Add(faces[0].FaceId.Value);
 			}
 
 			// Detect faces from source image url.
-			IList<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{IMAGE_BASE_URL}{sourceImageFileName}", RECOGNITION_MODEL1);
+			IList<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{sourceImageFileName}", RECOGNITION_MODEL1);
 			Console.WriteLine();
 
 			// Find a similar face(s) in the list of IDs. Comapring only the first in list for testing purposes.
@@ -276,13 +277,70 @@ namespace FaceQuickstart
 		}
 		/*
 		 * END - FIND SIMILAR 
-		 */ 
+		 */
+
+		/*
+		 * VERIFY
+		 * The Verify operation takes a face ID from DetectedFace or PersistedFace and either another face ID 
+		 * or a Person object and determines whether they belong to the same person. If you pass in a Person object, 
+		 * you can optionally pass in a PersonGroup to which that Person belongs to improve performance.
+		 */
+		public static async Task Verify(IFaceClient client, string url, string recognitionModel02)
+		{
+			Console.WriteLine("========VERIFY========");
+
+			List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
+			string sourceImageFileName1 = "Family1-Dad3.jpg";
+			string sourceImageFileName2 = "Family1-Son1.jpg";
+
+
+			List<Guid> targetFaceIds = new List<Guid>();
+			foreach (var imageFileName in targetImageFileNames)
+			{
+				// Detect faces from target image url.
+				List<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{imageFileName} ", recognitionModel02);
+				targetFaceIds.Add(detectedFaces[0].FaceId.Value);
+				Console.WriteLine($"{detectedFaces.Count} faces detected from image `{imageFileName}`.");
+			}
+
+			// Detect faces from source image file 1.
+			List<DetectedFace> detectedFaces1 = await DetectFaceRecognize(client, $"{url}{sourceImageFileName1} ", recognitionModel02);
+			Console.WriteLine($"{detectedFaces1.Count} faces detected from image `{sourceImageFileName1}`.");
+			Guid sourceFaceId1 = detectedFaces1[0].FaceId.Value;
+
+			// Detect faces from source image file 2.
+			List<DetectedFace> detectedFaces2 = await DetectFaceRecognize(client, $"{url}{sourceImageFileName2} ", recognitionModel02);
+			Console.WriteLine($"{detectedFaces2.Count} faces detected from image `{sourceImageFileName2}`.");
+			Guid sourceFaceId2 = detectedFaces2[0].FaceId.Value;
+
+			// Verification example for faces of the same person.
+			VerifyResult verifyResult1 = await client.Face.VerifyFaceToFaceAsync(sourceFaceId1, targetFaceIds[0]);
+			Console.WriteLine(
+				verifyResult1.IsIdentical
+					? $"Faces from {sourceImageFileName1} & {targetImageFileNames[0]} are of the same (Positive) person, similarity confidence: {verifyResult1.Confidence}."
+					: $"Faces from {sourceImageFileName1} & {targetImageFileNames[0]} are of different (Negative) persons, similarity confidence: {verifyResult1.Confidence}.");
+
+			// Verification example for faces of different persons.
+			VerifyResult verifyResult2 = await client.Face.VerifyFaceToFaceAsync(sourceFaceId2, targetFaceIds[0]);
+			Console.WriteLine(
+				verifyResult2.IsIdentical
+					? $"Faces from {sourceImageFileName2} & {targetImageFileNames[0]} are of the same (Negative) person, similarity confidence: {verifyResult2.Confidence}."
+					: $"Faces from {sourceImageFileName2} & {targetImageFileNames[0]} are of different (Positive) persons, similarity confidence: {verifyResult2.Confidence}.");
+
+			Console.WriteLine();
+		}
+		/*
+		 * END - VERIFY 
+		 */
 
 		/*
 		 * IDENTIFY FACES
 		 * To identify faces, you need to create and define a person group.
+		 * The Identify operation takes one or several face IDs from DetectedFace or PersistedFace and a PersonGroup and returns 
+		 * a list of Person objects that each face might belong to. Returned Person objects are wrapped as Candidate objects, 
+		 * which have a prediction confidence value.
 		 */
-		public static async Task IdentifyInPersonGroup(IFaceClient client, string RECOGNITION_MODEL1)
+		public static async Task IdentifyInPersonGroup(IFaceClient client, string url, string RECOGNITION_MODEL1)
 		{
 			Console.WriteLine("========IDENTIFY FACES========");
 
@@ -317,9 +375,9 @@ namespace FaceQuickstart
 				// Add face to the person group person.
 				foreach (var targetImageFileName in targetImageFileDictionary[targetImageFileDictionaryName])
 				{
-					Console.WriteLine($"Add face to the person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`.");
+					Console.WriteLine($"Add face to the person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`");
 					PersistedFace face = await client.PersonGroupPerson.AddFaceFromUrlAsync(personGroupId, person.PersonId,
-						$"{IMAGE_BASE_URL}{targetImageFileName}", targetImageFileName);
+						$"{url}{targetImageFileName}", targetImageFileName);
 				}
 			}
 
@@ -339,7 +397,7 @@ namespace FaceQuickstart
 			Console.WriteLine();
 			List<Guid> sourceFaceIds = new List<Guid>();
 			// Detect faces from source image url.
-			List<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{IMAGE_BASE_URL}{sourceImageFileName}", RECOGNITION_MODEL1);
+			List<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{sourceImageFileName}", RECOGNITION_MODEL1);
 
 			// Add detected faceId to sourceFaceIds.
 			foreach (var detectedFace in detectedFaces) { sourceFaceIds.Add(detectedFace.FaceId.Value); }
@@ -363,8 +421,9 @@ namespace FaceQuickstart
 		 * GROUP FACES
 		 * This method of grouping is useful if you don't need to create a person group. It will automatically group similar
 		 * images, whereas the person group method allows you to define the grouping.
+		 * A single "messyGroup" array contains face IDs for which no similarities were found.
 		 */
-		public static async Task Group(IFaceClient client, string imageUrlBase, string RECOGNITION_MODEL1)
+		public static async Task Group(IFaceClient client, string url, string RECOGNITION_MODEL1)
 		{
 			Console.WriteLine("========GROUP FACES========");
 			// Create list of image names
@@ -385,7 +444,7 @@ namespace FaceQuickstart
 			foreach (var imageFileName in imageFileNames)
 			{
 				// Detect faces from image url.
-				IList<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{imageUrlBase}{imageFileName}", RECOGNITION_MODEL1);
+				IList<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{imageFileName}", RECOGNITION_MODEL1);
 				// Add detected faceId to faceIds and faces.
 				faceIds.Add(detectedFaces[0].FaceId.Value);
 				faces.Add(detectedFaces[0].FaceId.ToString(), imageFileName);
@@ -421,11 +480,11 @@ namespace FaceQuickstart
 		 * The same process can be used for face lists. 
 		 * NOTE: the person group in the target region has a new person group ID, so it no longer associates with the source person group.
 		 */
-		public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid AZURE_SUBSCRIPTION_ID)
+		public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid azureId)
 		{
 			Console.WriteLine("========SNAPSHOT OPERATIONS========");
 			// Take a snapshot for the person group that was previously created in your source region.
-			var takeSnapshotResult = await clientSource.Snapshot.TakeAsync(SnapshotObjectType.PersonGroup, personGroupId, new[] { AZURE_SUBSCRIPTION_ID });
+			var takeSnapshotResult = await clientSource.Snapshot.TakeAsync(SnapshotObjectType.PersonGroup, personGroupId, new[] { azureId });
 			// Get operation id from response for tracking the progress of snapshot taking.
 			var operationId = Guid.Parse(takeSnapshotResult.OperationLocation.Split('/')[2]);
 			Console.WriteLine($"Taking snapshot(operation ID: {operationId})... Started");
