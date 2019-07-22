@@ -65,6 +65,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// DetectionModel for Face detection
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Face detection results in list container
         /// </summary>
         private ObservableCollection<Face> _detectedFaces = new ObservableCollection<Face>();
@@ -305,7 +310,8 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                 FaceAttributeType.Occlusion,
                                 FaceAttributeType.Smile
                             },
-                            recognitionModel
+                            recognitionModel,
+                            detectionModel: detectionModel
                         );
 
                         MainWindow.Log("Response: Success. Detected {0} face(s) in {1}", faces.Count, pickedImagePath);

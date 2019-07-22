@@ -69,6 +69,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// DetectionModel for Face detection
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Temporary group name for create person database
         /// </summary>
         public static readonly string SampleGroupName = Guid.NewGuid().ToString();
@@ -321,7 +326,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                     try
                                     {
                                         // Update person faces on server side
-                                        var persistFace = await faceServiceClient.LargePersonGroupPerson.AddFaceFromStreamAsync(GroupName, Guid.Parse(p.PersonId), fStream, imgPath);
+                                        var persistFace = await faceServiceClient.LargePersonGroupPerson.AddFaceFromStreamAsync(GroupName, Guid.Parse(p.PersonId), fStream, imgPath, detectionModel: detectionModel);
                                         return new Tuple<string, PersistedFace>(imgPath, persistFace);
                                     }
                                     catch (APIErrorException ex)
@@ -449,7 +454,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 {
                     try
                     {
-                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
+                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                         // Convert detection result into UI binding object for rendering
                         foreach (var face in UIHelper.CalculateFaceRectangleForRendering(faces, MaxImageSize, imageInfo))

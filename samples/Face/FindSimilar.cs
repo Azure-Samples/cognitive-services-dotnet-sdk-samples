@@ -15,6 +15,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>
@@ -35,7 +36,11 @@
             foreach (var targetImageFileName in targetImageFileNames)
             {
                 // Detect faces from target image url.
-                var faces = await Common.DetectFaces(client, $"{ImageUrlPrefix}{targetImageFileName}", recognitionModel: recognitionModel);
+                var faces = await Common.DetectFaces(
+                    client,
+                    $"{ImageUrlPrefix}{targetImageFileName}",
+                    recognitionModel: recognitionModel,
+                    detectionModel: detectionModel);
 
                 // Add detected faceId to targetFaceIds.
                 targetFaceIds.Add(faces[0].FaceId.Value);
@@ -45,7 +50,8 @@
             IList<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                     client,
                                                     $"{ImageUrlPrefix}{sourceImageFileName}",
-                                                    recognitionModel: recognitionModel);
+                                                    recognitionModel: recognitionModel,
+                                                    detectionModel: detectionModel);
 
             // Find similar example of faceId to faceIds.
             IList<SimilarFace> similarResults = await client.Face.FindSimilarAsync(
@@ -76,6 +82,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>
@@ -107,7 +114,8 @@
                 var faces = await client.FaceList.AddFaceFromUrlAsync(
                                 faceListId,
                                 $"{ImageUrlPrefix}{targetImageFileName}",
-                                targetImageFileName);
+                                targetImageFileName,
+                                detectionModel: detectionModel);
                 if (faces == null)
                 {
                     throw new Exception($"No face detected from image `{targetImageFileName}`.");
@@ -127,7 +135,8 @@
             IList<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                     client,
                                                     $"{ImageUrlPrefix}{sourceImageFileName}",
-                                                    recognitionModel: recognitionModel);
+                                                    recognitionModel: recognitionModel,
+                                                    detectionModel: detectionModel);
 
             // Find similar example of faceId to face list.
             var similarResults = await client.Face.FindSimilarAsync(detectedFaces[0].FaceId.Value, faceListId);
@@ -160,6 +169,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> targetImageFileNames = new List<string>
@@ -191,7 +201,8 @@
                 var faces = await client.LargeFaceList.AddFaceFromUrlAsync(
                                 largeFaceListId,
                                 $"{ImageUrlPrefix}{targetImageFileName}",
-                                targetImageFileName);
+                                targetImageFileName,
+                                detectionModel: detectionModel);
                 if (faces == null)
                 {
                     throw new Exception($"No face detected from image `{targetImageFileName}`.");
@@ -233,7 +244,8 @@
             IList<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                     client,
                                                     $"{ImageUrlPrefix}{sourceImageFileName}",
-                                                    recognitionModel: recognitionModel);
+                                                    recognitionModel: recognitionModel,
+                                                    detectionModel: detectionModel);
 
             // Find similar example of faceId to large face list.
             var similarResults = await client.Face.FindSimilarAsync(

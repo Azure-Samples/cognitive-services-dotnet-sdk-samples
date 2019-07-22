@@ -31,6 +31,11 @@
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// RecognitionModel for Face detection.
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Source endpoint in East Asia Region.
         /// </summary>
         private const string SourceEastAsiaEndpoint = "https://southeastasia.api.cognitive.microsoft.com/";
@@ -181,7 +186,8 @@
                         await client.PersonGroupPerson.AddFaceFromStreamAsync(
                             personGroupId,
                             person.PersonId,
-                            fileStream);
+                            fileStream,
+                            detectionModel: detectionModel);
                     }
                 }
             }
@@ -234,7 +240,7 @@
         {
             using (var fileStream = new FileStream("data\\PersonGroup\\Daughter\\Daughter1.jpg", FileMode.Open, FileAccess.Read))
             {
-                var detectedFaces = await client.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel);
+                var detectedFaces = await client.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                 var result = await client.Face.IdentifyAsync(detectedFaces.Select(face => face.FaceId).Where(faceId => faceId != null).Select(faceId => faceId.Value).ToList(), personGroupId);
                 Console.WriteLine("Test identify against PersonGroup");
