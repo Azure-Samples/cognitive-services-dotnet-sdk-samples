@@ -31,7 +31,7 @@
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
-        /// RecognitionModel for Face detection.
+        /// DetectionModel for Face detection.
         /// </summary>
         private static readonly string detectionModel = DetectionModel.Detection02;
 
