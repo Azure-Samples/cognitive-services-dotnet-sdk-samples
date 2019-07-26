@@ -21,19 +21,22 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             var inputDocuments = new MultiLanguageBatchInput(
                 new List<MultiLanguageInput>
                 {
-                    new MultiLanguageInput("en", "1", "I had the best day of my life."),
-                    new MultiLanguageInput("en", "2", "This was a waste of my time. The speaker put me to sleep."),
-                    new MultiLanguageInput("es", "3", "No tengo dinero ni nada que dar..."),
-                    new MultiLanguageInput("it", "4", "L'hotel veneziano era meraviglioso. È un bellissimo pezzo di architettura."),
+                    new MultiLanguageInput("1", "I had the best day of my life.", "en"),
+                    new MultiLanguageInput("2", "This was a waste of my time. The speaker put me to sleep.", "en"),
+                    new MultiLanguageInput("3", "No tengo dinero ni nada que dar...", "es"),
+                    new MultiLanguageInput("4", "L'hotel veneziano era meraviglioso. È un bellissimo pezzo di architettura.", "it"),
                 });
 
-            var result = await client.SentimentAsync(false, inputDocuments);
+            var result = await client.SentimentBatchAsync(inputDocuments);
 
             // Printing sentiment results
+            Console.WriteLine("===== Sentiment Analysis =====\n");
+
             foreach (var document in result.Documents)
             {
                 Console.WriteLine($"Document ID: {document.Id} , Sentiment Score: {document.Score:0.00}");
             }
+            Console.WriteLine();
         }
     }
 }
