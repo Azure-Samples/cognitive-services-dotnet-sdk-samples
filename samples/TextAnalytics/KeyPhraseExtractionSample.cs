@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 
@@ -20,15 +20,17 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             var inputDocuments = new MultiLanguageBatchInput(
                         new List<MultiLanguageInput>
                         {
-                            new MultiLanguageInput("ja", "1", "猫は幸せ"),
-                            new MultiLanguageInput("de", "2", "Fahrt nach Stuttgart und dann zum Hotel zu Fu."),
-                            new MultiLanguageInput("en", "3", "My cat might need to see a veterinarian."),
-                            new MultiLanguageInput("es", "4", "A mi me encanta el fútbol!")
+                            new MultiLanguageInput("1", "猫は幸せ", "ja"),
+                            new MultiLanguageInput("2", "Fahrt nach Stuttgart und dann zum Hotel zu Fu.", "de"),
+                            new MultiLanguageInput("3", "My cat might need to see a veterinarian.", "en"),
+                            new MultiLanguageInput("4", "A mi me encanta el fútbol!", "es")
                         });
 
-            var kpResults = await client.KeyPhrasesAsync(false, inputDocuments);
+            var kpResults = await client.KeyPhrasesBatchAsync(inputDocuments);
 
             // Printing keyphrases
+            Console.WriteLine("===== Key Phrases Extraction =====\n");
+
             foreach (var document in kpResults.Documents)
             {
                 Console.WriteLine($"Document ID: {document.Id} ");
@@ -40,6 +42,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
                     Console.WriteLine($"\t\t{keyphrase}");
                 }
             }
+            Console.WriteLine();
         }
     }
 }

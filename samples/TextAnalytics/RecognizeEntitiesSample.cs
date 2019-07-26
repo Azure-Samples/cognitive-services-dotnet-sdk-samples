@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 
@@ -21,13 +21,15 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             var inputDocuments = new MultiLanguageBatchInput(
                 new List<MultiLanguageInput>
                 {
-                    new MultiLanguageInput("en", "1", "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800."),
-                    new MultiLanguageInput("es", "2", "La sede principal de Microsoft se encuentra en la ciudad de Redmond, a 21 kilómetros de Seattle.")
+                    new MultiLanguageInput("1", "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800.", "en"),
+                    new MultiLanguageInput("2", "La sede principal de Microsoft se encuentra en la ciudad de Redmond, a 21 kilómetros de Seattle.", "es")
                 });
 
-            var entitiesResult = await client.EntitiesAsync(false, inputDocuments);
+            var entitiesResult = await client.EntitiesBatchAsync(inputDocuments);
 
             // Printing recognized entities
+            Console.WriteLine("===== Named Entity Recognition & Entity Linking =====\n");
+
             foreach (var document in entitiesResult.Documents)
             {
                 Console.WriteLine($"Document ID: {document.Id} ");
@@ -43,6 +45,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
                     }
                 }
             }
+            Console.WriteLine();
         }
     }
 }
