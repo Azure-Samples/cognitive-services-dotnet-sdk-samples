@@ -60,14 +60,15 @@ namespace FaceQuickstart
 
 		static void Main(string[] args)
 		{
-			// Used in Authenticate and Snapshot examples. The client they help create is used by all examples.
-			// From your Face subscription in the Azure portal, get your subscription key and location/region (for example, 'westus').
+			// Used in Authenticate and Snapshot examples. The client these help create is used by all examples.
+			// From your Face subscription in the Azure portal, get your subscription key and endpoint.
+			// You made need to change the first part of your endpoint (for example, it may be 'westus' or a custom domain)
 			// Set your environment variables with these with the names below. Close and reopen your project for changes to take effect.
 			string SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
-			string ENDPOINT = $"https://{Environment.GetEnvironmentVariable("FACE_REGION")}.api.cognitive.microsoft.com";
+			string ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT");
 			// The Snapshot example needs its own 2nd client, since it uses two different regions.
 			string TARGET_SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY2");
-			string TARGET_ENDPOINT = $"https://{Environment.GetEnvironmentVariable("FACE_REGION2")}.api.cognitive.microsoft.com";
+			string TARGET_ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT2");
 			// Grab your subscription ID, from any resource in Azure, from the Overview page (all resources have the same subscription ID). 
 			Guid AZURE_SUBSCRIPTION_ID = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
 
