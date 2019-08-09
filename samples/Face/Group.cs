@@ -14,6 +14,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames = new List<string>
@@ -34,7 +35,8 @@
                 IList<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                         client,
                                                         $"{ImageUrlPrefix}{imageFileName}",
-                                                        recognitionModel: recognitionModel);
+                                                        recognitionModel: recognitionModel,
+                                                        detectionModel: detectionModel);
 
                 // Add detected faceId to faceIds and faces.
                 faceIds.Add(detectedFaces[0].FaceId.Value);

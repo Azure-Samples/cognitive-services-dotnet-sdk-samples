@@ -69,6 +69,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// DetectionModel for Face detection
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Faces collection which will be used to find similar from
         /// </summary>
         private ObservableCollection<Face> _facesCollection = new ObservableCollection<Face>();
@@ -255,7 +260,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                 {
                     MainWindow.Log("Request: Detecting faces in {0}", SelectedFile);
                     var faceServiceClient = FaceServiceClientHelper.GetInstance(this);
-                    IList<DetectedFace> faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
+                    IList<DetectedFace> faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                     // Update detected faces on UI
                     foreach (var face in UIHelper.CalculateFaceRectangleForRendering(faces, MaxImageSize, imageInfo))
@@ -456,7 +461,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                 try
                                 {
                                     var faces =
-                                        await faceServiceClient.LargeFaceList.AddFaceFromStreamAsync(_largeFaceListName, fStream);
+                                        await faceServiceClient.LargeFaceList.AddFaceFromStreamAsync(_largeFaceListName, fStream, detectionModel: detectionModel);
                                     return new Tuple<string, PersistedFace>(imgPath, faces);
                                 }
                                 catch (APIErrorException ex)

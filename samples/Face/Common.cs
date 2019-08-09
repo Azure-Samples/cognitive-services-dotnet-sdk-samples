@@ -13,10 +13,10 @@
         // Parameter `returnFaceId` of `DetectWithStreamAsync` must be set to `true` (by default) for recognition purpose.
         // The field `faceId` in returned `DetectedFace`s will be used in Face - Identify, Face - Verify, and Face - Find Similar.
         // It will expire 24 hours after the detection call.
-        internal static async Task<List<DetectedFace>> DetectFaces(IFaceClient faceClient, string imageUrl, string recognitionModel = RecognitionModel.Recognition01)
+        internal static async Task<List<DetectedFace>> DetectFaces(IFaceClient faceClient, string imageUrl, string recognitionModel = RecognitionModel.Recognition01, string detectionModel = DetectionModel.Detection01)
         {
             // Detect faces from image stream.
-            IList<DetectedFace> detectedFaces = await faceClient.Face.DetectWithUrlAsync(imageUrl, recognitionModel: recognitionModel);
+            IList<DetectedFace> detectedFaces = await faceClient.Face.DetectWithUrlAsync(imageUrl, recognitionModel: recognitionModel, detectionModel: detectionModel);
             if (detectedFaces == null || detectedFaces.Count == 0)
             {
                 throw new Exception($"No face detected from image `{imageUrl}`.");

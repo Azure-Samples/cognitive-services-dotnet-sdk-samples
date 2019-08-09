@@ -15,6 +15,9 @@
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
 
+            // Leaving detection model set to Detection01 -> Face attributes are only supported with Detection01 model
+            string detectionModel = DetectionModel.Detection01;
+
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             List<string> imageFileNames = new List<string>
                                               {
@@ -50,7 +53,8 @@
                                                                 FaceAttributeType.Occlusion,
                                                                 FaceAttributeType.Smile
                                                             },
-                                                        recognitionModel: recognitionModel);
+                                                        recognitionModel: recognitionModel,
+                                                        detectionModel: detectionModel);
 
                 if (detectedFaces == null || detectedFaces.Count == 0)
                 {

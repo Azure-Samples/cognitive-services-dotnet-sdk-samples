@@ -67,6 +67,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// DetectionModel for Face detection
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Temporary group name for create person database
         /// </summary>
         public static readonly string SampleGroupName = Guid.NewGuid().ToString();
@@ -298,7 +303,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                     try
                     {
                         var faceServiceClient = FaceServiceClientHelper.GetInstance(this);
-                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel);
+                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                         // Handle REST API calling error
                         if (faces == null)
@@ -362,7 +367,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                     try
                     {
                         var faceServiceClient = FaceServiceClientHelper.GetInstance(this);
-                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel);
+                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                         // Handle REST API calling error
                         if (faces == null)
@@ -549,7 +554,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                 {
                                     var persistFace =
                                         await
-                                            faceServiceClient.LargePersonGroupPerson.AddFaceFromStreamAsync(GroupName, Guid.Parse(Person.PersonId), fStream, imgPath);
+                                            faceServiceClient.LargePersonGroupPerson.AddFaceFromStreamAsync(GroupName, Guid.Parse(Person.PersonId), fStream, imgPath, detectionModel: detectionModel);
                                     return new Tuple<string, PersistedFace>(imgPath, persistFace);
                                 }
                                 catch (APIErrorException ex)
@@ -666,7 +671,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                     try
                     {
                         var faceServiceClient = FaceServiceClientHelper.GetInstance(this);
-                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel);
+                        var faces = await faceServiceClient.Face.DetectWithStreamAsync(fileStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
 
                         // Handle REST API calling error
                         if (faces == null)
