@@ -61,8 +61,9 @@ namespace FaceQuickstart
 
 		static void Main(string[] args)
 		{
-			// Used in Authenticate and Snapshot examples. The client they help create is used by all examples.
-			// From your Face subscription in the Azure portal, get your subscription key and location/region (for example, 'westus').
+			// Used in Authenticate and Snapshot examples. The client these help create is used by all examples.
+			// From your Face subscription in the Azure portal, get your subscription key and endpoint.
+			// You made need to change the first part of your endpoint (for example, it may be 'westus' or a custom domain)
 			// Set your environment variables with these with the names below. Close and reopen your project for changes to take effect.
 			string SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
 			string ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT");
