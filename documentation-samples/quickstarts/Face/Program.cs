@@ -14,6 +14,7 @@ using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
  * This quickstart includes the following examples for Face:
  *  - Detect Faces
  *  - Find Similar
+ *  - Verify
  *  - Identify faces (and person group operations)
  *  - Group Faces
  *  - Snapshot Operations
