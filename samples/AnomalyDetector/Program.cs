@@ -13,8 +13,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.AnomalyDetector
     {
         static void Main(string[] args)
         {
-            string endpoint = "ENTER YOUR ENDPOINT HERE";
-            string key = "ENTER YOUR KEY HERE";
+            // Add your Computer Vision subscription key and endpoint to your environment variables
+            string endpoint = Environment.GetEnvironmentVariable("ANOMALY_DETECTOR_ENDPOINT");
+            string key =  Environment.GetEnvironmentVariable("ANOMALY_DETECTOR_SUBSCRIPTION_KEY");
 
             // Anomaly detection samples.
             try

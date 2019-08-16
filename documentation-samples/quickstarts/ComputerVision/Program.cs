@@ -45,13 +45,10 @@ namespace ComputerVisionQuickstart
 {
 	class Program
 	{
-		// Get your COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_REGION values from your Face resource,
-		// in the Azure portal, and set your local environment variables accordingly. 
+        // Add your Computer Vision subscription key and endpoint to your environment variables. 
 		// Close/reopen your project for them to take effect.
-		// Free trial subscription keys are generated in the westcentralus region. 
-		// If you use a free trial subscription key, you shouldn't need to change the region.
 		static string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY");
-		static string region = Environment.GetEnvironmentVariable("COMPUTER_VISION_REGION");
+		static string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
 
 
 		// Download these images (link in prerequisites), or you can use any appropriate image on your local machine.
@@ -78,7 +75,7 @@ namespace ComputerVisionQuickstart
 			Console.WriteLine();
 
 			// Create a client
-			ComputerVisionClient client = Authenticate(region, subscriptionKey);
+			ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
 
 			// Analyze an image to get features and other properties.
 			AnalyzeImageUrl(client, ANALYZE_URL_IMAGE).Wait();
@@ -111,9 +108,8 @@ namespace ComputerVisionQuickstart
         * AUTHENTICATE
         * Creates a Computer Vision client used by each example.
         */
-		public static ComputerVisionClient Authenticate(string region, string key)
+		public static ComputerVisionClient Authenticate(string endpoint, string key)
 		{
-			string endpoint = $"https://{region}.api.cognitive.microsoft.com";
 			ComputerVisionClient client =
 				new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
 				{ Endpoint = endpoint };
