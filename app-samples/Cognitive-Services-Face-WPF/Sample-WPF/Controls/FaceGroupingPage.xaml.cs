@@ -66,6 +66,11 @@ namespace Microsoft.ProjectOxford.Face.Controls
         private static readonly string recognitionModel = RecognitionModel.Recognition02;
 
         /// <summary>
+        /// DetectionModel for Face detection
+        /// </summary>
+        private static readonly string detectionModel = DetectionModel.Detection02;
+
+        /// <summary>
         /// Faces to group
         /// </summary>
         private ObservableCollection<Face> _faces = new ObservableCollection<Face>();
@@ -185,7 +190,7 @@ namespace Microsoft.ProjectOxford.Face.Controls
                             {
                                 try
                                 {
-                                    var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel);
+                                    var faces = await faceServiceClient.Face.DetectWithStreamAsync(fStream, recognitionModel: recognitionModel, detectionModel: detectionModel);
                                     return new Tuple<string, IList<DetectedFace>>(imgPath, faces);
                                 }
                                 catch (APIErrorException ex)

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
+
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
+using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 
 namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
 {
@@ -21,18 +21,21 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
             var inputDocuments = new LanguageBatchInput(
                     new List<LanguageInput>
                         {
-                            new LanguageInput(id: "1", text: "This is a document written in English."),
-                            new LanguageInput(id: "2", text: "Este es un document escrito en Español."),
-                            new LanguageInput(id: "3", text: "这是一个用中文写的文件")
+                            new LanguageInput("1", "This is a document written in English."),
+                            new LanguageInput("2", "Este es un document escrito en Español."),
+                            new LanguageInput("3", "这是一个用中文写的文件")
                         });
 
-            var langResults = await client.DetectLanguageAsync(false, inputDocuments);
+            var langResults = await client.DetectLanguageBatchAsync(inputDocuments);
 
             // Printing detected languages
+            Console.WriteLine("===== Language Detection =====\n");
+
             foreach (var document in langResults.Documents)
             {
                 Console.WriteLine($"Document ID: {document.Id} , Language: {document.DetectedLanguages[0].Name}");
             }
+            Console.WriteLine();
         }
     }
 }
