@@ -10,8 +10,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
 
     class Program
     {
-        public const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Services subscription key here
-        public const string endpoint = "https://westus.api.cognitive.microsoft.com"; // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
+        public const string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); //Insert your Cognitive Services subscription key here
+        public const string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT"); // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
 
         static void Main(string[] args)
         {
