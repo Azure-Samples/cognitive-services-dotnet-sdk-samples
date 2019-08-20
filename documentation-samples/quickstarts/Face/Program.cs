@@ -1,3 +1,4 @@
+// <snippet_using>
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Azure.CognitiveServices.Vision.Face;
 using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+// </snippet_using>
 
 /**
  * FACE QUICKSTART
@@ -63,11 +65,14 @@ namespace FaceQuickstart
 		static void Main(string[] args)
 		{
 			// Used in Authenticate and Snapshot examples. The client these help create is used by all examples.
+			// <snippet_mainvars>
 			// From your Face subscription in the Azure portal, get your subscription key and endpoint.
 			// You made need to change the first part of your endpoint (for example, it may be 'westus' or a custom domain)
 			// Set your environment variables with these with the names below. Close and reopen your project for changes to take effect.
 			string SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
 			string ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT");
+			// </snippet_mainvars>
+
 			// The Snapshot example needs its own 2nd client, since it uses two different regions.
 			string TARGET_SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY2");
 			string TARGET_ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT2");
@@ -82,6 +87,10 @@ namespace FaceQuickstart
 
 			// Authenticate.
 			IFaceClient client = Authenticate(ENDPOINT, SUBSCRIPTION_KEY);
+			// <snippet_client>
+			// Authenticate.
+			IFaceClient client = Authenticate(ENDPOINT, SUBSCRIPTION_KEY);
+			// </snippet_client>
 			// Authenticate for another region (used in Snapshot only).
 			IFaceClient clientTarget = Authenticate(TARGET_ENDPOINT, TARGET_SUBSCRIPTION_KEY);
 			// Detect features from faces.
@@ -106,6 +115,7 @@ namespace FaceQuickstart
 			Console.WriteLine("End of quickstart.");
 		}
 
+		// <snippet_auth>
 		/*
 		 *	AUTHENTICATE
 		 *	Uses subscription key and region to create a client.
@@ -114,6 +124,7 @@ namespace FaceQuickstart
 		{
 			return new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
 		}
+		// </snippet_auth>
 		/*
 		 * END - Authenticate
 		 */
