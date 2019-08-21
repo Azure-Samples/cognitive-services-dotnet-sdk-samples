@@ -456,8 +456,8 @@ namespace FaceQuickstart
 				// Limit TPS
 				await Task.Delay(250);
 
-				Person personLarge = (await client.LargePersonGroupPerson.CreateAsync(largePersonGroupId, groupedFace));
-
+				Person personLarge = await client.LargePersonGroupPerson.CreateAsync(largePersonGroupId, groupedFace);
+				Console.WriteLine();
 				Console.WriteLine($"Create a large person group person '{groupedFace}' ({personLarge.PersonId}).");
 
 				// Store these IDs for later retrieval
@@ -489,16 +489,9 @@ namespace FaceQuickstart
 
 			// Now that we have created and trained a large person group, we can retrieve data from it.
 			// Get list of persons and retrieve data, starting at the first Person ID in previously saved list.
-			IList<Person> persons = await client.LargePersonGroupPerson.ListAsync(largePersonGroupId, start: personIds.First().ToString());
+			IList<Person> persons = await client.LargePersonGroupPerson.ListAsync(largePersonGroupId, start: "");
 
-			// Wait for API to retrieve all Persons before using data
-			int waitTime = 30000;
-
-			Console.WriteLine($"Get list of Persons in our large person group, waiting {waitTime / 1000} seconds... ");
-			await Task.Delay(waitTime);
-
-			Console.WriteLine();
-			Console.WriteLine($"Persisted Face IDs from {persons.Count} large person group persons: ");
+			Console.WriteLine($"Persisted Face IDs (from {persons.Count} large person group persons): ");
 			foreach (Person person in persons)
 			{
 				foreach (Guid pFaceId in person.PersistedFaceIds)
