@@ -14,9 +14,11 @@ using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
  * This quickstart includes the following examples for Face:
  *  - Detect Faces
  *  - Find Similar
- *  - Verify
  *  - Identify faces (and person group operations)
+ *  - Large Person Group 
  *  - Group Faces
+ *  - FaceList
+ *  - Large FaceList
  *  - Snapshot Operations
  * 
  * Prerequisites:
@@ -32,7 +34,7 @@ using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
  *   
  * How to run:
  *  - Create a new C# Console app in Visual Studio 2019.
- *  - Copy/paste the Program.cs file in the Github quickstart into your own Program.cs file. Make sure to rename the namespace if different.
+ *  - Copy/paste the Program.cs file in the Github quickstart into your own Program.cs file. 
  *  
  * Dependencies within the samples: 
  *  - Authenticate produces a client that's used by all samples.
@@ -62,9 +64,8 @@ namespace FaceQuickstart
 
 		static void Main(string[] args)
 		{
-			// Used in Authenticate and Snapshot examples. The client these help create is used by all examples.
-			// From your Face subscription in the Azure portal, get your subscription key and endpoint.
-			// You made need to change the first part of your endpoint (for example, it may be 'westus' or a custom domain)
+			// Used in Authenticate and Snapshot examples. The client they help create is used by all examples.
+			// From your Face subscription in the Azure portal, get your subscription key and location/region (for example, 'westus').
 			// Set your environment variables with these with the names below. Close and reopen your project for changes to take effect.
 			string SUBSCRIPTION_KEY = Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
 			string ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT");
@@ -80,29 +81,40 @@ namespace FaceQuickstart
 			const string RECOGNITION_MODEL2 = RecognitionModel.Recognition02;
 			const string RECOGNITION_MODEL1 = RecognitionModel.Recognition01;
 
+			// Large FaceList variables
+			const string LargeFaceListId = "mylargefacelistid_001"; // must be lowercase, 0-9, or "_"
+			const string LargeFaceListName = "MyLargeFaceListName";
+
 			// Authenticate.
 			IFaceClient client = Authenticate(ENDPOINT, SUBSCRIPTION_KEY);
-			// Authenticate for another region (used in Snapshot only).
+			// Authenticate for another region or subscription (used in Snapshot only).
 			IFaceClient clientTarget = Authenticate(TARGET_ENDPOINT, TARGET_SUBSCRIPTION_KEY);
-			// Detect features from faces.
+			// Detect - get features from faces.
 			DetectFaceExtract(client, IMAGE_BASE_URL, RECOGNITION_MODEL2).Wait();
-			// Find a similar face from a list of faces.
+			// Find Similar - find a similar face from a list of faces.
 			FindSimilar(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
-			// Compare two images if the same person or not.
+			// Verify - compare two images if the same person or not.
 			Verify(client, IMAGE_BASE_URL, RECOGNITION_MODEL2).Wait();
-			// Identify a face(s) in a person group (person group is created in this example).
+			// Identify - recognize a face(s) in a person group (a person group is created in this example).
 			IdentifyInPersonGroup(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
-			// Automatically group similar faces.
+			// LargePersonGroup - create, then get data.
+			LargePersonGroup(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
+			// Group faces - automatically group similar faces.
 			Group(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
+			// FaceList - create a face list, then get data
+			FaceListOperations(client, IMAGE_BASE_URL).Wait();
+			// Large FaceList - create a large face list, then get data
+			LargeFaceListOperations(client, IMAGE_BASE_URL).Wait();
 			// Take a snapshot of a person group in one region, move it to the next region.
 			// Can also be used for moving a person group from one Azure subscription to the next.
 			Snapshot(client, clientTarget, sourcePersonGroup, AZURE_SUBSCRIPTION_ID).Wait();
 
 			// At end, delete person groups in both regions (since testing only)
 			Console.WriteLine("========DELETE PERSON GROUP========");
+			Console.WriteLine();
 			DeletePersonGroup(client, sourcePersonGroup).Wait();
 			DeletePersonGroup(clientTarget, targetPersonGroup).Wait();
-
+			Console.WriteLine();
 			Console.WriteLine("End of quickstart.");
 		}
 
@@ -125,6 +137,7 @@ namespace FaceQuickstart
 		public static async Task DetectFaceExtract(IFaceClient client, string url, string recognitionModel)
 		{
 			Console.WriteLine("========DETECT FACES========");
+			Console.WriteLine();
 
 			// Create a list of images
 			List<string> imageFileNames = new List<string>
@@ -242,6 +255,7 @@ namespace FaceQuickstart
 		public static async Task FindSimilar(IFaceClient client, string url, string RECOGNITION_MODEL1)
 		{
 			Console.WriteLine("========FIND SIMILAR========");
+			Console.WriteLine();
 
 			List<string> targetImageFileNames = new List<string>
 								{
@@ -290,6 +304,7 @@ namespace FaceQuickstart
 		public static async Task Verify(IFaceClient client, string url, string recognitionModel02)
 		{
 			Console.WriteLine("========VERIFY========");
+			Console.WriteLine();
 
 			List<string> targetImageFileNames = new List<string> { "Family1-Dad1.jpg", "Family1-Dad2.jpg" };
 			string sourceImageFileName1 = "Family1-Dad3.jpg";
@@ -342,12 +357,13 @@ namespace FaceQuickstart
 		 * a list of Person objects that each face might belong to. Returned Person objects are wrapped as Candidate objects, 
 		 * which have a prediction confidence value.
 		 */
-		public static async Task IdentifyInPersonGroup(IFaceClient client, string url, string RECOGNITION_MODEL1)
+		public static async Task IdentifyInPersonGroup(IFaceClient client, string url, string recognitionModel)
 		{
 			Console.WriteLine("========IDENTIFY FACES========");
+			Console.WriteLine();
 
 			// Create a dictionary for all your images, grouping similar ones under the same key.
-			Dictionary<string, string[]> targetImageFileDictionary =
+			Dictionary<string, string[]> personDictionary =
 				new Dictionary<string, string[]>
 					{ { "Family1-Dad", new[] { "Family1-Dad1.jpg", "Family1-Dad2.jpg" } },
 					  { "Family1-Mom", new[] { "Family1-Mom1.jpg", "Family1-Mom2.jpg" } },
@@ -361,25 +377,23 @@ namespace FaceQuickstart
 
 			// Create a person group. 
 			string personGroupId = Guid.NewGuid().ToString();
-			sourcePersonGroup = personGroupId;
+			sourcePersonGroup = personGroupId; // This is solely for the snapshot operations example
 			Console.WriteLine($"Create a person group ({personGroupId}).");
-			await client.PersonGroup.CreateAsync(personGroupId, personGroupId, recognitionModel: RECOGNITION_MODEL1);
+			await client.PersonGroup.CreateAsync(personGroupId, personGroupId, recognitionModel: recognitionModel);
 			// The similar faces will be grouped into a single person group person.
-			foreach (var targetImageFileDictionaryName in targetImageFileDictionary.Keys)
+			foreach (var groupedFace in personDictionary.Keys)
 			{
-				// Create a person group person.
-				Person person = new Person { Name = targetImageFileDictionaryName, UserData = "Person for example" };
 				// Limit TPS
 				await Task.Delay(250);
-				person.PersonId = (await client.PersonGroupPerson.CreateAsync(personGroupId, person.Name)).PersonId;
-				Console.WriteLine($"Create a person group person '{person.Name}'.");
+				Person person = await client.PersonGroupPerson.CreateAsync(personGroupId: personGroupId, name: groupedFace);
+				Console.WriteLine($"Create a person group person '{groupedFace}'.");
 
 				// Add face to the person group person.
-				foreach (var targetImageFileName in targetImageFileDictionary[targetImageFileDictionaryName])
+				foreach (var similarImage in personDictionary[groupedFace])
 				{
-					Console.WriteLine($"Add face to the person group person({targetImageFileDictionaryName}) from image `{targetImageFileName}`");
+					Console.WriteLine($"Add face to the person group person({groupedFace}) from image `{similarImage}`");
 					PersistedFace face = await client.PersonGroupPerson.AddFaceFromUrlAsync(personGroupId, person.PersonId,
-						$"{url}{targetImageFileName}", targetImageFileName);
+						$"{url}{similarImage}", similarImage);
 				}
 			}
 
@@ -399,7 +413,7 @@ namespace FaceQuickstart
 			Console.WriteLine();
 			List<Guid> sourceFaceIds = new List<Guid>();
 			// Detect faces from source image url.
-			List<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{sourceImageFileName}", RECOGNITION_MODEL1);
+			List<DetectedFace> detectedFaces = await DetectFaceRecognize(client, $"{url}{sourceImageFileName}", recognitionModel);
 
 			// Add detected faceId to sourceFaceIds.
 			foreach (var detectedFace in detectedFaces) { sourceFaceIds.Add(detectedFace.FaceId.Value); }
@@ -420,6 +434,99 @@ namespace FaceQuickstart
 		 */
 
 		/*
+		 * LARGE PERSON GROUP
+		 * The example will create a large person group, retrieve information from it, 
+		 * list the Person IDs it contains, and finally delete a large person group.
+		 * For simplicity, the same images are used for the regular-sized person group in IDENTIFY FACES of this quickstart.
+		 * A large person group is made up of person group persons. 
+		 * One person group person is made up of many similar images of that person, which are each PersistedFace objects.
+		 */
+		public static async Task LargePersonGroup(IFaceClient client, string url, string recognitionModel)
+		{
+			Console.WriteLine("========LARGE PERSON GROUP========");
+			Console.WriteLine();
+
+			// Create a dictionary for all your images, grouping similar ones under the same key.
+			Dictionary<string, string[]> personDictionary =
+			new Dictionary<string, string[]>
+				{ { "Family1-Dad", new[] { "Family1-Dad1.jpg", "Family1-Dad2.jpg" } },
+					  { "Family1-Mom", new[] { "Family1-Mom1.jpg", "Family1-Mom2.jpg" } },
+					  { "Family1-Son", new[] { "Family1-Son1.jpg", "Family1-Son2.jpg" } },
+					  { "Family1-Daughter", new[] { "Family1-Daughter1.jpg", "Family1-Daughter2.jpg" } },
+					  { "Family2-Lady", new[] { "Family2-Lady1.jpg", "Family2-Lady2.jpg" } },
+					  { "Family2-Man", new[] { "Family2-Man1.jpg", "Family2-Man2.jpg" } }
+				};
+
+			// Create a large person group ID. 
+			string largePersonGroupId = Guid.NewGuid().ToString();
+			Console.WriteLine($"Create a large person group ({largePersonGroupId}).");
+
+			// Create the large person group
+			await client.LargePersonGroup.CreateAsync(largePersonGroupId: largePersonGroupId, name: largePersonGroupId, recognitionModel);
+
+			// Create Person objects from images in our dictionary
+			// We'll store their IDs in the process
+			List<Guid> personIds = new List<Guid>();
+			foreach (var groupedFace in personDictionary.Keys)
+			{
+				// Limit TPS
+				await Task.Delay(250);
+
+				Person personLarge = await client.LargePersonGroupPerson.CreateAsync(largePersonGroupId, groupedFace);
+				Console.WriteLine();
+				Console.WriteLine($"Create a large person group person '{groupedFace}' ({personLarge.PersonId}).");
+
+				// Store these IDs for later retrieval
+				personIds.Add(personLarge.PersonId);
+
+				// Add face to the large person group person.
+				foreach (var image in personDictionary[groupedFace])
+				{
+					Console.WriteLine($"Add face to the person group person '{groupedFace}' from image `{image}`");
+					PersistedFace face = await client.LargePersonGroupPerson.AddFaceFromUrlAsync(largePersonGroupId, personLarge.PersonId,
+						$"{url}{image}", image);
+				}
+			}
+
+			// Start to train the large person group.
+			Console.WriteLine();
+			Console.WriteLine($"Train large person group {largePersonGroupId}.");
+			await client.LargePersonGroup.TrainAsync(largePersonGroupId);
+
+			// Wait until the training is completed.
+			while (true)
+			{
+				await Task.Delay(1000);
+				var trainingStatus = await client.LargePersonGroup.GetTrainingStatusAsync(largePersonGroupId);
+				Console.WriteLine($"Training status: {trainingStatus.Status}.");
+				if (trainingStatus.Status == TrainingStatusType.Succeeded) { break; }
+			}
+			Console.WriteLine();
+
+			// Now that we have created and trained a large person group, we can retrieve data from it.
+			// Get list of persons and retrieve data, starting at the first Person ID in previously saved list.
+			IList<Person> persons = await client.LargePersonGroupPerson.ListAsync(largePersonGroupId, start: "");
+
+			Console.WriteLine($"Persisted Face IDs (from {persons.Count} large person group persons): ");
+			foreach (Person person in persons)
+			{
+				foreach (Guid pFaceId in person.PersistedFaceIds)
+				{
+					Console.WriteLine($"The person '{person.Name}' has an image with ID: {pFaceId}");
+				}
+			}
+			Console.WriteLine();
+
+			// After testing, delete the large person group, PersonGroupPersons also get deleted.
+			await client.LargePersonGroup.DeleteAsync(largePersonGroupId);
+			Console.WriteLine($"Deleted the large person group {largePersonGroupId}.");
+			Console.WriteLine();
+		}
+		/*
+		 * END - LARGE PERSON GROUP
+		 */
+
+		/*
 		 * GROUP FACES
 		 * This method of grouping is useful if you don't need to create a person group. It will automatically group similar
 		 * images, whereas the person group method allows you to define the grouping.
@@ -428,6 +535,8 @@ namespace FaceQuickstart
 		public static async Task Group(IFaceClient client, string url, string RECOGNITION_MODEL1)
 		{
 			Console.WriteLine("========GROUP FACES========");
+			Console.WriteLine();
+
 			// Create list of image names
 			List<string> imageFileNames = new List<string>
 							  {
@@ -477,6 +586,147 @@ namespace FaceQuickstart
 		 */
 
 		/*
+		 * FACELIST OPERATIONS
+		 * Create a face list and add single-faced images to it, then retrieve data from the faces.
+		 * Images are used from URLs.
+		 */
+		public static async Task FaceListOperations(IFaceClient client, string baseUrl)
+		{
+			Console.WriteLine("========FACELIST OPERATIONS========");
+			Console.WriteLine();
+
+			const string FaceListId = "myfacelistid_001";
+			const string FaceListName = "MyFaceListName";
+
+			// Create an empty FaceList with user-defined specifications, it gets stored in the client.
+			await client.FaceList.CreateAsync(faceListId: FaceListId, name: FaceListName);
+
+			// Create a list of single-faced images to append to base URL. Images with mulitple faces are not accepted.
+			List<string> imageFileNames = new List<string>
+							{
+								"detection1.jpg",    // single female with glasses
+								"detection2.jpg",    // single male
+							    "detection3.jpg",    // single male construction worker
+							};
+
+			// Add Faces to the FaceList.
+			foreach (string image in imageFileNames)
+			{
+				string urlFull = baseUrl + image;
+				// Returns a Task<PersistedFace> which contains a GUID, and is stored in the client.
+				await client.FaceList.AddFaceFromUrlAsync(faceListId: FaceListId, url: urlFull);
+			}
+
+			// Print the face list
+			Console.WriteLine("Face IDs from the face list: ");
+			Console.WriteLine();
+
+			// List the IDs of each stored image
+			FaceList faceList = await client.FaceList.GetAsync(FaceListId);
+
+			foreach (PersistedFace face in faceList.PersistedFaces)
+			{
+				Console.WriteLine(face.PersistedFaceId);
+			}
+
+			// Delete the face list, for repetitive testing purposes (cannot recreate list with same name).
+			await client.FaceList.DeleteAsync(FaceListId);
+			Console.WriteLine();
+			Console.WriteLine("Deleted the face list.");
+			Console.WriteLine();
+		}
+		/*
+		 * END - FACELIST OPERATIONS
+		 */
+
+		/*
+		* LARGE FACELIST OPERATIONS
+		* Create a large face list and adds single-faced images to it, then retrieve data from the faces.
+		* Images are used from URLs. Large face lists are preferred for scale, up to 1 million images.
+		*/
+		public static async Task LargeFaceListOperations(IFaceClient client, string baseUrl)
+		{
+			Console.WriteLine("======== LARGE FACELIST OPERATIONS========");
+			Console.WriteLine();
+
+			const string LargeFaceListId = "mylargefacelistid_001"; // must be lowercase, 0-9, or "_"
+			const string LargeFaceListName = "MyLargeFaceListName";
+			const int timeIntervalInMilliseconds = 1000; // waiting time in training
+
+			List<string> singleImages = new List<string>
+								{
+									"Family1-Dad1.jpg",
+									"Family1-Daughter1.jpg",
+									"Family1-Mom1.jpg",
+									"Family1-Son1.jpg",
+									"Family2-Lady1.jpg",
+									"Family2-Man1.jpg",
+									"Family3-Lady1.jpg",
+									"Family3-Man1.jpg"
+								};
+
+			// Create a large face list
+			Console.WriteLine("Creating a large face list...");
+			await client.LargeFaceList.CreateAsync(largeFaceListId: LargeFaceListId, name: LargeFaceListName);
+
+			// Add Faces to the LargeFaceList.
+			Console.WriteLine("Adding faces to a large face list...");
+			foreach (string image in singleImages)
+			{
+				// Returns a PersistedFace which contains a GUID.
+				await client.LargeFaceList.AddFaceFromUrlAsync(largeFaceListId: LargeFaceListId, url: $"{baseUrl}{image}");
+			}
+
+			// Training a LargeFaceList is what sets it apart from a regular FaceList.
+			// You must train before using the large face list, for example to use the Find Similar operations.
+			Console.WriteLine("Training a large face list...");
+			await client.LargeFaceList.TrainAsync(LargeFaceListId);
+
+			// Wait for training finish.
+			while (true)
+			{
+				Task.Delay(timeIntervalInMilliseconds).Wait();
+				var status = await client.LargeFaceList.GetTrainingStatusAsync(LargeFaceListId);
+
+				if (status.Status == TrainingStatusType.Running)
+				{
+					Console.WriteLine($"Training status: {status.Status}");
+					continue;
+				}
+				else if (status.Status == TrainingStatusType.Succeeded)
+				{
+					Console.WriteLine($"Training status: {status.Status}");
+					break;
+				}
+				else
+				{
+					throw new Exception("The train operation has failed!");
+				}
+			}
+
+			// Print the large face list
+			Console.WriteLine();
+			Console.WriteLine("Face IDs from the large face list: ");
+			Console.WriteLine();
+			Parallel.ForEach(
+					await client.LargeFaceList.ListFacesAsync(LargeFaceListId),
+					faceId =>
+					{
+						Console.WriteLine(faceId.PersistedFaceId);
+					}
+				);
+
+			// Delete the large face list, for repetitive testing purposes (cannot recreate list with same name).
+			await client.LargeFaceList.DeleteAsync(LargeFaceListId);
+			Console.WriteLine();
+			Console.WriteLine("Deleted the large face list.");
+			Console.WriteLine();
+		}
+		/*
+		* END - LARGE FACELIST OPERATIONS
+		*/
+
+		/*
 		 * SNAPSHOT OPERATIONS
 		 * Copies a person group from one Azure region (or subscription) to another. For example: from the EastUS region to the WestUS.
 		 * The same process can be used for face lists. 
@@ -485,6 +735,8 @@ namespace FaceQuickstart
 		public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid azureId)
 		{
 			Console.WriteLine("========SNAPSHOT OPERATIONS========");
+			Console.WriteLine();
+
 			// Take a snapshot for the person group that was previously created in your source region.
 			var takeSnapshotResult = await clientSource.Snapshot.TakeAsync(SnapshotObjectType.PersonGroup, personGroupId, new[] { azureId });
 			// Get operation id from response for tracking the progress of snapshot taking.
@@ -547,11 +799,8 @@ namespace FaceQuickstart
 		 */
 		public static async Task DeletePersonGroup(IFaceClient client, String personGroupId)
 		{
-			Console.WriteLine("Delete started... ");
-
 			await client.PersonGroup.DeleteAsync(personGroupId);
 			Console.WriteLine($"Deleted the person group {personGroupId}.");
-			Console.WriteLine();
 		}
 		/*
 		 * END - DELETE PERSON GROUP
