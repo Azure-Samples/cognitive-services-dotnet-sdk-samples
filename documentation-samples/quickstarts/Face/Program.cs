@@ -598,6 +598,7 @@ namespace FaceQuickstart
 		 * END - SNAPSHOT OPERATIONS 
 		 */
 
+		// <snippet_deletepersongroup>
 		/*
 		 * DELETE PERSON GROUP
 		 * After this entire example is executed, delete the person group in your Azure account,
@@ -611,6 +612,7 @@ namespace FaceQuickstart
 			Console.WriteLine($"Deleted the person group {personGroupId}.");
 			Console.WriteLine();
 		}
+		// </snippet_deletepersongroup>
 		/*
 		 * END - DELETE PERSON GROUP
 		 */
