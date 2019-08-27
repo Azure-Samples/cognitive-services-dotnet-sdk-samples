@@ -85,6 +85,10 @@ namespace FaceQuickstart
 			string TARGET_ENDPOINT = Environment.GetEnvironmentVariable("FACE_ENDPOINT2");
 			// Grab your subscription ID, from any resource in Azure, from the Overview page (all resources have the same subscription ID). 
 			Guid AZURE_SUBSCRIPTION_ID = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
+			// Target subscription ID. It will be the same as the source ID if created Face resources from the same
+			// subscription (but moving from region to region). If they are different subscriptions, add the other
+			// target ID here.
+			Guid TARGET_AZURE_SUBSCRIPTION_ID = new Guid(Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID"));
 			// </snippet_snapshot_vars>
 
 			// <snippet_detect_models>
@@ -118,7 +122,7 @@ namespace FaceQuickstart
 			Group(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
 			// Take a snapshot of a person group in one region, move it to the next region.
 			// Can also be used for moving a person group from one Azure subscription to the next.
-			Snapshot(client, clientTarget, sourcePersonGroup, AZURE_SUBSCRIPTION_ID).Wait();
+			Snapshot(client, clientTarget, sourcePersonGroup, AZURE_SUBSCRIPTION_ID, TARGET_AZURE_SUBSCRIPTION_ID).Wait();
 
 			// <snippet_persongroup_delete>
 			// At end, delete person groups in both regions (since testing only)
@@ -527,11 +531,11 @@ namespace FaceQuickstart
 		 * The same process can be used for face lists. 
 		 * NOTE: the person group in the target region has a new person group ID, so it no longer associates with the source person group.
 		 */
-		public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid azureId)
+		public static async Task Snapshot(IFaceClient clientSource, IFaceClient clientTarget, string personGroupId, Guid azureId, Guid targetAzureId)
 		{
 			Console.WriteLine("========SNAPSHOT OPERATIONS========");
 			// Take a snapshot for the person group that was previously created in your source region.
-			var takeSnapshotResult = await clientSource.Snapshot.TakeAsync(SnapshotObjectType.PersonGroup, personGroupId, new[] { azureId });
+			var takeSnapshotResult = await clientSource.Snapshot.TakeAsync(SnapshotObjectType.PersonGroup, personGroupId, new[] { azureId }); // add targetAzureId to this array if your target ID is different from your source ID.
 			
 			// Get operation id from response for tracking the progress of snapshot taking.
 			var operationId = Guid.Parse(takeSnapshotResult.OperationLocation.Split('/')[2]);
