@@ -6,29 +6,29 @@
     {
         static void Main(string[] args)
         {
-            // Create a client.
-            string apiKey = "ENTER YOUR KEY HERE";
-            string endpoint = "ENTER YOUR ENDPOINT HERE";
+            // Add your Azure Computer Vision subscription key and endpoint to your environment variables
+            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY");
+            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
 
             // Detect sample.
-            Detection.Run(endpoint, apiKey).Wait();
+            Detection.Run(endpoint, subscriptionKey).Wait();
 
             // FindSimilar samples.
-            FindSimilarInFaceIds.Run(endpoint, apiKey).Wait();
-            FindSimilarInFaceList.Run(endpoint, apiKey).Wait();
-            FindSimilarInLargeFaceList.Run(endpoint, apiKey).Wait();
+            FindSimilarInFaceIds.Run(endpoint, subscriptionKey).Wait();
+            FindSimilarInFaceList.Run(endpoint, subscriptionKey).Wait();
+            FindSimilarInLargeFaceList.Run(endpoint, subscriptionKey).Wait();
 
             // Group sample.
             Group.Run(endpoint, apiKey).Wait();
 
             // Identify sample.
-            IdentifyInPersonGroup.Run(endpoint, apiKey).Wait();
-            IdentifyInLargePersonGroup.Run(endpoint, apiKey).Wait();
+            IdentifyInPersonGroup.Run(endpoint, subscriptionKey).Wait();
+            IdentifyInLargePersonGroup.Run(endpoint, subscriptionKey).Wait();
 
             // Verify samples.
-            VerifyFaceToFace.Run(endpoint, apiKey).Wait();
-            VerifyInPersonGroup.Run(endpoint, apiKey).Wait();
-            VerifyInLargePersonGroup.Run(endpoint, apiKey).Wait();
+            VerifyFaceToFace.Run(endpoint, subscriptionKey).Wait();
+            VerifyInPersonGroup.Run(endpoint, subscriptionKey).Wait();
+            VerifyInLargePersonGroup.Run(endpoint, subscriptionKey).Wait();
 
             Console.WriteLine("\nPress ENTER to exit.");
             Console.ReadLine();
