@@ -121,3 +121,4 @@ namespace text_analytics_quickstart
     }
     // </client-class>
 }
+
