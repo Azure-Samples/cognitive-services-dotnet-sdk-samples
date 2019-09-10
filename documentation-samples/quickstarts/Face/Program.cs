@@ -60,7 +60,7 @@ namespace FaceQuickstart
 		// </snippet_persongroup_declare>
 		// <snippet_snapshot_persongroup>
 		static string targetPersonGroup = null;
-		// <snippet_snapshot_persongroup>
+		// </snippet_snapshot_persongroup>
 
 		// <snippet_image_url>
 		// Used for all examples.

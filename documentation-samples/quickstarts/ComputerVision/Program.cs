@@ -275,7 +275,7 @@ namespace ComputerVisionQuickstart
 			Console.WriteLine("Dominant foreground color: " + results.Color.DominantColorForeground);
 			Console.WriteLine("Dominant colors: " + string.Join(",", results.Color.DominantColors));
 			Console.WriteLine();
-			// <snippet_color>
+			// </snippet_color>
 
 			// <snippet_type>
 			// Detects the image types.
@@ -538,7 +538,7 @@ namespace ComputerVisionQuickstart
 			BatchReadFileHeaders textHeaders = await client.BatchReadFileAsync(urlImage);
 			// After the request, get the operation location (operation ID)
 			string operationLocation = textHeaders.OperationLocation;
-			// <snippet_extract_call>
+			// </snippet_extract_call>
 
 			// <snippet_extract_response>
 			// Retrieve the URI where the recognized text will be stored from the Operation-Location header. 
