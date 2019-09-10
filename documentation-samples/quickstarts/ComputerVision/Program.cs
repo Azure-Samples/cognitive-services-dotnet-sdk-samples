@@ -1,4 +1,5 @@
-﻿using System;
+﻿// <snippet_using>
+using System;
 using System.Collections.Generic;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -7,6 +8,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+// </snippet_using>
 
 /*
  * Computer Vision SDK QuickStart 
@@ -45,11 +47,12 @@ namespace ComputerVisionQuickstart
 {
 	class Program
 	{
-        // Add your Computer Vision subscription key and endpoint to your environment variables. 
+        // <snippet_vars>
+		// Add your Computer Vision subscription key and endpoint to your environment variables. 
 		// Close/reopen your project for them to take effect.
 		static string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY");
 		static string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
-
+		// </snippet_vars>
 
 		// Download these images (link in prerequisites), or you can use any appropriate image on your local machine.
 		private const string ANALYZE_LOCAL_IMAGE = "celebrities.jpg"; 
@@ -58,15 +61,19 @@ namespace ComputerVisionQuickstart
 		private const string EXTRACT_TEXT_LOCAL_IMAGE = "handwritten_text.jpg";
 		private const string OCR_LOCAL_IMAGE = "printed_text.jpg";
 
+		// <snippet_analyze_url>
 		// URL image used for analyzing an image (image of puppy)
 		private const string ANALYZE_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png";
+		// </snippet_analyze_url>
 		// URL image for detecting objects (image of man on skateboard)
 		private const string DETECT_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample9.png";
 		// URL image for detecting domain-specific content (image of ancient ruins)
 		private const string DETECT_DOMAIN_SPECIFIC_URL = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg";
 		// URL image for extracting text (Image of motivational meme).
+		// <snippet_extracttext_url>
 		private const string EXTRACT_TEXT_URL_IMAGE = "https://moderatorsampleimages.blob.core.windows.net/samples/sample2.jpg";
 		// URL image for OCR (optical character recognition). (Image of motivational meme).
+		// </snippet_extracttext_url>
 		private const string OCR_URL = "https://moderatorsampleimages.blob.core.windows.net/samples/sample2.jpg";
 
 		static void Main(string[] args)
@@ -74,11 +81,15 @@ namespace ComputerVisionQuickstart
 			Console.WriteLine("Azure Cognitive Services Computer Vision - .NET quickstart example");
 			Console.WriteLine();
 
+			// <snippet_client>
 			// Create a client
 			ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+			// </snippet_client>
 
+			// <snippet_analyzeinmain>
 			// Analyze an image to get features and other properties.
 			AnalyzeImageUrl(client, ANALYZE_URL_IMAGE).Wait();
+			// </snippet_analyzeinmain>
 			AnalyzeImageLocal(client, ANALYZE_LOCAL_IMAGE).Wait();
 
 			// Detect objects in an image.
@@ -88,9 +99,11 @@ namespace ComputerVisionQuickstart
 			// Detect domain-specific content in both a URL image and a local image.
 			DetectDomainSpecific(client, DETECT_DOMAIN_SPECIFIC_URL, DETECT_DOMAIN_SPECIFIC_LOCAL).Wait();
 
+			// <snippet_extracttextinmain>
 			// Extract text from an image (handwriting and/or printed).
 			ExtractTextUrl(client, EXTRACT_TEXT_URL_IMAGE).Wait();
 			ExtractTextLocal(client, EXTRACT_TEXT_LOCAL_IMAGE).Wait();
+			// </snippet_extracttextinmain>
 
 			// Extract text using the OCR (optical character recognition) method.
 			ExtractOcrUrl(client, OCR_URL).Wait();
@@ -104,6 +117,7 @@ namespace ComputerVisionQuickstart
 			Console.WriteLine();
 		}
 
+		// <snippet_auth>
 		/*
         * AUTHENTICATE
         * Creates a Computer Vision client used by each example.
@@ -115,7 +129,9 @@ namespace ComputerVisionQuickstart
 				{ Endpoint = endpoint };
 			return client;
 		}
+		// </snippet_auth>
 
+		// <snippet_visualfeatures>
 		/* 
         * ANALYZE IMAGE - URL IMAGE
 		* Analyze URL image. Extracts captions, categories, tags, objects, faces, racy/adult content,
@@ -136,12 +152,16 @@ namespace ComputerVisionQuickstart
 					VisualFeatureTypes.Color, VisualFeatureTypes.Brands,
 					VisualFeatureTypes.Objects
 				};
+			// </snippet_visualfeatures>
 
+			// <snippet_analyze_call>
 			Console.WriteLine($"Analyzing the image {Path.GetFileName(imageUrl)}...");
 			Console.WriteLine();
 			// Analyze the URL image 
 			ImageAnalysis results = await client.AnalyzeImageAsync(imageUrl, features);
+			// </snippet_analyze_call>
 
+			// <snippet_describe>
 			// Sunmarizes the image content.
 			Console.WriteLine("Summary:");
 			foreach (var caption in results.Description.Captions)
@@ -149,7 +169,9 @@ namespace ComputerVisionQuickstart
 				Console.WriteLine($"{caption.Text} with confidence {caption.Confidence}");
 			}
 			Console.WriteLine();
+			// </snippet_describe>
 
+			// <snippet_categorize>
 			// Display categories the image is divided into.
 			Console.WriteLine("Categories:");
 			foreach (var category in results.Categories)
@@ -157,7 +179,9 @@ namespace ComputerVisionQuickstart
 				Console.WriteLine($"{category.Name} with confidence {category.Score}");
 			}
 			Console.WriteLine();
+			// </snippet_categorize>
 
+			// <snippet_tags>
 			// Image tags and their confidence score
 			Console.WriteLine("Tags:");
 			foreach (var tag in results.Tags)
@@ -165,8 +189,9 @@ namespace ComputerVisionQuickstart
 				Console.WriteLine($"{tag.Name} {tag.Confidence}");
 			}
 			Console.WriteLine();
+			// </snippet_tags>
 
-
+			// <snippet_objects>
 			// Objects
 			Console.WriteLine("Objects:");
 			foreach (var obj in results.Objects)
@@ -175,7 +200,9 @@ namespace ComputerVisionQuickstart
 					$"{obj.Rectangle.X + obj.Rectangle.W}, {obj.Rectangle.Y}, {obj.Rectangle.Y + obj.Rectangle.H}");
 			}
 			Console.WriteLine();
+			// </snippet_objects>
 
+			// <snippet_faces>
 			// Faces
 			Console.WriteLine("Faces:");
 			foreach (var face in results.Faces)
@@ -185,13 +212,17 @@ namespace ComputerVisionQuickstart
 					$"{face.FaceRectangle.Top + face.FaceRectangle.Height}");
 			}
 			Console.WriteLine();
+			// </snippet_faces>
 
+			// <snippet_adult>
 			// Adult or racy content, if any.
 			Console.WriteLine("Adult:");
 			Console.WriteLine($"Has adult content: {results.Adult.IsAdultContent} with confidence {results.Adult.AdultScore}");
 			Console.WriteLine($"Has racy content: {results.Adult.IsRacyContent} with confidence {results.Adult.RacyScore}");
 			Console.WriteLine();
+			// </snippet_adult>
 
+			// <snippet_brands>
 			// Well-known (or custom, if set) brands.
 			Console.WriteLine("Brands:");
 			foreach (var brand in results.Brands)
@@ -200,7 +231,9 @@ namespace ComputerVisionQuickstart
 					$"{brand.Rectangle.X + brand.Rectangle.W}, {brand.Rectangle.Y}, {brand.Rectangle.Y + brand.Rectangle.H}" );
 			}
 			Console.WriteLine();
+			// </snippet_brands>
 
+			// <snippet_celebs>
 			// Celebrities in image, if any.
 			Console.WriteLine("Celebrities:");
 			foreach (var category in results.Categories)
@@ -215,7 +248,9 @@ namespace ComputerVisionQuickstart
 				}
 			}
 			Console.WriteLine();
+			// </snippet_celebs>
 
+			// <snippet_landmarks>
 			// Popular landmarks in image, if any.
 			Console.WriteLine("Landmarks:");
 			foreach (var category in results.Categories)
@@ -229,7 +264,9 @@ namespace ComputerVisionQuickstart
 				}
 			}
 			Console.WriteLine();
+			// </snippet_landmarks>
 
+			// <snippet_color>
 			// Identifies the color scheme.
 			Console.WriteLine("Color Scheme:");
 			Console.WriteLine("Is black and white?: " + results.Color.IsBWImg);
@@ -238,12 +275,15 @@ namespace ComputerVisionQuickstart
 			Console.WriteLine("Dominant foreground color: " + results.Color.DominantColorForeground);
 			Console.WriteLine("Dominant colors: " + string.Join(",", results.Color.DominantColors));
 			Console.WriteLine();
+			// <snippet_color>
 
+			// <snippet_type>
 			// Detects the image types.
 			Console.WriteLine("Image Type:");
 			Console.WriteLine("Clip Art Type: " + results.ImageType.ClipArtType);
 			Console.WriteLine("Line Drawing Type: " + results.ImageType.LineDrawingType);
 			Console.WriteLine();
+			// </snippet_type>
 		}
 		/*
 		 * END - ANALYZE IMAGE - URL IMAGE
@@ -484,6 +524,7 @@ namespace ComputerVisionQuickstart
 		 * END - DETECT DOMAIN-SPECIFIC CONTENT
 		 */
 
+		// <snippet_extract_call>
 		/*
 		 *	EXTRACT TEXT - URL IMAGE
 		 */
@@ -497,7 +538,9 @@ namespace ComputerVisionQuickstart
 			BatchReadFileHeaders textHeaders = await client.BatchReadFileAsync(urlImage);
 			// After the request, get the operation location (operation ID)
 			string operationLocation = textHeaders.OperationLocation;
+			// <snippet_extract_call>
 
+			// <snippet_extract_response>
 			// Retrieve the URI where the recognized text will be stored from the Operation-Location header. 
 			// We only need the ID and not the full URL
 			const int numberOfCharsInOperationId = 36;
@@ -518,7 +561,9 @@ namespace ComputerVisionQuickstart
 			}
 			while ((results.Status == TextOperationStatusCodes.Running ||
 					results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
+			// </snippet_extract_response>
 
+			// <snippet_extract_display>
 			// Display the found text.
 			Console.WriteLine();
 			var recognitionResults = results.RecognitionResults;
@@ -531,6 +576,7 @@ namespace ComputerVisionQuickstart
 			}
 			Console.WriteLine();
 		}
+		// </snippet_extract_display>
 		/*
 		 *	EXTRACT TEXT - URL IMAGE
 		 */
