@@ -10,9 +10,10 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage
 
     class Program
     {
-        public const string subscriptionKey = "<your training key here>"; //Insert your Cognitive Services subscription key here
-        public const string endpoint = "https://westus.api.cognitive.microsoft.com"; // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
-
+        // Add your Azure Computer Vision subscription key and endpoint to your environment variables
+        public const string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); //Insert your Cognitive Services subscription key here
+        public const string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+        
         static void Main(string[] args)
         {
             try
