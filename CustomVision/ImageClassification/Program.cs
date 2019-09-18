@@ -11,7 +11,8 @@ namespace ImageClassification
 {
     class Program
     {
-        private const string SouthCentralUsEndpoint = "https://southcentralus.api.cognitive.microsoft.com";
+        // Add your Azure Custom Vision subscription key and endpoint to your environment variables.
+        private const string Endpoint = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
         private static List<string> hemlockImages;
         private static List<string> japaneseCherryImages;
         private static MemoryStream testImage;
@@ -26,7 +27,7 @@ namespace ImageClassification
             CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
             {
                 ApiKey = trainingKey,
-                Endpoint = SouthCentralUsEndpoint
+                Endpoint = Endpoint
             };
 
             // Create a new project
