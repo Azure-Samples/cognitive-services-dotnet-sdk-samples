@@ -10,12 +10,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
 
     class Program
     {
-        // Set your environment variables with your Computer Vision subscription key and endpoint from Azure.
-        public const string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY");
-        public const string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT"); 
-
         static void Main(string[] args)
         {
+            // Add your Computer Vision subscription key and endpoint to your environment variables
+            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
+            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+
             try
             {
                 AreaOfInterestSample.RunAsync(endpoint, subscriptionKey).Wait(5000);

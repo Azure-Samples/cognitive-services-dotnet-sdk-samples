@@ -10,12 +10,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.DescribeImage
 
     class Program
     {
-        // Add your Azure Computer Vision subscription key and endpoint to your environment variables
-        public const string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); //Insert your Cognitive Services subscription key here
-        public const string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
-        
         static void Main(string[] args)
         {
+            // Add your Computer Vision subscription key and endpoint to your environment variables
+            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
+            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+
             try
             {
                 DescribeImageSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
