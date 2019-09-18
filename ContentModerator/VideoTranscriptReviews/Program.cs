@@ -11,19 +11,13 @@ using System.Text;
 namespace VideoTranscriptReviews
 {
     class Program
-    {
-        // NOTE: Replace this example location with the location for your Content Moderator account.
-        /// <summary>
-        /// The region/location for your Content Moderator account, 
-        /// for example, westus.
-        /// </summary>
-        private static readonly string AzureRegion = "YOUR API REGION";
-
-        // NOTE: Replace this example key with a valid subscription key.
+    {   
         /// <summary>
         /// Your Content Moderator subscription key.
+        /// Add your Azure Face subscription key to your environment variables.
         /// </summary>
-        private static readonly string CMSubscriptionKey = "YOUR API KEY";
+        private static readonly string CMSubscriptionKey = 
+            Environment.GetEnvironmentVariable("FACE_SUBSCRIPTION_KEY");
 
         // NOTE: Replace this example team name with your Content Moderator team Id.
         /// <summary>
@@ -37,9 +31,10 @@ namespace VideoTranscriptReviews
 
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
+        /// Add your Azure Content Moderator endpoint to your environment variables.
         /// </summary>
         private static readonly string AzureBaseURL =
-            $"https://{AzureRegion}.api.cognitive.microsoft.com";
+            Environment.GetEnvironmentVariable("CONTENT_MODERATOR_ENDPOINT");
 
         /// <summary>
         /// The minimum amount of time, in milliseconds, to wait between calls
