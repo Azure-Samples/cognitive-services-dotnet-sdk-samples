@@ -19,7 +19,7 @@
             FindSimilarInLargeFaceList.Run(endpoint, subscriptionKey).Wait();
 
             // Group sample.
-            Group.Run(endpoint, apiKey).Wait();
+            Group.Run(endpoint, subscriptionKey).Wait();
 
             // Identify sample.
             IdentifyInPersonGroup.Run(endpoint, subscriptionKey).Wait();
