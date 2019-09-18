@@ -117,23 +117,20 @@ namespace ImageReviewJobs
     public static class Clients
     {
         // TODO We could make team name a static property on this class, to move all of the subscription information into one project.
-
-        /// <summary>
-        /// The region/location for your Content Moderator account, 
-        /// for example, westus.
-        /// </summary>
-        private static readonly string AzureRegion = "YOUR API REGION";
-
+        
         /// <summary>
         /// The base URL fragment for Content Moderator calls.
+        /// Add your Azure Content Moderator endpoint to your environment variables
         /// </summary>
         private static readonly string AzureBaseURL =
-            $"https://{AzureRegion}.api.cognitive.microsoft.com";
+            Environment.GetEnvironmentVariable("CONTENT_MODERATOR_ENDPOINT");
 
         /// <summary>
         /// Your Content Moderator subscription key.
+        /// Add your Azure Content Moderator subscription key to your environment variables
         /// </summary>
-        private static readonly string CMSubscriptionKey = "YOUR API KEY";
+        private static readonly string CMSubscriptionKey = 
+            Environment.GetEnvironmentVariable("CONTENT_MODERATOR_SUBSCRIPTION_KEY");
 
         /// <summary>
         /// Returns a new Content Moderator client for your subscription.

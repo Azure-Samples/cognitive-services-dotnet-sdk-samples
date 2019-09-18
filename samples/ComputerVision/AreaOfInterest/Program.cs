@@ -10,11 +10,12 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
 
     class Program
     {
-        public const string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); //Insert your Cognitive Services subscription key here
-        public const string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT"); // You must use the same Azure region that you generated your subscription keys for.  Free trial subscription keys are generated in the westus region. 
-
         static void Main(string[] args)
         {
+            // Add your Computer Vision subscription key and endpoint to your environment variables
+            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
+            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+
             try
             {
                 AreaOfInterestSample.RunAsync(endpoint, subscriptionKey).Wait(5000);
@@ -37,7 +38,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AreaOfInteres
                 Endpoint = endpoint
             };
 
-            string localImagePath = @"Images\objects.jpg";   // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
+            // See this repo's README.md on how to get these images. 
+            // Alternatively, you can just set the path to any appropriate image on your machine.
+            string localImagePath = @"Images\objects.jpg";   
             string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/faces.jpg";
 
             Console.WriteLine("area of interest being found ...");

@@ -1,7 +1,12 @@
 ---
-services: cognitive-services, face, content-moderator, custom-vision, language-understanding 
-platforms: dotnet
-author: yangyuan
+page_type: sample
+languages:
+- csharp
+- powershell
+products:
+- azure
+description: "This repo provides C# samples for the Cognitive Services Nuget Packages."
+urlFragment: cognitive-services-dotnet-sdk-samples
 ---
 
 # Samples for [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) Nuget Packages
