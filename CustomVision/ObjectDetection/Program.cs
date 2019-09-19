@@ -129,7 +129,7 @@ namespace ObjectDetection
             CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
             {
                 ApiKey = predictionKey,
-                Endpoint = SouthCentralUsEndpoint
+                Endpoint = Endpoint
             };
 
             // Make a prediction against the new project
