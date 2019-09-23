@@ -11,13 +11,14 @@ namespace ObjectDetection
 {
     class Program
     {
-        // Add your Azure Custom Vision endpoint to your environment variables.
-        // <snippet_endpoint>
-        private const string ENDPOINT = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
-        // </snippet_endpoint>
-
+        
         static void Main(string[] args)
         {
+            // Add your Azure Custom Vision endpoint to your environment variables.
+            // <snippet_endpoint>
+            string ENDPOINT = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
+            // </snippet_endpoint>
+
             // <snippet_keys>
             // Add your training & prediction key from the settings page of the portal
             string trainingKey = Environment.GetEnvironmentVariable("CUSTOM_VISION_TRAINING_KEY");
