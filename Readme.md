@@ -1,12 +1,18 @@
 ---
-services: cognitive-services, face, content-moderator, custom-vision, language-understanding 
-platforms: dotnet
-author: yangyuan
+page_type: sample
+languages:
+- csharp
+- powershell
+products:
+- azure
+name: Samples for Cognitive Services
+description: "This repo provides C# samples for the Cognitive Services Nuget Packages."
+urlFragment: cognitive-services-dotnet-sdk-samples
 ---
 
-# Samples for [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) Nuget Packages
+# Samples for [Cognitive Services](https://azure.microsoft.com/services/cognitive-services/) Nuget Packages
 
-This repo provides C# samples for the [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) Nuget Packages. 
+This repo provides C# samples for the [Cognitive Services](https://azure.microsoft.com/services/cognitive-services/) Nuget Packages. 
 **If you are interetsed in running a specific example, you can navigate to the corresponding subfolder and check out the individual Readme.**
 
 If you are looking for **REST API samples** in multiple languages, you can navigate [here](https://github.com/Azure-Samples/cognitive-services-REST-api-samples).

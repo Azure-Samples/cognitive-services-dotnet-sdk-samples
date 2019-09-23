@@ -11,7 +11,8 @@ namespace ObjectDetection
 {
     class Program
     {
-        private const string SouthCentralUsEndpoint = "https://southcentralus.api.cognitive.microsoft.com";
+        // Add your Azure Custom Vision endpoint to your environment variables.
+        private const string Endpoint = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
 
         static void Main(string[] args)
         {
@@ -23,7 +24,7 @@ namespace ObjectDetection
             CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
             {
                 ApiKey = trainingKey,
-                Endpoint = SouthCentralUsEndpoint
+                Endpoint = Endpoint
             };
 
             // Find the object detection domain
