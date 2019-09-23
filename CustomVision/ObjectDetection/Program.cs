@@ -12,21 +12,26 @@ namespace ObjectDetection
     class Program
     {
         // Add your Azure Custom Vision endpoint to your environment variables.
-        private const string Endpoint = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
+        // <snippet_endpoint>
+        private const string ENDPOINT = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
+        // </snippet_endpoint>
 
         static void Main(string[] args)
         {
+            // <snippet_keys>
             // Add your training & prediction key from the settings page of the portal
-            string trainingKey = "<your training key here>";
-            string predictionKey = "<your prediction key here>";
+            string trainingKey = Environment.GetEnvironmentVariable("CUSTOM_VISION_TRAINING_KEY");
+            string predictionKey = Environment.GetEnvironmentVariable("CUSTOM_VISION_PREDICTION_KEY");
+            // </snippet_keys>
 
             // Create the Api, passing in the training key
             CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
             {
                 ApiKey = trainingKey,
-                Endpoint = Endpoint
+                Endpoint = ENDPOINT
             };
 
+            // <snippet_create>
             // Find the object detection domain
             var domains = trainingApi.GetDomains();
             var objDetectionDomain = domains.FirstOrDefault(d => d.Type == "ObjectDetection");
@@ -34,11 +39,15 @@ namespace ObjectDetection
             // Create a new project
             Console.WriteLine("Creating new project:");
             var project = trainingApi.CreateProject("My New Project", null, objDetectionDomain.Id);
+            // </snippet_create>
 
+            // <snippet_tags>
             // Make two tags in the new project
             var forkTag = trainingApi.CreateTag(project.Id, "fork");
             var scissorsTag = trainingApi.CreateTag(project.Id, "scissors");
+            // </snippet_tags>
 
+            // <snippet_upload_regions>
             Dictionary<string, double[]> fileToRegionMap = new Dictionary<string, double[]>()
             {
                 // FileName, Left, Top, Width, Height
@@ -83,7 +92,9 @@ namespace ObjectDetection
                 {"fork_19", new double[] { 0.219362751, 0.141781077, 0.5919118, 0.6683006 } },
                 {"fork_20", new double[] { 0.180147052, 0.239820287, 0.6887255, 0.235294119 } }
             };
+            // </snippet_upload_regions>
 
+            // <snippet_upload>
             // Add all images for fork
             var imagePath = Path.Combine("Images", "fork");
             var imageFileEntries = new List<ImageFileCreateEntry>();
@@ -103,7 +114,9 @@ namespace ObjectDetection
                 imageFileEntries.Add(new ImageFileCreateEntry(fileName, File.ReadAllBytes(fileName), null, new List<Region>(new Region[] { new Region(scissorsTag.Id, region[0], region[1], region[2], region[3]) })));
             }
             trainingApi.CreateImagesFromFiles(project.Id, new ImageFileCreateBatch(imageFileEntries));
+            // </snippet_upload>
 
+            // <snippet_train>
             // Now there are images with tags start training the project
             Console.WriteLine("\tTraining");
             var iteration = trainingApi.TrainProject(project.Id);
@@ -116,22 +129,28 @@ namespace ObjectDetection
                 // Re-query the iteration to get its updated status
                 iteration = trainingApi.GetIteration(project.Id, iteration.Id);
             }
+            // </snippet_train>
 
+            // <snippet_publish>
             // The iteration is now trained. Publish it to the prediction end point.
             var publishedModelName = "toolModel";
             var predictionResourceId = "<target prediction resource ID>";
             trainingApi.PublishIteration(project.Id, iteration.Id, publishedModelName, predictionResourceId);
             Console.WriteLine("Done!\n");
+            // </snippet_publish>
 
             // Now there is a trained endpoint, it can be used to make a prediction
 
+            // <snippet_prediction_endpoint>
             // Create a prediction endpoint, passing in the obtained prediction key
             CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
             {
                 ApiKey = predictionKey,
-                Endpoint = SouthCentralUsEndpoint
+                Endpoint = ENDPOINT
             };
+            // </snippet_prediction_endpoint>
 
+            // <snippet_prediction>
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
             var imageFile = Path.Combine("Images", "test", "test_image.jpg");
@@ -146,6 +165,7 @@ namespace ObjectDetection
                 }
             }
             Console.ReadKey();
+            // </snippet_prediction>
         }
     }
 }
