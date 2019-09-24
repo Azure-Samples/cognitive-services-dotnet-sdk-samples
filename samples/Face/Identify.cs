@@ -14,6 +14,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =
@@ -63,7 +64,8 @@
                                              personGroupId,
                                              person.PersonId,
                                              $"{ImageUrlPrefix}{targetImageFileName}",
-                                             targetImageFileName);
+                                             targetImageFileName,
+                                             detectionModel: detectionModel);
 
                     if (face == null)
                     {
@@ -99,7 +101,8 @@
             List<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                    client,
                                                    $"{ImageUrlPrefix}{sourceImageFileName}",
-                                                   recognitionModel: recognitionModel);
+                                                   recognitionModel: recognitionModel,
+                                                   detectionModel: detectionModel);
 
             // Add detected faceId to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)
@@ -140,6 +143,7 @@
 
             IFaceClient client = new FaceClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
             string recognitionModel = RecognitionModel.Recognition02;
+            string detectionModel = DetectionModel.Detection02;
 
             const string ImageUrlPrefix = "https://csdx.blob.core.windows.net/resources/Face/Images/";
             Dictionary<string, string[]> targetImageFileDictionary =
@@ -188,7 +192,8 @@
                                              largePersonGroupId,
                                              person.PersonId,
                                              $"{ImageUrlPrefix}{targetImageFileName}",
-                                             targetImageFileName);
+                                             targetImageFileName,
+                                             detectionModel: detectionModel);
 
                     if (face == null)
                     {
@@ -224,7 +229,8 @@
             List<DetectedFace> detectedFaces = await Common.DetectFaces(
                                                    client,
                                                    $"{ImageUrlPrefix}{sourceImageFileName}",
-                                                   recognitionModel: recognitionModel);
+                                                   recognitionModel: recognitionModel,
+                                                   detectionModel: detectionModel);
 
             // Add detected faceIds to sourceFaceIds.
             foreach (var detectedFace in detectedFaces)
