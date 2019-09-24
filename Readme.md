@@ -5,7 +5,7 @@ languages:
 - powershell
 products:
 - azure
-name: Samples for Cognitive Services
+name: "C# Samples for Cognitive Services"
 description: "This repo provides C# samples for the Cognitive Services Nuget Packages."
 urlFragment: cognitive-services-dotnet-sdk-samples
 ---
