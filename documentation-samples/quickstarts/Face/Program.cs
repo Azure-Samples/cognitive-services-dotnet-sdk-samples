@@ -121,6 +121,7 @@ namespace FaceQuickstart
 			FindSimilar(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
 			// Verify - compare two images if the same person or not.
 			Verify(client, IMAGE_BASE_URL, RECOGNITION_MODEL2).Wait();
+
 			// Identify - recognize a face(s) in a person group (a person group is created in this example).
 			IdentifyInPersonGroup(client, IMAGE_BASE_URL, RECOGNITION_MODEL1).Wait();
 			// LargePersonGroup - create, then get data.
@@ -634,7 +635,6 @@ namespace FaceQuickstart
 		 * END - GROUP FACES
 		 */
 
-		// <snippet_snapshot_take>
 		/*
 		 * FACELIST OPERATIONS
 		 * Create a face list and add single-faced images to it, then retrieve data from the faces.
@@ -776,6 +776,7 @@ namespace FaceQuickstart
 		* END - LARGE FACELIST OPERATIONS
 		*/
 
+    // <snippet_snapshot_take>
 		/*
 		 * SNAPSHOT OPERATIONS
 		 * Copies a person group from one Azure region (or subscription) to another. For example: from the EastUS region to the WestUS.
