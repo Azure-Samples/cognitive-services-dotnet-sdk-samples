@@ -60,15 +60,15 @@ namespace text_analytics_quickstart
         }
         // </sentiment>
 
-        // <language-detection>
+        // <languageDetection>
         static void languageDetectionExample(ITextAnalyticsClient client)
         {
             var result = client.DetectLanguage("This is a document written in English.");
             Console.WriteLine($"Language: {result.DetectedLanguages[0].Name}");
         }
-        // </language-detection>
+        // </languageDetection>
 
-        // <entity-recognition>
+        // <entityRecognition>
         static void entityRecognitionExample(ITextAnalyticsClient client)
         {
 
@@ -83,9 +83,9 @@ namespace text_analytics_quickstart
                 }
             }
         }
-        // </entity-recognition>
+        // </entityRecognition>
 
-        // <key-phrase-extraction>
+        // <keyPhraseExtraction>
         static void KeyPhraseExtractionExample(TextAnalyticsClient client)
         {
             var result = client.KeyPhrases("My cat might need to see a veterinarian.");
@@ -98,10 +98,10 @@ namespace text_analytics_quickstart
                 Console.WriteLine($"\t{keyphrase}");
             }
         }
-        // </key-phrase-extraction>
+        // </keyPhraseExtraction>
     }
 
-    // <client-class>
+    // <clientClass>
     class ApiKeyServiceClientCredentials : ServiceClientCredentials
     {
         private readonly string apiKey;
@@ -121,6 +121,6 @@ namespace text_analytics_quickstart
             return base.ProcessHttpRequestAsync(request, cancellationToken);
         }
     }
-    // </client-class>
+    // </clientClass>
 }
 
