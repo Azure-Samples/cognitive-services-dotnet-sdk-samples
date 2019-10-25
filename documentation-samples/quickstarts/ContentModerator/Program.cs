@@ -1,3 +1,4 @@
+// <snippet_using>
 using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+// </snippet_using>
 
 /*
  * Content Moderator SDK Quickstart
@@ -43,10 +45,12 @@ namespace ContentModeratorQuickstart
 	class Program
 	{
 		// AUTHENTICATION - ALL EXAMPLES
+		// <snippet_creds>
 		// Your Content Moderator subscription key is found in your Azure portal resource on the 'Keys' page. Add to your environment variables.
 		private static readonly string SubscriptionKey = Environment.GetEnvironmentVariable("CONTENT_MODERATOR_SUBSCRIPTION_KEY");
-		// Base endpoint with your specific region, add this to your environment variables. Found on 'Overview page' in Azure resource. For example: https://westus.api.cognitive.microsoft.com
+		// Base endpoint URL. Add this to your environment variables. Found on 'Overview' page in Azure resource. For example: https://westus.api.cognitive.microsoft.com
 		private static readonly string Endpoint = Environment.GetEnvironmentVariable("CONTENT_MODERATOR_ENDPOINT");
+		// </snippet_creds>
 
 		// IMAGE MODERATION
 		//The name of the file that contains the image URLs to evaluate.
@@ -75,12 +79,14 @@ namespace ContentModeratorQuickstart
 		static void Main(string[] args)
 		{
 			// CLIENTS - each API call needs its own client
+			// <snippet_client>
 			// Create an image review client
 			ContentModeratorClient clientImage = Authenticate(SubscriptionKey, Endpoint);
 			// Create a text review client
 			ContentModeratorClient clientText = Authenticate(SubscriptionKey, Endpoint);
 			// Create a human reviews client
 			ContentModeratorClient clientReviews = Authenticate(SubscriptionKey, Endpoint);
+			// </snippet_client>
 
 			// Moderate images from list of image URLs
 			ModerateImages(clientImage, ImageUrlFile, ImageOutputFile);
