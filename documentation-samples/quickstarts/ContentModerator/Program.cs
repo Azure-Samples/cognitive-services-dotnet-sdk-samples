@@ -52,17 +52,21 @@ namespace ContentModeratorQuickstart
 		private static readonly string Endpoint = Environment.GetEnvironmentVariable("CONTENT_MODERATOR_ENDPOINT");
 		// </snippet_creds>
 
+		// <snippet_image_vars>
 		// IMAGE MODERATION
 		//The name of the file that contains the image URLs to evaluate.
 		private static readonly string ImageUrlFile = "ImageFiles.txt";
 		// The name of the file to contain the output from the evaluation.
 		private static string ImageOutputFile = "ImageModerationOutput.json";
+		// </snippet_image_vars>
 
+		// <snippet_text_vars>
 		// TEXT MODERATION
 		// Name of the file that contains text
 		private static readonly string TextFile = "TextFile.txt";
 		// The name of the file to contain the output from the evaluation.
 		private static string TextOutputFile = "TextModerationOutput.txt";
+		// </snippet_text_vars>
 
 		// CREATE HUMAN REVIEWS FOR IMAGES
 		// The list of URLs of the images to create review jobs for.
@@ -88,10 +92,16 @@ namespace ContentModeratorQuickstart
 			ContentModeratorClient clientReviews = Authenticate(SubscriptionKey, Endpoint);
 			// </snippet_client>
 
+			// <snippet_imagemod_call>
 			// Moderate images from list of image URLs
 			ModerateImages(clientImage, ImageUrlFile, ImageOutputFile);
+			// </snippet_imagemod_call>
+
+			// <snippet_textmod_call>
 			// Moderate text from text in a file
 			ModerateText(clientText, TextFile, TextOutputFile);
+			// </snippet_textmod_call>
+
 			// Create image reviews for human reviewers
 			CreateReviews(clientReviews, IMAGE_URLS_FOR_REVIEW, TEAM_NAME, ReviewsEndpoint);
 
@@ -114,6 +124,7 @@ namespace ContentModeratorQuickstart
 			return client;
 		}
 
+		// <snippet_imagemod>
 		/*
 		 * IMAGE MODERATION
 		 * This example moderates images from URLs.
@@ -179,6 +190,7 @@ namespace ContentModeratorQuickstart
 			}
 		}
 
+		// <snippet_dataclass>
 		// Contains the image moderation results for an image, 
 		// including text and face detection results.
 		public class EvaluationData
@@ -195,10 +207,12 @@ namespace ContentModeratorQuickstart
 			// The face detection results;
 			public FoundFaces FaceDetection;
 		}
+		// </snippet_dataclass>
 		/*
 		 * END - IMAGE MODERATION
 		 */
 
+		// <snippet_textmod>
 		/*
 		 * TEXT MODERATION
 		 * This example moderates text from file.
@@ -242,6 +256,7 @@ namespace ContentModeratorQuickstart
 			Console.WriteLine("Results written to {0}", outputFile);
 			Console.WriteLine();
 		}
+		// </snippet_textmod>
 		/*
 		 * END - TEXT MODERATION
 		 */
