@@ -69,8 +69,11 @@ namespace ContentModeratorQuickstart
 		// </snippet_text_vars>
 
 		// CREATE HUMAN REVIEWS FOR IMAGES
+		// <snippet_review_urls>
 		// The list of URLs of the images to create review jobs for.
 		private static readonly string[] IMAGE_URLS_FOR_REVIEW = new string[] { "https://moderatorsampleimages.blob.core.windows.net/samples/sample5.png" };
+		// </snippet_review_urls>
+		// <snippet_review_vars>
 		// The name of the team to assign the review to. Must be the team name used to create your Content Moderator website account. 
 		// If you do not yet have an account, follow this: https://docs.microsoft.com/en-us/azure/cognitive-services/content-moderator/quick-start
 		// Select the gear symbol (settings)-->Credentials to retrieve it. Your team name is the Id associated with your subscription.
@@ -79,6 +82,7 @@ namespace ContentModeratorQuickstart
 		// For example: https://westus.api.cognitive.microsoft.com/contentmoderator/review/v1.0
 		// As reviewers complete reviews, results are sent using an HTTP POST request.
 		private static readonly string ReviewsEndpoint = Environment.GetEnvironmentVariable("CONTENT_MODERATOR_REVIEWS_ENDPOINT");
+		// </snippet_review_vars>
 
 		static void Main(string[] args)
 		{
@@ -102,8 +106,10 @@ namespace ContentModeratorQuickstart
 			ModerateText(clientText, TextFile, TextOutputFile);
 			// </snippet_textmod_call>
 
+			// <snippet_review_call>
 			// Create image reviews for human reviewers
 			CreateReviews(clientReviews, IMAGE_URLS_FOR_REVIEW, TEAM_NAME, ReviewsEndpoint);
+			// </snippet_review_call>
 
 			Console.WriteLine();
 			Console.WriteLine("End of the quickstart.");
@@ -124,7 +130,7 @@ namespace ContentModeratorQuickstart
 			return client;
 		}
 
-		// <snippet_imagemod>
+		// <snippet_imagemod_iterate>
 		/*
 		 * IMAGE MODERATION
 		 * This example moderates images from URLs.
@@ -150,6 +156,8 @@ namespace ContentModeratorQuickstart
 						{
 							Console.WriteLine("Evaluating {0}...", Path.GetFileName(line));
 							var imageUrl = new BodyModel("URL", line.Trim());
+							// </snippet_imagemod_iterate>
+							// <snippet_imagemod_analyze>
 							var imageData = new EvaluationData
 							{
 								ImageUrl = imageUrl.Value,
@@ -175,6 +183,8 @@ namespace ContentModeratorQuickstart
 						}
 					}
 				}
+				// </snippet_imagemod_analyze>
+				// <snippet_imagemod_save>
 				// Save the moderation results to a file.
 				using (StreamWriter outputWriter = new StreamWriter(outputFile, false))
 				{
@@ -189,6 +199,7 @@ namespace ContentModeratorQuickstart
 				Console.WriteLine();
 			}
 		}
+		// </snippet_imagemod_save>
 
 		// <snippet_dataclass>
 		// Contains the image moderation results for an image, 
@@ -268,7 +279,7 @@ namespace ContentModeratorQuickstart
 		 * 
 		 * Prerequisistes: 
 		 * 1. In your Content Moderator resource go to Resource Management -> Properties, then copy your Resource ID. 
-		 * 2. Go to the Content Moderator website, https://{YOUR REGION}.contentmoderator.cognitive.microsoft.com.
+		 * 2. Go to the Content Moderator website.
 		 * 3. Click the gear sign (Settings) and go to "Credentials". 
 		 * 4. Under "Whitelisted Resource Id(s)" paste your Resource ID, then select the "+" button to add it.
 		 *    This enables the website to receive programmatic reviews from your Content Moderator resource in Azure.
@@ -278,6 +289,7 @@ namespace ContentModeratorQuickstart
 		 * Use your Azure account with the review APIs:
 		 * https://docs.microsoft.com/en-us/azure/cognitive-services/content-moderator/review-tool-user-guide/configure
 		 */
+		// <snippet_review_item>
 		// Associates the review ID (assigned by the service) to the internal.
 		public class ReviewItem
 		{
@@ -290,7 +302,9 @@ namespace ContentModeratorQuickstart
 			// The ID that the service assigned to the review.
 			public string ReviewId;
 		}
+		// </snippet_review_item>
 
+		// <snippet_createreview_fields>
 		// Create the reviews using the fixed list of images.
 		private static void CreateReviews(ContentModeratorClient client, string[] ImageUrls, string teamName, string endpoint)
 		{
@@ -324,7 +338,9 @@ namespace ContentModeratorQuickstart
 
 			// The cached review information, associating a local content ID to the created review ID for each item.
 			List<ReviewItem> reviewItems = new List<ReviewItem>();
+			// </snippet_createreview_fields>
 
+			// <snippet_createreview_create>
 			using (TextWriter outputWriter = new StreamWriter(OutputFile, false))
 			{
 				writer = outputWriter;
@@ -361,7 +377,9 @@ namespace ContentModeratorQuickstart
 				}
 
 				var reviewResponse = client.Reviews.CreateReviewsWithHttpMessagesAsync("application/json", teamName, requestInfo);
+				// </snippet_createreview_create>
 
+				// <snippet_createreview_ids>
 				// Update the local cache to associate the created review IDs with the associated content.
 				var reviewIds = reviewResponse.Result.Body;
 				for (int i = 0; i < reviewIds.Count; i++) { reviewItems[i].ReviewId = reviewIds[i]; }
@@ -380,7 +398,9 @@ namespace ContentModeratorQuickstart
 					WriteLine(outputWriter, JsonConvert.SerializeObject(reviewDetail.Result.Body, Formatting.Indented));
 					Thread.Sleep(throttleRate);
 				}
+				// </snippet_createreview_ids>
 
+				// <snippet_createreview_results>
 				Console.WriteLine();
 				Console.WriteLine("Perform manual reviews on the Content Moderator site.");
 				Console.WriteLine("Then, press any key to continue.");
@@ -412,7 +432,9 @@ namespace ContentModeratorQuickstart
 			}
 			Console.WriteLine("--------------------------------------------------------------");
 		}
+		// </snippet_createreview_results>
 
+		// <snippet_writeline>
 		// Helper function that writes a message to the log file, and optionally to the console.
 		// If echo is set to true, details will be written to the console.
 		private static void WriteLine(TextWriter writer, string message = null, bool echo = true)
@@ -420,6 +442,7 @@ namespace ContentModeratorQuickstart
 			writer.WriteLine(message ?? String.Empty);
 			if (echo) { Console.WriteLine(message ?? String.Empty); }
 		}
+		// </snippet_writeline>
 		/*
 		 * END - CREATE HUMAN IMAGE REVIEWS
 		 */
