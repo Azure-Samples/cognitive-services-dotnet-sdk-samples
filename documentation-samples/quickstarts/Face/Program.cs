@@ -199,6 +199,7 @@ namespace FaceQuickstart
 
 				Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{imageFileName}`.");
 				// </snippet_detect>
+				// <snippet_detect_parse>
 				// Parse and print all attributes of each detected face.
 				foreach (var face in detectedFaces)
 				{
@@ -267,6 +268,7 @@ namespace FaceQuickstart
 				}
 			}
 		}
+		// </snippet_detect_parse>
 
 		// Detect faces from image url for recognition purpose. This is a helper method for other functions in this quickstart.
 		// Parameter `returnFaceId` of `DetectWithUrlAsync` must be set to `true` (by default) for recognition purpose.
