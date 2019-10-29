@@ -150,7 +150,7 @@ namespace FaceQuickstart
 		 * END - Authenticate
 		 */
 
-		// <snippet_detect_list>
+		// <snippet_detect>
 		/* 
 		 * DETECT FACES
 		 * Detects features from faces and IDs them.
@@ -183,7 +183,7 @@ namespace FaceQuickstart
 						recognitionModel: recognitionModel);
 
 				Console.WriteLine($"{detectedFaces.Count} face(s) detected from image `{imageFileName}`.");
-				// </snippet_detect_list>
+				// </snippet_detect>
 				// <snippet_detect_parse>
 				// Parse and print all attributes of each detected face.
 				foreach (var face in detectedFaces)
