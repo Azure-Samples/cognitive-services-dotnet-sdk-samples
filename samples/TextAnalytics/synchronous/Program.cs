@@ -50,7 +50,7 @@ namespace text_analytics_quickstart
         {
             var client = authenticateClient();
 
-            SentimentAnalysisExample(client);
+            sentimentAnalysisExample(client);
             languageDetectionExample(client);
             entityRecognitionExample(client);
             keyPhraseExtractionExample(client);
@@ -60,7 +60,7 @@ namespace text_analytics_quickstart
         // </main>
 
         // <sentiment>
-        static void SentimentAnalysisExample(ITextAnalyticsClient client)
+        static void sentimentAnalysisExample(ITextAnalyticsClient client)
         {
             var result = client.Sentiment("I had the best day of my life.", "en");
             Console.WriteLine($"Sentiment Score: {result.Score:0.00}");
