@@ -14,24 +14,9 @@ namespace text_analytics_quickstart
     class Program
     {
         // <vars>
-        private const string key_var = "TEXT_ANALYTICS_SUBSCRIPTION_KEY";
-        private static readonly string key = Environment.GetEnvironmentVariable(key_var);
-
-        private const string endpoint_var = "TEXT_ANALYTICS_ENDPOINT";
-        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
+        private static readonly string key = "<paste-your-text-analytics-key-here>";
+        private static readonly string endpoint = "<paste-your-text-analytics-endpoint-here>";
         // </vars>
-
-        static Program()
-        {
-            if (null == key)
-            {
-                throw new Exception("Please set/export the environment variable: " + key_var);
-            }
-            if (null == endpoint)
-            {
-                throw new Exception("Please set/export the environment variable: " + endpoint_var);
-            }
-        }
 
         // <authentication>
         static TextAnalyticsClient authenticateClient()
