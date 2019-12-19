@@ -617,7 +617,10 @@ namespace ComputerVisionQuickstart
                 results = await client.GetReadOperationResultAsync(operationId);
                 Console.WriteLine("Server status: {0}, waiting {1} seconds...", results.Status, i);
                 await Task.Delay(1000);
-                if (maxRetries == 9) { Console.WriteLine("Server timed out."); }
+                if (i == 9) 
+		{ 
+		    Console.WriteLine("Server timed out."); 
+		}
             }
             while ((results.Status == TextOperationStatusCodes.Running ||
                 results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
@@ -675,7 +678,7 @@ namespace ComputerVisionQuickstart
                     results = await client.GetReadOperationResultAsync(operationId);
                     Console.WriteLine("Server status: {0}, waiting {1} seconds...", results.Status, i);
                     await Task.Delay(1000);
-                    if (maxRetries == 9)
+                    if (i == 9)
                     {
                         Console.WriteLine("Server timed out.");
                     }
