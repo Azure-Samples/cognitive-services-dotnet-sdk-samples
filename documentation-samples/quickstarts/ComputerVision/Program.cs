@@ -522,8 +522,8 @@ namespace ComputerVisionQuickstart
                 // Display results.
                 var jsonLocal = JsonConvert.SerializeObject(resultsLocal.Result);
                 JObject resultJsonLocal = JObject.Parse(jsonLocal);
-                Console.WriteLine($"Celebrity detected: {resultJsonLocal["celebrities"][2]["name"]} " +
-                  $"with confidence {resultJsonLocal["celebrities"][2]["confidence"]}");
+                Console.WriteLine($"Celebrity detected: {resultJsonLocal["celebrities"][0]["name"]} " +
+                  $"with confidence {resultJsonLocal["celebrities"][0]["confidence"]}");
 
                 Console.WriteLine(resultJsonLocal);
             }
