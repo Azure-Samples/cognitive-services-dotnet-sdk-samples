@@ -243,7 +243,7 @@ namespace ContentModeratorQuickstart
 			byte[] textBytes = Encoding.UTF8.GetBytes(text);
 			MemoryStream stream = new MemoryStream(textBytes);
 
-			Console.WriteLine("Screening {0}...", outputFile);
+			Console.WriteLine("Screening {0}...", inputFile);
 			// Format text
 
 			// Save the moderation results to a file.
