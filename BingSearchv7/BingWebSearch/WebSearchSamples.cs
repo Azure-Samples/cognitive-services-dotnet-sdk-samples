@@ -14,7 +14,8 @@
         public static async void WebSearchResultTypesLookup(string subscriptionKey)
         {
             var client = new WebSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
-           
+            // You might need to enter your custom endpoint from the Azure portal here
+            // client.Endpoint = "<Your Endpoint Here>";
             try
             {
                 var webData = await client.Web.SearchAsync(query: "Xbox");
