@@ -15,7 +15,9 @@ namespace bing_search_dotnet
             // the image search term used in the query
             string searchTerm = "canadian rockies";
             //initialize the client
-            var client = new ImageSearchAPI(new ApiKeyServiceClientCredentials(subscriptionKey));
+            //NOTE: If you're using version 1.2.0 or below for the Bing Image Search client library, 
+            // use ImageSearchAPI() instead of ImageSearchClient() to initialize your search client.
+            var client = new ImageSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
 
             Console.WriteLine("This application will send an HTTP request to the Bing Image Search API for {0} and print the response.", searchTerm);
 
