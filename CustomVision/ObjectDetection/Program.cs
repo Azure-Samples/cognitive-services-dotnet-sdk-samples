@@ -25,6 +25,7 @@ namespace ObjectDetection
             string predictionKey = Environment.GetEnvironmentVariable("CUSTOM_VISION_PREDICTION_KEY");
             // </snippet_keys>
 
+            // <snippet_create>
             // Create the Api, passing in the training key
             CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
             {
@@ -32,7 +33,6 @@ namespace ObjectDetection
                 Endpoint = ENDPOINT
             };
 
-            // <snippet_create>
             // Find the object detection domain
             var domains = trainingApi.GetDomains();
             var objDetectionDomain = domains.FirstOrDefault(d => d.Type == "ObjectDetection");
