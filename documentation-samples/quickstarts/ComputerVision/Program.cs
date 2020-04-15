@@ -294,15 +294,15 @@ namespace ComputerVisionQuickstart
             Console.WriteLine();
             // </snippet_type>
         }
-        /*
-         * END - ANALYZE IMAGE - URL IMAGE
-         */
+       /*
+        * END - ANALYZE IMAGE - URL IMAGE
+        */
 
-        /*
-       * ANALYZE IMAGE - LOCAL IMAGE
-	     * Analyze local image. Extracts captions, categories, tags, objects, faces, racy/adult content,
-	     * brands, celebrities, landmarks, color scheme, and image types.
-       */
+       /*
+        * ANALYZE IMAGE - LOCAL IMAGE
+        * Analyze local image. Extracts captions, categories, tags, objects, faces, racy/adult content,
+        * brands, celebrities, landmarks, color scheme, and image types.
+        */
         public static async Task AnalyzeImageLocal(ComputerVisionClient client, string localImage)
         {
             Console.WriteLine("----------------------------------------------------------");
@@ -433,7 +433,7 @@ namespace ComputerVisionQuickstart
          * END - ANALYZE IMAGE - LOCAL IMAGE
          */
 
-        /* 
+      /* 
        * DETECT OBJECTS - URL IMAGE
        */
         public static async Task DetectObjectsUrl(ComputerVisionClient client, string urlImage)
@@ -618,9 +618,9 @@ namespace ComputerVisionQuickstart
                 Console.WriteLine("Server status: {0}, waiting {1} seconds...", results.Status, i);
                 await Task.Delay(1000);
                 if (i == 9) 
-		{ 
-		    Console.WriteLine("Server timed out."); 
-		}
+                { 
+                    Console.WriteLine("Server timed out."); 
+                }
             }
             while ((results.Status == TextOperationStatusCodes.Running ||
                 results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
