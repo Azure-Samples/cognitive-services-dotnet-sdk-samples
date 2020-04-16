@@ -400,12 +400,12 @@ namespace FaceQuickstart
 		 * a list of Person objects that each face might belong to. Returned Person objects are wrapped as Candidate objects, 
 		 * which have a prediction confidence value.
 		 */
+		// <snippet_persongroup_files>
 		public static async Task IdentifyInPersonGroup(IFaceClient client, string url, string recognitionModel)
 		{
 			Console.WriteLine("========IDENTIFY FACES========");
 			Console.WriteLine();
 
-			// <snippet_persongroup_files>
 			// Create a dictionary for all your images, grouping similar ones under the same key.
 			Dictionary<string, string[]> personDictionary =
 				new Dictionary<string, string[]>
@@ -479,8 +479,9 @@ namespace FaceQuickstart
 					$" confidence: {identifyResult.Candidates[0].Confidence}.");
 			}
 			Console.WriteLine();
-			// </snippet_identify>
 		}
+		// </snippet_identify>
+
 		/*
 		 * END - IDENTIFY FACES
 		 */
