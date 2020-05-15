@@ -9,9 +9,12 @@ using System.Threading;
 
 namespace ObjectDetection
 {
+    using TrainingKeyCredentials = Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.ApiKeyServiceClientCredentials;
+    using PredicitonKeyCredentials = Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.ApiKeyServiceClientCredentials;
+
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             // Add your Azure Custom Vision endpoint to your environment variables.
@@ -27,9 +30,8 @@ namespace ObjectDetection
 
             // <snippet_create>
             // Create the Api, passing in the training key
-            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient(new TrainingKeyCredentials(trainingKey))
             {
-                ApiKey = trainingKey,
                 Endpoint = ENDPOINT
             };
 
@@ -144,9 +146,8 @@ namespace ObjectDetection
 
             // <snippet_prediction_endpoint>
             // Create a prediction endpoint, passing in the obtained prediction key
-            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient(new PredicitonKeyCredentials(predictionKey))
             {
-                ApiKey = predictionKey,
                 Endpoint = ENDPOINT
             };
             // </snippet_prediction_endpoint>
