@@ -9,8 +9,6 @@ using System.Threading;
 
 namespace ImageClassification
 {
-    using TrainingKeyCredentials = Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.ApiKeyServiceClientCredentials;
-    using PredicitonKeyCredentials = Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.ApiKeyServiceClientCredentials;
 
     class Program
     {
@@ -33,7 +31,7 @@ namespace ImageClassification
 
             // <snippet_create>
             // Create the Api, passing in the training key
-            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient(new TrainingKeyCredentials(trainingKey))
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient(new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.ApiKeyServiceClientCredentials(trainingKey))
             {
                 Endpoint = ENDPOINT
             };
@@ -93,7 +91,7 @@ namespace ImageClassification
 
             // <snippet_prediction_endpoint>
             // Create a prediction endpoint, passing in obtained prediction key
-            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient(new PredicitonKeyCredentials(predictionKey))
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient(new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.ApiKeyServiceClientCredentials(predictionKey))
             {
                 Endpoint = ENDPOINT
             };
