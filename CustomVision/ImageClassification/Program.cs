@@ -9,6 +9,7 @@ using System.Threading;
 
 namespace ImageClassification
 {
+
     class Program
     {
         private static List<string> hemlockImages;
@@ -30,9 +31,8 @@ namespace ImageClassification
 
             // <snippet_create>
             // Create the Api, passing in the training key
-            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient(new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.ApiKeyServiceClientCredentials(trainingKey))
             {
-                ApiKey = trainingKey,
                 Endpoint = ENDPOINT
             };
 
@@ -91,11 +91,11 @@ namespace ImageClassification
 
             // <snippet_prediction_endpoint>
             // Create a prediction endpoint, passing in obtained prediction key
-            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient(new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.ApiKeyServiceClientCredentials(predictionKey))
             {
-                ApiKey = predictionKey,
                 Endpoint = ENDPOINT
             };
+
             // </snippet_prediction_endpoint>
 
             // <snippet_prediction>
