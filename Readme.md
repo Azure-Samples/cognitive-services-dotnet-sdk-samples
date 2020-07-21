@@ -32,13 +32,13 @@ This should provide you information on various APIs along with their demos and d
 All samples in this folder require:
 
 - Visual Studio 2017, whose free community version can be downloaded from here: https://www.visualstudio.com/vs/community/.
-- A cognitive services API key to authenticate the SDK calls. You can [sign up here](https://azure.microsoft.com/en-us/try/cognitive-services/) for the **free** trial key. **Alternately**, you can buy access key from [Azure Portal](https://portal.azure.com/). While buying access key you may want to consider which tier is appropriate for you. More information is [here](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/search-api/web/). 
+- A cognitive services API key to authenticate the SDK calls. [Create a new Azure account, and try Cognitive Services for free.](https://azure.microsoft.com/free/cognitive-services/) **Alternately**, you can buy an access key from [Azure Portal](https://portal.azure.com/). While buying an access key you may want to consider which tier is appropriate for you. More information is [here](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/search-api/web/). 
 - .NET core SDK (ability to run .netcore 1.1 apps). You can get CORE, Framework, and Runtime from here: https://www.microsoft.com/net/download/.
 
 ## Resources
 
 - Project page for Cognitive Services offerings and demos: https://azure.microsoft.com/en-us/services/cognitive-services/
-- Free trial access key link: https://azure.microsoft.com/en-us/try/cognitive-services/
+- [Create a new Azure account, and try Cognitive Services for free.](https://azure.microsoft.com/free/cognitive-services/)
 - Cognitive Services Java SDK samples: https://github.com/Azure-Samples/cognitive-services-java-sdk-samples
 - Cognitive Services Node.js SDK samples: https://github.com/Azure-Samples/cognitive-services-node-sdk-samples
 - Cognitive Services Python SDK samples: https://github.com/Azure-Samples/cognitive-services-python-sdk-samples
