@@ -7,7 +7,7 @@
         static void Main(string[] args)
         {
             // API details
-            string apiKey = "64b3360653434bc09da533cc35349390";
+            string apiKey = "API KEY HERE";
             string endpoint = "https://westus.api.cognitive.microsoft.com";
 
             // Run Sample
