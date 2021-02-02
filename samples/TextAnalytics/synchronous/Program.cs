@@ -5,14 +5,13 @@
 */
 
 // <imports>
+using Azure;
+using Azure.AI.TextAnalytics;
+using Microsoft.Rest;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
-using Microsoft.Rest;
 // </imports>
 
 namespace text_analytics_quickstart
@@ -20,18 +19,14 @@ namespace text_analytics_quickstart
     class Program
     {
         // <vars>
-        private static readonly string key = "<paste-your-text-analytics-key-here>";
+        private static readonly string apiKey = "<paste-your-text-analytics-key-here>";
         private static readonly string endpoint = "<paste-your-text-analytics-endpoint-here>";
         // </vars>
 
         // <authentication>
         static TextAnalyticsClient authenticateClient()
         {
-            ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(key);
-            TextAnalyticsClient client = new TextAnalyticsClient(credentials)
-            {
-                Endpoint = endpoint
-            };
+            var client = new TextAnalyticsClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
             return client;
         }
         // </authentication>
@@ -51,33 +46,36 @@ namespace text_analytics_quickstart
         // </main>
 
         // <sentiment>
-        static void sentimentAnalysisExample(ITextAnalyticsClient client)
+        static void sentimentAnalysisExample(TextAnalyticsClient client)
         {
-            var result = client.Sentiment("I had the best day of my life.", "en");
-            Console.WriteLine($"Sentiment Score: {result.Score:0.00}");
+            var result = client.AnalyzeSentiment("I had the best day of my life.", "en");
+            Console.WriteLine($"    Sentiment: {result.Value.Sentiment}");
+            Console.WriteLine($"    Positive confidence score: {result.Value.ConfidenceScores.Positive}.");
+            Console.WriteLine($"    Neutral confidence score: {result.Value.ConfidenceScores.Neutral}.");
+            Console.WriteLine($"    Negative confidence score: {result.Value.ConfidenceScores.Negative}.");
         }
         // </sentiment>
 
         // <languageDetection>
-        static void languageDetectionExample(ITextAnalyticsClient client)
+        static void languageDetectionExample(TextAnalyticsClient client)
         {
             var result = client.DetectLanguage("This is a document written in English.");
-            Console.WriteLine($"Language: {result.DetectedLanguages[0].Name}");
+            Console.WriteLine($"Language: {result.Value.Name}");
         }
         // </languageDetection>
 
         // <entityRecognition>
-        static void entityRecognitionExample(ITextAnalyticsClient client)
+        static void entityRecognitionExample(TextAnalyticsClient client)
         {
 
-            var result = client.Entities("Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800.");
+            var result = client.RecognizeLinkedEntities("Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800.");
             Console.WriteLine("Entities:");
-            foreach (var entity in result.Entities)
+            foreach (var entity in result.Value)
             {
-                Console.WriteLine($"\tName: {entity.Name},\tType: {entity.Type ?? "N/A"},\tSub-Type: {entity.SubType ?? "N/A"}");
+                Console.WriteLine(value: $"\t\tName: {entity.Name},\tLanguage: {entity.Language},\tDataSource: {entity.DataSource},\tUrl: {entity.Url},\tDataSourceEntityId: {entity.DataSourceEntityId}");
                 foreach (var match in entity.Matches)
                 {
-                    Console.WriteLine($"\t\tOffset: {match.Offset},\tLength: {match.Length},\tScore: {match.EntityTypeScore:F3}");
+                    Console.WriteLine($"\t\t\tText: {match.Text},\tLength: {match.Text.Length},\tScore: {match.ConfidenceScore:F3}");
                 }
             }
         }
@@ -86,12 +84,12 @@ namespace text_analytics_quickstart
         // <keyPhraseExtraction>
         static void keyPhraseExtractionExample(TextAnalyticsClient client)
         {
-            var result = client.KeyPhrases("My cat might need to see a veterinarian.");
+            var result = client.ExtractKeyPhrases("My cat might need to see a veterinarian.");
 
             // Printing key phrases
             Console.WriteLine("Key phrases:");
 
-            foreach (string keyphrase in result.KeyPhrases)
+            foreach (string keyphrase in result.Value)
             {
                 Console.WriteLine($"\t{keyphrase}");
             }

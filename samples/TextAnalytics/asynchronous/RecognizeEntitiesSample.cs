@@ -2,35 +2,33 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
-
-namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
+namespace Azure.AI.TextAnalytics.Samples
 {
     public static class RecognizeEntitiesSample
     {
-        public static async Task RunAsync(string endpoint, string key)
+        public static async Task RunAsync(string endpoint, string apiKey)
         {
-            var credentials = new ApiKeyServiceClientCredentials(key);
-            var client = new TextAnalyticsClient(credentials)
-            {
-                Endpoint = endpoint
-            };
+            var client = new TextAnalyticsClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
 
             // The documents to be submitted for entity recognition. The ID can be any value.
-            var inputDocuments = new MultiLanguageBatchInput(
-                new List<MultiLanguageInput>
+            var inputDocuments = new List<TextDocumentInput>
                 {
-                    new MultiLanguageInput("1", "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800.", "en"),
-                    new MultiLanguageInput("2", "La sede principal de Microsoft se encuentra en la ciudad de Redmond, a 21 kilómetros de Seattle.", "es")
-                });
+                    new TextDocumentInput("1", "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, to develop and sell BASIC interpreters for the Altair 8800.")
+                    {
+                     Language = "en",
+                    },
+                    new TextDocumentInput("2", "La sede principal de Microsoft se encuentra en la ciudad de Redmond, a 21 kilómetros de Seattle.")
+                    {
+                     Language = "es",
+                    },
+                };
 
-            var entitiesResult = await client.EntitiesBatchAsync(inputDocuments);
+            var entitiesResult = await client.RecognizeLinkedEntitiesBatchAsync(inputDocuments);
 
             // Printing recognized entities
             Console.WriteLine("===== Named Entity Recognition & Entity Linking =====\n");
 
-            foreach (var document in entitiesResult.Documents)
+            foreach (var document in entitiesResult.Value)
             {
                 Console.WriteLine($"Document ID: {document.Id} ");
 
@@ -38,14 +36,16 @@ namespace Microsoft.Azure.CognitiveServices.Samples.TextAnalytics
 
                 foreach (var entity in document.Entities)
                 {
-                    Console.WriteLine($"\t\tName: {entity.Name},\tType: {entity.Type ?? "N/A"},\tSub-Type: {entity.SubType ?? "N/A"}");
+                    Console.WriteLine(value: $"\t\tName: {entity.Name},\tLanguage: {entity.Language},\tDataSource: {entity.DataSource},\tUrl: {entity.Url},\tDataSourceEntityId: {entity.DataSourceEntityId}");
                     foreach (var match in entity.Matches)
                     {
-                        Console.WriteLine($"\t\t\tOffset: {match.Offset},\tLength: {match.Length},\tScore: {match.EntityTypeScore:F3}");
+                        Console.WriteLine($"\t\t\tText: {match.Text},\tLength: {match.Text.Length},\tScore: {match.ConfidenceScore:F3}");
                     }
+                    
                 }
             }
             Console.WriteLine();
         }
+        
     }
 }
