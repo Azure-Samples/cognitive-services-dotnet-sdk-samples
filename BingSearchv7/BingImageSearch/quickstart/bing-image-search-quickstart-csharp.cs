@@ -18,7 +18,9 @@ namespace bing_search_dotnet
             //NOTE: If you're using version 1.2.0 or below for the Bing Image Search client library, 
             // use ImageSearchAPI() instead of ImageSearchClient() to initialize your search client.
             var client = new ImageSearchClient(new ApiKeyServiceClientCredentials(subscriptionKey));
-
+            // You might need to enter your custom endpoint from the Azure portal here
+            // client.Endpoint = "<Your Endpoint Here>";
+            
             Console.WriteLine("This application will send an HTTP request to the Bing Image Search API for {0} and print the response.", searchTerm);
 
             //images to be returned by the Bing Image Search API
