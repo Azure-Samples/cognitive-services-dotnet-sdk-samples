@@ -49,7 +49,7 @@ You can reach out to us any time with questions and suggestions using our commun
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 ## Updates
-* [Face API Release Notes](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/ReleaseNotes)
+* [What's new in Computer Vision](https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/whats-new)
 
 ## License
 All Microsoft Cognitive Services SDKs and samples are licensed with the MIT License. For more details, see
