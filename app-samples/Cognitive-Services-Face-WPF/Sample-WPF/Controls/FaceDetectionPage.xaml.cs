@@ -291,19 +291,12 @@ namespace Microsoft.ProjectOxford.Face.Controls
                             new List<FaceAttributeType>()
                             {
                                 FaceAttributeType.Accessories,
-                                FaceAttributeType.Age,
                                 FaceAttributeType.Blur,
-                                FaceAttributeType.Emotion,
                                 FaceAttributeType.Exposure,
-                                FaceAttributeType.FacialHair,
-                                FaceAttributeType.Gender,
                                 FaceAttributeType.Glasses,
-                                FaceAttributeType.Hair,
                                 FaceAttributeType.HeadPose,
-                                FaceAttributeType.Makeup,
                                 FaceAttributeType.Noise,
                                 FaceAttributeType.Occlusion,
-                                FaceAttributeType.Smile
                             },
                             recognitionModel
                         );
@@ -322,14 +315,8 @@ namespace Microsoft.ProjectOxford.Face.Controls
                                 Width = face.FaceRectangle.Width,
                                 Height = face.FaceRectangle.Height,
                                 FaceId = face.FaceId?.ToString(),
-                                Age = string.Format("{0:#} years old", face.FaceAttributes.Age),
-                                Gender = face.FaceAttributes.Gender.ToString(),
                                 HeadPose = string.Format("Pitch: {0}, Roll: {1}, Yaw: {2}", Math.Round(face.FaceAttributes.HeadPose.Pitch, 2), Math.Round(face.FaceAttributes.HeadPose.Roll, 2), Math.Round(face.FaceAttributes.HeadPose.Yaw, 2)),
-                                FacialHair = string.Format("FacialHair: {0}", face.FaceAttributes.FacialHair.Moustache + face.FaceAttributes.FacialHair.Beard + face.FaceAttributes.FacialHair.Sideburns > 0 ? "Yes" : "No"),
                                 Glasses = string.Format("GlassesType: {0}", face.FaceAttributes.Glasses.ToString()),
-                                Emotion = $"{GetEmotion(face.FaceAttributes.Emotion)}",
-                                Hair = string.Format("Hair: {0}", GetHair(face.FaceAttributes.Hair)),
-                                Makeup = string.Format("Makeup: {0}", ((face.FaceAttributes.Makeup.EyeMakeup || face.FaceAttributes.Makeup.LipMakeup) ? "Yes" : "No")),
                                 EyeOcclusion = string.Format("EyeOccluded: {0}", ((face.FaceAttributes.Occlusion.EyeOccluded) ? "Yes" : "No")),
                                 ForeheadOcclusion = string.Format("ForeheadOccluded: {0}", (face.FaceAttributes.Occlusion.ForeheadOccluded ? "Yes" : "No")),
                                 MouthOcclusion = string.Format("MouthOccluded: {0}", (face.FaceAttributes.Occlusion.MouthOccluded ? "Yes" : "No")),
