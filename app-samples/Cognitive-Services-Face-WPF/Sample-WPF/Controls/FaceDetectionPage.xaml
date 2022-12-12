@@ -134,12 +134,6 @@
                                 <CroppedBitmap Source="{Binding ImageFile}" SourceRect="{Binding UIRect}" />
                             </Image.Source>
                         </Image>
-                        <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Gender}" />
-                        <TextBlock Grid.Column="2" Grid.Row="0" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Age}" />
-                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Hair}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding FacialHair}" />
-                        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Makeup}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Emotion}" />
                         <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding ForeheadOcclusion}"/>
                         <TextBlock Grid.Column="2" Grid.Row="3" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding Blur}"/>
                         <TextBlock Grid.Column="2" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding EyeOcclusion}"/>
