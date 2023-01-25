@@ -17,7 +17,7 @@ This example provides sample usecases of the the [Bing Video Search v7](https://
 ### Prerequisites
 
 - Visual Studio 2017. If required, you can download free community version from here: https://www.visualstudio.com/vs/community/.
-- A cognitive services API key is required to authenticate SDK calls. You can [sign up here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=bing-video-search-api) for the **free** trial key. This trial key is good for 30 days with 3 calls per second. **Alternately**, for production scenario, you can buy access key from here: https://portal.azure.com/#create/Microsoft.CognitiveServicesBingSearch-v7. While buying access key you may want to consider which tier is appropriate for you. More information is [here](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/search-api/video/). 
+- A cognitive services API key is required to authenticate SDK calls. [Create a new Azure account, and try Cognitive Services for free.](https://azure.microsoft.com/free/cognitive-services/) **Alternately**, for a production scenario, you can buy an access key from here: https://portal.azure.com/#create/Microsoft.CognitiveServicesBingSearch-v7. While buying an access key, you may want to consider which tier is appropriate for you. More information is [here](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/search-api/video/). 
 - .NET core SDK (ability to run .netcore 1.1 apps). You can get CORE, Framework, and Runtime from here: https://www.microsoft.com/net/download/. 
 
 ### Quickstart
